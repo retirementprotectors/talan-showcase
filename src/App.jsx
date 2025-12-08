@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, ReferenceLine, LabelList } from 'recharts';
 import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye, Edit3 } from 'lucide-react';
+import { db } from './firebase';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from 'firebase/firestore';
 
 // ============================================
 // 📊 TALAN'S GAME DATA - UPDATE WEEKLY HERE
@@ -284,9 +286,47 @@ export default function App() {
   const [playingVideo, setPlayingVideo] = useState(null);
   const [filterTag, setFilterTag] = useState('All');
   const [editingHighlight, setEditingHighlight] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // Always use the hardcoded highlights so everyone sees the same content
+  // Highlights from Firebase (falls back to defaults while loading)
   const [highlights, setHighlights] = useState(defaultHighlights);
+
+  // Load highlights from Firebase on mount
+  useEffect(() => {
+    const highlightsRef = collection(db, 'highlights');
+    
+    // Real-time listener - updates automatically when data changes
+    const unsubscribe = onSnapshot(highlightsRef, (snapshot) => {
+      if (snapshot.empty) {
+        // No data in Firebase yet - use defaults and seed the database
+        setHighlights(defaultHighlights);
+        // Seed Firebase with default highlights
+        defaultHighlights.forEach(async (highlight) => {
+          try {
+            await addDoc(highlightsRef, highlight);
+          } catch (e) {
+            console.error('Error seeding highlight:', e);
+          }
+        });
+      } else {
+        // Load highlights from Firebase
+        const firebaseHighlights = snapshot.docs.map(doc => ({
+          ...doc.data(),
+          firebaseId: doc.id // Store Firebase doc ID for updates/deletes
+        }));
+        // Sort by date (newest first)
+        firebaseHighlights.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setHighlights(firebaseHighlights);
+      }
+      setIsLoading(false);
+    }, (error) => {
+      console.error('Error loading highlights:', error);
+      setHighlights(defaultHighlights);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
@@ -297,18 +337,27 @@ export default function App() {
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
   ];
 
-  const handleAddHighlight = () => {
+  const handleAddHighlight = async () => {
     if (highlightTitle.trim()) {
       const newHighlight = {
         id: Date.now(),
         title: highlightTitle,
         description: highlightDesc || 'No description',
         url: highlightUrl,
-        thumbnail: '🎬',
+        thumbnail: '🏒',
         date: new Date().toLocaleDateString(),
         tags: highlightTags
       };
-      setHighlights([newHighlight, ...highlights]);
+      
+      try {
+        // Add to Firebase - the onSnapshot listener will update the UI
+        await addDoc(collection(db, 'highlights'), newHighlight);
+      } catch (e) {
+        console.error('Error adding highlight:', e);
+        // Fallback to local state if Firebase fails
+        setHighlights([newHighlight, ...highlights]);
+      }
+      
       setHighlightUrl('');
       setHighlightTitle('');
       setHighlightDesc('');
@@ -325,13 +374,30 @@ export default function App() {
     setHighlightTags(highlight.tags || []);
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (editingHighlight && highlightTitle.trim()) {
-      setHighlights(highlights.map(h => 
-        h.id === editingHighlight.id 
-          ? { ...h, title: highlightTitle, description: highlightDesc, url: highlightUrl, tags: highlightTags }
-          : h
-      ));
+      const updatedData = {
+        title: highlightTitle,
+        description: highlightDesc,
+        url: highlightUrl,
+        tags: highlightTags
+      };
+      
+      try {
+        if (editingHighlight.firebaseId) {
+          // Update in Firebase
+          const highlightRef = doc(db, 'highlights', editingHighlight.firebaseId);
+          await updateDoc(highlightRef, updatedData);
+        } else {
+          // Fallback for highlights without Firebase ID
+          setHighlights(highlights.map(h => 
+            h.id === editingHighlight.id ? { ...h, ...updatedData } : h
+          ));
+        }
+      } catch (e) {
+        console.error('Error updating highlight:', e);
+      }
+      
       setEditingHighlight(null);
       setHighlightTitle('');
       setHighlightDesc('');
@@ -350,8 +416,18 @@ export default function App() {
     ? highlights 
     : highlights.filter(h => h.tags && h.tags.includes(filterTag));
 
-  const handleDeleteHighlight = (id) => {
-    setHighlights(highlights.filter(h => h.id !== id));
+  const handleDeleteHighlight = async (id, firebaseId) => {
+    try {
+      if (firebaseId) {
+        // Delete from Firebase
+        await deleteDoc(doc(db, 'highlights', firebaseId));
+      } else {
+        // Fallback for highlights without Firebase ID
+        setHighlights(highlights.filter(h => h.id !== id));
+      }
+    } catch (e) {
+      console.error('Error deleting highlight:', e);
+    }
     if (playingVideo === id) setPlayingVideo(null);
   };
 
@@ -1326,7 +1402,7 @@ export default function App() {
                   </button>
                   {/* Delete Button */}
                   <button 
-                    onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id); }}
+                    onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id, clip.firebaseId); }}
                     className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors z-10"
                   >
                     <X size={16} />
