@@ -329,11 +329,10 @@ export default function App() {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     
     if (isMobile) {
-      // Use Google's redirect to force browser instead of app
-      // This tricks the YouTube app intent filter
+      // Use our own API redirect to bypass YouTube app intent
+      // The browser sees talanshowcase.com first, not youtube.com
       const encodedUrl = encodeURIComponent(url);
-      const browserUrl = `https://www.google.com/url?sa=t&url=${encodedUrl}`;
-      window.location.href = browserUrl;
+      window.location.href = `/api/video?url=${encodedUrl}`;
     } else {
       // Desktop - just open in new tab
       window.open(url, '_blank', 'noopener,noreferrer');
