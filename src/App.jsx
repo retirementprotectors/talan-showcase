@@ -161,14 +161,12 @@ const getYouTubeId = (url) => {
 const getEmbedUrl = (url) => {
   if (!url || typeof url !== 'string' || !url.trim()) return null;
   
-  // Check for YouTube Clips first (youtube.com/clip/CLIP_ID)
+  // YouTube Clips CANNOT be embedded - they must open in new tab
+  // So we return null for clips to trigger the "open in new tab" UI
   const clipId = getYouTubeClipId(url);
-  if (clipId) {
-    // YouTube clips can be embedded using the clip ID directly
-    return `https://www.youtube.com/embed/${clipId}?rel=0`;
-  }
+  if (clipId) return null;
   
-  // Regular YouTube videos
+  // Regular YouTube videos CAN be embedded
   const ytId = getYouTubeId(url);
   if (ytId) return `https://www.youtube.com/embed/${ytId}?rel=0`;
   
@@ -180,6 +178,11 @@ const getEmbedUrl = (url) => {
   if (url.includes('hudl.com')) return null;
   
   return null;
+};
+
+// Check if URL is a YouTube Clip (for showing appropriate UI message)
+const isYouTubeClip = (url) => {
+  return getYouTubeClipId(url) !== null;
 };
 
 // Helper to get YouTube thumbnail
@@ -1266,17 +1269,20 @@ export default function App() {
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Click to play</p>
                     </div>
                   ) : clip.url ? (
-                    /* Has URL but not embeddable - show external link */
+                    /* Has URL but not embeddable (YouTube Clips, Hudl, etc) - show external link */
                     <a 
                       href={clip.url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-center cursor-pointer hover:opacity-80 transition-opacity relative z-[5]"
+                      className="text-center cursor-pointer hover:scale-105 transition-transform relative z-[5]"
                     >
-                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
-                        <ExternalLink className="text-white" size={32} />
+                      <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg hover:bg-red-700 transition-colors">
+                        <Play className="text-white ml-1" size={40} fill="white" />
                       </div>
-                      <p className="text-white/90 text-sm mt-3 font-medium drop-shadow-lg">Open in new tab</p>
+                      <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">
+                        {isYouTubeClip(clip.url) ? 'Watch on YouTube' : 'Open Video'}
+                      </p>
+                      <p className="text-white/60 text-xs mt-1 drop-shadow">Opens in new tab</p>
                     </a>
                   ) : (
                     /* No URL - show placeholder */
@@ -1334,8 +1340,8 @@ export default function App() {
                         </button>
                       )}
                       {clip.url && !embedUrl && (
-                        <a href={clip.url} target="_blank" rel="noopener noreferrer" className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
-                          <ExternalLink size={14} /> Open
+                        <a href={clip.url} target="_blank" rel="noopener noreferrer" className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
+                          <Play size={14} /> {isYouTubeClip(clip.url) ? 'Watch' : 'Open'}
                         </a>
                       )}
                       {playingVideo === clip.id && (
