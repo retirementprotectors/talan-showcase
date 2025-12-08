@@ -112,6 +112,14 @@ const talanGoalsRankD = 2;
 const talanAssistsRankD = 1;
 const talanPtsRankD = 2;
 
+// Helper to check if URL is a YouTube Clip
+const getYouTubeClipId = (url) => {
+  if (!url || typeof url !== 'string') return null;
+  const clipMatch = url.match(/youtube\.com\/clip\/([a-zA-Z0-9_-]+)/);
+  if (clipMatch && clipMatch[1]) return clipMatch[1];
+  return null;
+};
+
 // Helper to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
   if (!url || typeof url !== 'string') return null;
@@ -153,6 +161,14 @@ const getYouTubeId = (url) => {
 const getEmbedUrl = (url) => {
   if (!url || typeof url !== 'string' || !url.trim()) return null;
   
+  // Check for YouTube Clips first (youtube.com/clip/CLIP_ID)
+  const clipId = getYouTubeClipId(url);
+  if (clipId) {
+    // YouTube clips can be embedded using the clip ID directly
+    return `https://www.youtube.com/embed/${clipId}?rel=0`;
+  }
+  
+  // Regular YouTube videos
   const ytId = getYouTubeId(url);
   if (ytId) return `https://www.youtube.com/embed/${ytId}?rel=0`;
   
@@ -168,11 +184,13 @@ const getEmbedUrl = (url) => {
 
 // Helper to get YouTube thumbnail
 const getYouTubeThumbnail = (url) => {
+  // Regular YouTube videos have predictable thumbnails
   const ytId = getYouTubeId(url);
   if (ytId) {
-    // Use hqdefault as it's more reliable than maxresdefault
     return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
   }
+  // YouTube Clips don't have standard thumbnails (clip IDs aren't video IDs)
+  // So we return null and the UI will show a play button overlay instead
   return null;
 };
 
