@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, ReferenceLine, LabelList } from 'recharts';
 import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye, Edit3 } from 'lucide-react';
-import { db, auth, googleProvider, ADMIN_EMAIL } from './firebase';
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from 'firebase/firestore';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+// Firebase removed for highlights - using hardcoded data for reliability
 
 // ============================================
 // 📊 TALAN'S GAME DATA - UPDATE WEEKLY HERE
@@ -283,95 +281,16 @@ const availableTags = [
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [showAddHighlight, setShowAddHighlight] = useState(false);
-  const [highlightUrl, setHighlightUrl] = useState('');
-  const [highlightTitle, setHighlightTitle] = useState('');
-  const [highlightDesc, setHighlightDesc] = useState('');
-  const [highlightTags, setHighlightTags] = useState([]);
   const [playingVideo, setPlayingVideo] = useState(null);
   const [filterTag, setFilterTag] = useState('All');
-  const [editingHighlight, setEditingHighlight] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   
-  // Auth state
-  const [user, setUser] = useState(null);
-  const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  // Hardcoded highlights - simple and reliable, works everywhere
+  const highlights = defaultHighlights;
   
-  // Highlights from Firebase (falls back to defaults while loading)
-  const [highlights, setHighlights] = useState(defaultHighlights);
-  
-  // Listen for auth state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-  
-  // Login/Logout functions
-  const handleLogin = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error('Login error:', error);
-    }
+  // Open video in new tab
+  const openVideo = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
-  
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
-  
-  // Force open URL in browser (not YouTube app) on mobile
-  const openInBrowser = (url, e) => {
-    e.preventDefault();
-    
-    // Check if on mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // Use our own API redirect to bypass YouTube app intent
-      // The browser sees talanshowcase.com first, not youtube.com
-      const encodedUrl = encodeURIComponent(url);
-      window.location.href = `/api/video?url=${encodedUrl}`;
-    } else {
-      // Desktop - just open in new tab
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  // Load highlights from Firebase on mount
-  useEffect(() => {
-    const highlightsRef = collection(db, 'highlights');
-    
-    // Real-time listener
-    const unsubscribe = onSnapshot(highlightsRef, (snapshot) => {
-      if (snapshot.empty) {
-        // Firebase is empty - just show the hardcoded defaults
-        // No auto-seeding to avoid race conditions
-        setHighlights(defaultHighlights);
-      } else {
-        // Load highlights from Firebase
-        const firebaseHighlights = snapshot.docs.map(doc => ({
-          ...doc.data(),
-          firebaseId: doc.id
-        }));
-        // Sort by id (to maintain order)
-        firebaseHighlights.sort((a, b) => (a.id || 0) - (b.id || 0));
-        setHighlights(firebaseHighlights);
-      }
-      setIsLoading(false);
-    }, (error) => {
-      console.error('Error loading highlights:', error);
-      setHighlights(defaultHighlights);
-      setIsLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
@@ -382,99 +301,9 @@ export default function App() {
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
   ];
 
-  const handleAddHighlight = async () => {
-    if (highlightTitle.trim()) {
-      const newHighlight = {
-        id: Date.now(),
-        title: highlightTitle,
-        description: highlightDesc || 'No description',
-        url: highlightUrl,
-        thumbnail: '🏒',
-        date: new Date().toLocaleDateString(),
-        tags: highlightTags
-      };
-      
-      try {
-        // Add to Firebase - the onSnapshot listener will update the UI
-        await addDoc(collection(db, 'highlights'), newHighlight);
-      } catch (e) {
-        console.error('Error adding highlight:', e);
-        // Fallback to local state if Firebase fails
-        setHighlights([newHighlight, ...highlights]);
-      }
-      
-      setHighlightUrl('');
-      setHighlightTitle('');
-      setHighlightDesc('');
-      setHighlightTags([]);
-      setShowAddHighlight(false);
-    }
-  };
-
-  const handleEditHighlight = (highlight) => {
-    setEditingHighlight(highlight);
-    setHighlightTitle(highlight.title);
-    setHighlightDesc(highlight.description);
-    setHighlightUrl(highlight.url || '');
-    setHighlightTags(highlight.tags || []);
-  };
-
-  const handleSaveEdit = async () => {
-    if (editingHighlight && highlightTitle.trim()) {
-      const updatedData = {
-        title: highlightTitle,
-        description: highlightDesc,
-        url: highlightUrl,
-        tags: highlightTags
-      };
-      
-      try {
-        if (editingHighlight.firebaseId) {
-          // Update in Firebase
-          const highlightRef = doc(db, 'highlights', editingHighlight.firebaseId);
-          await updateDoc(highlightRef, updatedData);
-        } else {
-          // Fallback for highlights without Firebase ID
-          setHighlights(highlights.map(h => 
-            h.id === editingHighlight.id ? { ...h, ...updatedData } : h
-          ));
-        }
-      } catch (e) {
-        console.error('Error updating highlight:', e);
-      }
-      
-      setEditingHighlight(null);
-      setHighlightTitle('');
-      setHighlightDesc('');
-      setHighlightUrl('');
-      setHighlightTags([]);
-    }
-  };
-
-  const toggleTag = (tag) => {
-    setHighlightTags(prev => 
-      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-    );
-  };
-
   const filteredHighlights = filterTag === 'All' 
     ? highlights 
     : highlights.filter(h => h.tags && h.tags.includes(filterTag));
-
-  const handleDeleteHighlight = async (id, firebaseId) => {
-    try {
-      if (firebaseId) {
-        // Delete from Firebase
-        await deleteDoc(doc(db, 'highlights', firebaseId));
-      } else {
-        // Fallback for highlights without Firebase ID
-        setHighlights(highlights.filter(h => h.id !== id));
-      }
-    } catch (e) {
-      console.error('Error deleting highlight:', e);
-    }
-    if (playingVideo === id) setPlayingVideo(null);
-  };
 
   // Narrative Component
   const NarrativeBox = ({ title, children }) => (
@@ -1240,35 +1069,8 @@ export default function App() {
       {activeTab === 'highlights' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-xl p-5 text-white">
-            <div className="flex items-center justify-between flex-wrap gap-3">
-              <div>
-                <h3 className="text-xl font-bold mb-2">🎬 Highlight Reel</h3>
-                <p className="text-red-100">Click to play videos inline. Add YouTube, Vimeo, or Hudl links to showcase Talan's best plays.</p>
-              </div>
-              {/* Admin Login/Logout */}
-              <div className="flex items-center gap-2">
-                {user ? (
-                  <div className="flex items-center gap-2">
-                    {isAdmin && (
-                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">✓ Editor Mode</span>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleLogin}
-                    className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors"
-                  >
-                    🔐 Editor Login
-                  </button>
-                )}
-              </div>
-            </div>
+            <h3 className="text-xl font-bold mb-2">🎬 Highlight Reel</h3>
+            <p className="text-red-100">Click to watch Talan's best plays from the 2025-26 season.</p>
           </div>
 
           {/* Filter Tags */}
@@ -1304,105 +1106,6 @@ export default function App() {
               })}
             </div>
           </div>
-
-          {/* Add/Edit Highlight Modal */}
-          {(showAddHighlight || editingHighlight) && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold">
-                    {editingHighlight ? 'Edit Highlight' : 'Add New Highlight'}
-                  </h3>
-                  <button 
-                    onClick={() => { 
-                      setShowAddHighlight(false); 
-                      setEditingHighlight(null);
-                      setHighlightTitle('');
-                      setHighlightDesc('');
-                      setHighlightUrl('');
-                      setHighlightTags([]);
-                    }} 
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <X size={24} />
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
-                    <input
-                      type="text"
-                      value={highlightTitle}
-                      onChange={(e) => setHighlightTitle(e.target.value)}
-                      placeholder="e.g., GWG vs Kansas City"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Video URL (YouTube, Vimeo, Hudl)</label>
-                    <input
-                      type="text"
-                      value={highlightUrl}
-                      onChange={(e) => setHighlightUrl(e.target.value)}
-                      placeholder="https://youtube.com/watch?v=..."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                    <textarea
-                      value={highlightDesc}
-                      onChange={(e) => setHighlightDesc(e.target.value)}
-                      placeholder="Brief description of the play..."
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
-                    <div className="flex flex-wrap gap-2">
-                      {availableTags.map(tag => (
-                        <button
-                          key={tag}
-                          type="button"
-                          onClick={() => toggleTag(tag)}
-                          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                            highlightTags.includes(tag)
-                              ? 'bg-purple-600 text-white'
-                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                          }`}
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex gap-3 pt-2">
-                    <button
-                      onClick={() => { 
-                        setShowAddHighlight(false); 
-                        setEditingHighlight(null);
-                        setHighlightTitle('');
-                        setHighlightDesc('');
-                        setHighlightUrl('');
-                        setHighlightTags([]);
-                      }}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={editingHighlight ? handleSaveEdit : handleAddHighlight}
-                      disabled={!highlightTitle.trim()}
-                      className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {editingHighlight ? 'Save Changes' : 'Add Highlight'}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredHighlights.map(clip => {
@@ -1442,45 +1145,24 @@ export default function App() {
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Click to play</p>
                     </div>
                   ) : clip.url ? (
-                    /* Has URL but not embeddable (YouTube Clips, Hudl, etc) - force browser on mobile */
+                    /* Has URL but not embeddable - open in new tab */
                     <div 
-                      onClick={(e) => openInBrowser(clip.url, e)}
+                      onClick={() => openVideo(clip.url)}
                       className="text-center cursor-pointer hover:scale-105 transition-transform relative z-[5]"
                     >
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg hover:bg-red-700 transition-colors">
                         <Play className="text-white ml-1" size={40} fill="white" />
                       </div>
-                      <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">
-                        {isYouTubeClip(clip.url) ? 'Watch Clip' : 'Open Video'}
-                      </p>
-                      <p className="text-white/60 text-xs mt-1 drop-shadow">Opens in browser</p>
+                      <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Watch Video</p>
                     </div>
                   ) : (
                     /* No URL - show placeholder */
                     <div className="text-center relative z-[5]">
                       <div className="text-6xl mb-2">{clip.thumbnail}</div>
-                      <p className="text-white/60 text-xs">No video URL added yet</p>
+                      <p className="text-white/60 text-xs">No video URL</p>
                     </div>
                   )}
                   
-                  {/* Edit Button - Admin Only */}
-                  {isAdmin && (
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleEditHighlight(clip); }}
-                      className="absolute top-2 right-12 w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors z-10"
-                    >
-                      <Edit3 size={14} />
-                    </button>
-                  )}
-                  {/* Delete Button - Admin Only */}
-                  {isAdmin && (
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id, clip.firebaseId); }}
-                      className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors z-10"
-                    >
-                      <X size={16} />
-                    </button>
-                  )}
                   {playingVideo === clip.id && (
                     <button 
                       onClick={() => setPlayingVideo(null)}
@@ -1515,8 +1197,8 @@ export default function App() {
                         </button>
                       )}
                       {clip.url && !embedUrl && (
-                        <button onClick={(e) => openInBrowser(clip.url, e)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
-                          <Play size={14} /> {isYouTubeClip(clip.url) ? 'Watch' : 'Open'}
+                        <button onClick={() => openVideo(clip.url)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
+                          <Play size={14} /> Watch
                         </button>
                       )}
                       {playingVideo === clip.id && (
@@ -1543,32 +1225,6 @@ export default function App() {
               </button>
             </div>
           )}
-
-          {/* Add New Highlight - Admin Only */}
-          {isAdmin && (
-            <button 
-              onClick={() => setShowAddHighlight(true)}
-              className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 hover:bg-purple-50/50 transition-all cursor-pointer"
-            >
-              <Plus className="mx-auto text-gray-400 mb-3" size={48} />
-              <h4 className="font-semibold text-gray-600">Add New Highlight</h4>
-              <p className="text-sm text-gray-400 mt-1">Click to add a video (YouTube, Vimeo, Hudl)</p>
-            </button>
-          )}
-
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
-            <h4 className="font-semibold text-blue-800 mb-3 flex items-center gap-2">
-              <Video className="text-blue-600" size={20} />
-              Supported Video Platforms
-            </h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-blue-700">
-              <div className="bg-white rounded-lg p-2 text-center">📺 YouTube</div>
-              <div className="bg-white rounded-lg p-2 text-center">🎬 Vimeo</div>
-              <div className="bg-white rounded-lg p-2 text-center">🏒 Hudl</div>
-              <div className="bg-white rounded-lg p-2 text-center">🎥 LiveBarn</div>
-            </div>
-            <p className="text-xs text-blue-600 mt-3">Videos will play directly in the dashboard. Just paste the share link!</p>
-          </div>
         </div>
       )}
 
