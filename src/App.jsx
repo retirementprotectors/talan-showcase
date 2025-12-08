@@ -112,30 +112,53 @@ const talanGoalsRankD = 2;
 const talanAssistsRankD = 1;
 const talanPtsRankD = 2;
 
+// Helper to extract YouTube video ID from various URL formats
+const getYouTubeId = (url) => {
+  if (!url) return null;
+  
+  // Handle various YouTube URL formats
+  const patterns = [
+    /(?:youtube\.com\/watch\?.*v=)([a-zA-Z0-9_-]+)/,     // Standard watch URLs
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]+)/,                    // Short URLs  
+    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/,          // Embed URLs
+    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]+)/,         // Shorts
+    /(?:youtube\.com\/live\/)([a-zA-Z0-9_-]+)/,           // Live streams
+    /(?:youtube\.com\/v\/)([a-zA-Z0-9_-]+)/,              // Old embed format
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      // Clean up - remove any trailing query params or slashes
+      return match[1].split(/[?&/]/)[0];
+    }
+  }
+  return null;
+};
+
 // Helper to convert video URLs to embed URLs
 const getEmbedUrl = (url) => {
   if (!url) return null;
   
-  // Handle YouTube URLs (watch, youtu.be, shorts, embed, live)
-  const ytPatterns = [
-    /(?:youtube\.com\/watch\?.*v=)([a-zA-Z0-9_-]{11})/,  // Standard watch URLs with any params
-    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,                 // Short URLs
-    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,       // Already embed URLs
-    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,      // Shorts
-    /(?:youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/,        // Live streams
-  ];
-  
-  for (const pattern of ytPatterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return `https://www.youtube.com/embed/${match[1]}`;
-    }
-  }
+  const ytId = getYouTubeId(url);
+  if (ytId) return `https://www.youtube.com/embed/${ytId}`;
   
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+  
   if (url.includes('hudl.com')) return url;
-  return null; // Return null for unrecognized URLs instead of the raw URL
+  
+  return null;
+};
+
+// Helper to get YouTube thumbnail
+const getYouTubeThumbnail = (url) => {
+  const ytId = getYouTubeId(url);
+  if (ytId) {
+    // Use maxresdefault for high quality, falls back gracefully
+    return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+  }
+  return null;
 };
 
 const COLORS = {
@@ -1173,44 +1196,63 @@ export default function App() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredHighlights.map(clip => (
+            {filteredHighlights.map(clip => {
+              const thumbnailUrl = getYouTubeThumbnail(clip.url);
+              const embedUrl = getEmbedUrl(clip.url);
+              
+              return (
               <div key={clip.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
-                  {playingVideo === clip.id && clip.url && getEmbedUrl(clip.url) ? (
+                <div 
+                  className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative bg-cover bg-center"
+                  style={thumbnailUrl && playingVideo !== clip.id ? { backgroundImage: `url(${thumbnailUrl})` } : {}}
+                >
+                  {/* Dark overlay for better button visibility when thumbnail is shown */}
+                  {thumbnailUrl && playingVideo !== clip.id && (
+                    <div className="absolute inset-0 bg-black/30"></div>
+                  )}
+                  
+                  {/* Playing state - show iframe */}
+                  {playingVideo === clip.id && clip.url && embedUrl ? (
                     <iframe
-                      src={getEmbedUrl(clip.url)}
+                      src={embedUrl}
                       className="w-full h-full absolute inset-0"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       title={clip.title}
                     />
-                  ) : clip.url && getEmbedUrl(clip.url) ? (
-                    <div className="text-center cursor-pointer" onClick={() => setPlayingVideo(clip.id)}>
-                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto hover:bg-white/30 transition-colors">
+                  ) : clip.url && embedUrl ? (
+                    /* Has embeddable URL - show play button */
+                    <div 
+                      className="text-center cursor-pointer relative z-[5]" 
+                      onClick={() => setPlayingVideo(clip.id)}
+                    >
+                      <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto hover:bg-red-700 transition-colors shadow-lg">
                         <Play className="text-white ml-1" size={40} fill="white" />
                       </div>
-                      <p className="text-white/80 text-sm mt-3">Click to play</p>
+                      <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Click to play</p>
                     </div>
                   ) : clip.url ? (
+                    /* Has URL but not embeddable - show external link */
                     <a 
                       href={clip.url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-center cursor-pointer hover:opacity-80 transition-opacity"
+                      className="text-center cursor-pointer hover:opacity-80 transition-opacity relative z-[5]"
                     >
-                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
                         <ExternalLink className="text-white" size={32} />
                       </div>
-                      <p className="text-white/80 text-sm mt-3">Open in new tab</p>
-                      <p className="text-white/50 text-xs mt-1">Video will open externally</p>
+                      <p className="text-white/90 text-sm mt-3 font-medium drop-shadow-lg">Open in new tab</p>
                     </a>
                   ) : (
-                    <div className="text-center">
+                    /* No URL - show placeholder */
+                    <div className="text-center relative z-[5]">
                       <div className="text-6xl mb-2">{clip.thumbnail}</div>
                       <p className="text-white/60 text-xs">No video URL added yet</p>
                     </div>
                   )}
+                  
                   {/* Edit Button */}
                   <button 
                     onClick={(e) => { e.stopPropagation(); handleEditHighlight(clip); }}
@@ -1253,12 +1295,12 @@ export default function App() {
                   <div className="flex items-center justify-between mt-3">
                     <span className="text-xs text-gray-400">{clip.date}</span>
                     <div className="flex items-center gap-2">
-                      {clip.url && getEmbedUrl(clip.url) && playingVideo !== clip.id && (
+                      {clip.url && embedUrl && playingVideo !== clip.id && (
                         <button onClick={() => setPlayingVideo(clip.id)} className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
                           <Play size={14} /> Play
                         </button>
                       )}
-                      {clip.url && !getEmbedUrl(clip.url) && (
+                      {clip.url && !embedUrl && (
                         <a href={clip.url} target="_blank" rel="noopener noreferrer" className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
                           <ExternalLink size={14} /> Open
                         </a>
@@ -1272,7 +1314,8 @@ export default function App() {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
 
           {filteredHighlights.length === 0 && (
