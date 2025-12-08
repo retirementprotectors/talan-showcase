@@ -114,39 +114,54 @@ const talanPtsRankD = 2;
 
 // Helper to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
-  if (!url) return null;
+  if (!url || typeof url !== 'string') return null;
   
-  // Handle various YouTube URL formats
-  const patterns = [
-    /(?:youtube\.com\/watch\?.*v=)([a-zA-Z0-9_-]+)/,     // Standard watch URLs
-    /(?:youtu\.be\/)([a-zA-Z0-9_-]+)/,                    // Short URLs  
-    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]+)/,          // Embed URLs
-    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]+)/,         // Shorts
-    /(?:youtube\.com\/live\/)([a-zA-Z0-9_-]+)/,           // Live streams
-    /(?:youtube\.com\/v\/)([a-zA-Z0-9_-]+)/,              // Old embed format
-  ];
+  // Clean the URL - trim whitespace and decode if needed
+  const cleanUrl = url.trim();
   
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      // Clean up - remove any trailing query params or slashes
-      return match[1].split(/[?&/]/)[0];
-    }
-  }
+  // Method 1: Look for v= parameter (most common)
+  const vParam = cleanUrl.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+  if (vParam && vParam[1]) return vParam[1];
+  
+  // Method 2: youtu.be short links
+  const shortLink = cleanUrl.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+  if (shortLink && shortLink[1]) return shortLink[1].split(/[?&]/)[0];
+  
+  // Method 3: /embed/ URLs
+  const embedUrl = cleanUrl.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+  if (embedUrl && embedUrl[1]) return embedUrl[1].split(/[?&]/)[0];
+  
+  // Method 4: /shorts/ URLs
+  const shortsUrl = cleanUrl.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+  if (shortsUrl && shortsUrl[1]) return shortsUrl[1].split(/[?&]/)[0];
+  
+  // Method 5: /live/ URLs
+  const liveUrl = cleanUrl.match(/youtube\.com\/live\/([a-zA-Z0-9_-]+)/);
+  if (liveUrl && liveUrl[1]) return liveUrl[1].split(/[?&]/)[0];
+  
+  // Method 6: /v/ URLs (old format)
+  const oldFormat = cleanUrl.match(/youtube\.com\/v\/([a-zA-Z0-9_-]+)/);
+  if (oldFormat && oldFormat[1]) return oldFormat[1].split(/[?&]/)[0];
+  
+  // Method 7: If it looks like just a video ID (11 chars, alphanumeric with dashes/underscores)
+  if (/^[a-zA-Z0-9_-]{11}$/.test(cleanUrl)) return cleanUrl;
+  
   return null;
 };
 
 // Helper to convert video URLs to embed URLs
 const getEmbedUrl = (url) => {
-  if (!url) return null;
+  if (!url || typeof url !== 'string' || !url.trim()) return null;
   
   const ytId = getYouTubeId(url);
-  if (ytId) return `https://www.youtube.com/embed/${ytId}`;
+  if (ytId) return `https://www.youtube.com/embed/${ytId}?rel=0`;
   
+  // Vimeo
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   
-  if (url.includes('hudl.com')) return url;
+  // Hudl - these need to be opened in new tab (can't embed)
+  if (url.includes('hudl.com')) return null;
   
   return null;
 };
@@ -155,8 +170,8 @@ const getEmbedUrl = (url) => {
 const getYouTubeThumbnail = (url) => {
   const ytId = getYouTubeId(url);
   if (ytId) {
-    // Use maxresdefault for high quality, falls back gracefully
-    return `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+    // Use hqdefault as it's more reliable than maxresdefault
+    return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
   }
   return null;
 };
