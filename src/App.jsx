@@ -165,13 +165,17 @@ const getEmbedUrl = (url) => {
   if (!url || typeof url !== 'string' || !url.trim()) return null;
   
   // YouTube Clips CANNOT be embedded - they must open in new tab
-  // So we return null for clips to trigger the "open in new tab" UI
   const clipId = getYouTubeClipId(url);
   if (clipId) return null;
   
   // Regular YouTube videos CAN be embedded
   const ytId = getYouTubeId(url);
-  if (ytId) return `https://www.youtube.com/embed/${ytId}?rel=0`;
+  if (ytId) {
+    // Check for timestamp parameter
+    const timeMatch = url.match(/[?&]t=(\d+)s?/);
+    const startTime = timeMatch ? timeMatch[1] : null;
+    return `https://www.youtube.com/embed/${ytId}?rel=0${startTime ? `&start=${startTime}` : ''}`;
+  }
   
   // Vimeo
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
@@ -210,7 +214,7 @@ const COLORS = {
   blue: '#3B82F6'
 };
 
-// Talan's actual highlight clips - these show for everyone
+// Talan's actual highlights - using timestamp URLs that work on all devices
 const defaultHighlights = [
   { 
     id: 1, 
@@ -218,7 +222,7 @@ const defaultHighlights = [
     description: 'Strong defensive play with physicality', 
     thumbnail: '🏒', 
     date: '12/07/2025', 
-    url: 'https://youtube.com/clip/Ugkx3XuPOEbVntCqpfeO-1n4wjnqoCi6kBIf?si=4p7cSpOjoM1ERObH', 
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3740s', 
     tags: ['Defensive Play', 'Hit', 'Breakout'] 
   },
   { 
@@ -227,25 +231,25 @@ const defaultHighlights = [
     description: 'Smooth skating and breakout pass', 
     thumbnail: '🏒', 
     date: '12/07/2025', 
-    url: 'https://youtube.com/clip/UgkxT_OXPTVcWUNSwdFkvgV0Z61u3cyaDqjf?si=X5J7oaWtaDQRBEPt', 
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4278s', 
     tags: ['Defensive Play', 'Skating', 'Strength', 'Breakout'] 
   },
   { 
     id: 3, 
     title: '12/7/25 - Capitals v Jets', 
-    description: 'Solid defensive positioning', 
+    description: 'Physical play and zone defense', 
     thumbnail: '🏒', 
     date: '12/07/2025', 
-    url: 'https://youtube.com/clip/Ugkx2_6IfgaLX7dNieII93i61xERTqnwhJ-Q?si=744EgtLG1rIgcKs6', 
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4881s', 
     tags: ['Defensive Play', 'Strength'] 
   },
   { 
     id: 4, 
     title: '12/7/25 - Capitals v Jets', 
-    description: 'Physical play and puck retrieval', 
+    description: 'Solid positioning and puck retrieval', 
     thumbnail: '🏒', 
     date: '12/07/2025', 
-    url: 'https://youtube.com/clip/UgkxD3ctIuaZMVFBpEFj84UdFkFzTodgiw_L?si=tuWlBGyvskzcuf2I', 
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=6915s', 
     tags: ['Defensive Play', 'Strength', 'Breakout'] 
   },
   { 
@@ -254,7 +258,7 @@ const defaultHighlights = [
     description: 'Big hit and zone clearance', 
     thumbnail: '🏒', 
     date: '12/07/2025', 
-    url: 'https://youtube.com/clip/UgkxO0IaXD0KvPV86tst0Jo-lqdf3wWYJKIE?si=z7D6_C1lu-UkRJwm', 
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3741s', 
     tags: ['Defensive Play', 'Hit', 'Strength'] 
   },
 ];
