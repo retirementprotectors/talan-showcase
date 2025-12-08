@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, ReferenceLine, LabelList } from 'recharts';
-import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye } from 'lucide-react';
+import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye, Edit3 } from 'lucide-react';
 
 // ============================================
 // 📊 TALAN'S GAME DATA - UPDATE WEEKLY HERE
@@ -115,12 +115,27 @@ const talanPtsRankD = 2;
 // Helper to convert video URLs to embed URLs
 const getEmbedUrl = (url) => {
   if (!url) return null;
-  const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s]+)/);
-  if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
+  
+  // Handle YouTube URLs (watch, youtu.be, shorts, embed, live)
+  const ytPatterns = [
+    /(?:youtube\.com\/watch\?.*v=)([a-zA-Z0-9_-]{11})/,  // Standard watch URLs with any params
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,                 // Short URLs
+    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,       // Already embed URLs
+    /(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,      // Shorts
+    /(?:youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/,        // Live streams
+  ];
+  
+  for (const pattern of ytPatterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+  }
+  
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   if (url.includes('hudl.com')) return url;
-  return url;
+  return null; // Return null for unrecognized URLs instead of the raw URL
 };
 
 const COLORS = {
@@ -135,10 +150,28 @@ const COLORS = {
 
 // Default highlights (used if localStorage is empty)
 const defaultHighlights = [
-  { id: 1, title: 'GWG vs Kansas City (12/6)', description: '1G, 2A game - Game-winning goal in 6-2 victory', thumbnail: '🎯', date: '12/06/2025', url: '' },
-  { id: 2, title: 'Offensive Zone Entry vs Fremont', description: 'Smooth rush up the ice setting up 2 assists', thumbnail: '🏃', date: '11/22/2025', url: '' },
-  { id: 3, title: 'PP Quarterback vs Omaha', description: 'Power play distribution from the point', thumbnail: '⚡', date: '11/09/2025', url: '' },
-  { id: 4, title: 'Goal vs Mason City', description: 'First goal of the season - wrister from the point', thumbnail: '🥅', date: '11/07/2025', url: '' },
+  { id: 1, title: 'GWG vs Kansas City (12/6)', description: '1G, 2A game - Game-winning goal in 6-2 victory', thumbnail: '🎯', date: '12/06/2025', url: '', tags: ['Goal', 'GWG', 'Multi-Point'] },
+  { id: 2, title: 'Offensive Zone Entry vs Fremont', description: 'Smooth rush up the ice setting up 2 assists', thumbnail: '🏃', date: '11/22/2025', url: '', tags: ['Skating', 'Assist'] },
+  { id: 3, title: 'PP Quarterback vs Omaha', description: 'Power play distribution from the point', thumbnail: '⚡', date: '11/09/2025', url: '', tags: ['Power Play', 'Assist'] },
+  { id: 4, title: 'Goal vs Mason City', description: 'First goal of the season - wrister from the point', thumbnail: '🥅', date: '11/07/2025', url: '', tags: ['Goal', 'Shot'] },
+];
+
+// Available tags for highlights
+const availableTags = [
+  'Goal', 
+  'Assist', 
+  'GWG', 
+  'Penalty Kill',
+  'Power Play', 
+  'Defensive Play', 
+  'Skating', 
+  'Shot', 
+  'Pass', 
+  'Hit', 
+  'Block', 
+  'Multi-Point', 
+  'Strength', 
+  'Breakout'
 ];
 
 export default function App() {
@@ -147,7 +180,10 @@ export default function App() {
   const [highlightUrl, setHighlightUrl] = useState('');
   const [highlightTitle, setHighlightTitle] = useState('');
   const [highlightDesc, setHighlightDesc] = useState('');
+  const [highlightTags, setHighlightTags] = useState([]);
   const [playingVideo, setPlayingVideo] = useState(null);
+  const [filterTag, setFilterTag] = useState('All');
+  const [editingHighlight, setEditingHighlight] = useState(null);
   
   // Load highlights from localStorage on mount
   const [highlights, setHighlights] = useState(() => {
@@ -185,15 +221,50 @@ export default function App() {
         description: highlightDesc || 'No description',
         url: highlightUrl,
         thumbnail: '🎬',
-        date: new Date().toLocaleDateString()
+        date: new Date().toLocaleDateString(),
+        tags: highlightTags
       };
       setHighlights([newHighlight, ...highlights]);
       setHighlightUrl('');
       setHighlightTitle('');
       setHighlightDesc('');
+      setHighlightTags([]);
       setShowAddHighlight(false);
     }
   };
+
+  const handleEditHighlight = (highlight) => {
+    setEditingHighlight(highlight);
+    setHighlightTitle(highlight.title);
+    setHighlightDesc(highlight.description);
+    setHighlightUrl(highlight.url || '');
+    setHighlightTags(highlight.tags || []);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingHighlight && highlightTitle.trim()) {
+      setHighlights(highlights.map(h => 
+        h.id === editingHighlight.id 
+          ? { ...h, title: highlightTitle, description: highlightDesc, url: highlightUrl, tags: highlightTags }
+          : h
+      ));
+      setEditingHighlight(null);
+      setHighlightTitle('');
+      setHighlightDesc('');
+      setHighlightUrl('');
+      setHighlightTags([]);
+    }
+  };
+
+  const toggleTag = (tag) => {
+    setHighlightTags(prev => 
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const filteredHighlights = filterTag === 'All' 
+    ? highlights 
+    : highlights.filter(h => h.tags && h.tags.includes(filterTag));
 
   const handleDeleteHighlight = (id) => {
     setHighlights(highlights.filter(h => h.id !== id));
@@ -674,6 +745,8 @@ export default function App() {
             "Playoff experience from last year's finals run should boost postseason production",
             "If current trajectory holds, 40+ points as a Junior D-man would be exceptional for any level"
           ]} />
+        </div>
+      )}
 
       {/* League Rankings Tab */}
       {activeTab === 'rankings' && (
@@ -966,12 +1039,59 @@ export default function App() {
             <p className="text-red-100">Click to play videos inline. Add YouTube, Vimeo, or Hudl links to showcase Talan's best plays.</p>
           </div>
 
-          {showAddHighlight && (
+          {/* Filter Tags */}
+          <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+            <h4 className="text-sm font-medium text-gray-600 mb-3">Filter by Tag:</h4>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setFilterTag('All')}
+                className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                  filterTag === 'All' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                All ({highlights.length})
+              </button>
+              {availableTags.map(tag => {
+                const count = highlights.filter(h => h.tags && h.tags.includes(tag)).length;
+                if (count === 0) return null;
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => setFilterTag(tag)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                      filterTag === tag 
+                        ? 'bg-purple-600 text-white' 
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {tag} ({count})
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Add/Edit Highlight Modal */}
+          {(showAddHighlight || editingHighlight) && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl">
+              <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold">Add New Highlight</h3>
-                  <button onClick={() => setShowAddHighlight(false)} className="text-gray-400 hover:text-gray-600">
+                  <h3 className="text-lg font-semibold">
+                    {editingHighlight ? 'Edit Highlight' : 'Add New Highlight'}
+                  </h3>
+                  <button 
+                    onClick={() => { 
+                      setShowAddHighlight(false); 
+                      setEditingHighlight(null);
+                      setHighlightTitle('');
+                      setHighlightDesc('');
+                      setHighlightUrl('');
+                      setHighlightTags([]);
+                    }} 
+                    className="text-gray-400 hover:text-gray-600"
+                  >
                     <X size={24} />
                   </button>
                 </div>
@@ -1006,19 +1126,45 @@ export default function App() {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+                    <div className="flex flex-wrap gap-2">
+                      {availableTags.map(tag => (
+                        <button
+                          key={tag}
+                          type="button"
+                          onClick={() => toggleTag(tag)}
+                          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                            highlightTags.includes(tag)
+                              ? 'bg-purple-600 text-white'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          }`}
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <div className="flex gap-3 pt-2">
                     <button
-                      onClick={() => setShowAddHighlight(false)}
+                      onClick={() => { 
+                        setShowAddHighlight(false); 
+                        setEditingHighlight(null);
+                        setHighlightTitle('');
+                        setHighlightDesc('');
+                        setHighlightUrl('');
+                        setHighlightTags([]);
+                      }}
                       className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                     >
                       Cancel
                     </button>
                     <button
-                      onClick={handleAddHighlight}
+                      onClick={editingHighlight ? handleSaveEdit : handleAddHighlight}
                       disabled={!highlightTitle.trim()}
                       className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Add Highlight
+                      {editingHighlight ? 'Save Changes' : 'Add Highlight'}
                     </button>
                   </div>
                 </div>
@@ -1027,7 +1173,7 @@ export default function App() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {highlights.map(clip => (
+            {filteredHighlights.map(clip => (
               <div key={clip.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
                   {playingVideo === clip.id && clip.url && getEmbedUrl(clip.url) ? (
@@ -1039,19 +1185,40 @@ export default function App() {
                       allowFullScreen
                       title={clip.title}
                     />
-                  ) : clip.url ? (
+                  ) : clip.url && getEmbedUrl(clip.url) ? (
                     <div className="text-center cursor-pointer" onClick={() => setPlayingVideo(clip.id)}>
                       <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto hover:bg-white/30 transition-colors">
                         <Play className="text-white ml-1" size={40} fill="white" />
                       </div>
                       <p className="text-white/80 text-sm mt-3">Click to play</p>
                     </div>
+                  ) : clip.url ? (
+                    <a 
+                      href={clip.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-center cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+                        <ExternalLink className="text-white" size={32} />
+                      </div>
+                      <p className="text-white/80 text-sm mt-3">Open in new tab</p>
+                      <p className="text-white/50 text-xs mt-1">Video will open externally</p>
+                    </a>
                   ) : (
                     <div className="text-center">
                       <div className="text-6xl mb-2">{clip.thumbnail}</div>
                       <p className="text-white/60 text-xs">No video URL added yet</p>
                     </div>
                   )}
+                  {/* Edit Button */}
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleEditHighlight(clip); }}
+                    className="absolute top-2 right-12 w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors z-10"
+                  >
+                    <Edit3 size={14} />
+                  </button>
+                  {/* Delete Button */}
                   <button 
                     onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id); }}
                     className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors z-10"
@@ -1070,23 +1237,55 @@ export default function App() {
                 <div className="p-4">
                   <h4 className="font-semibold text-gray-800">{clip.title}</h4>
                   <p className="text-sm text-gray-500 mt-1">{clip.description}</p>
+                  {/* Tags Display */}
+                  {clip.tags && clip.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {clip.tags.map(tag => (
+                        <span 
+                          key={tag} 
+                          className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <div className="flex items-center justify-between mt-3">
                     <span className="text-xs text-gray-400">{clip.date}</span>
-                    {clip.url && playingVideo !== clip.id && (
-                      <button onClick={() => setPlayingVideo(clip.id)} className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
-                        <Play size={14} /> Play
-                      </button>
-                    )}
-                    {playingVideo === clip.id && (
-                      <button onClick={() => setPlayingVideo(null)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
-                        <X size={14} /> Stop
-                      </button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {clip.url && getEmbedUrl(clip.url) && playingVideo !== clip.id && (
+                        <button onClick={() => setPlayingVideo(clip.id)} className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
+                          <Play size={14} /> Play
+                        </button>
+                      )}
+                      {clip.url && !getEmbedUrl(clip.url) && (
+                        <a href={clip.url} target="_blank" rel="noopener noreferrer" className="text-purple-600 text-sm font-medium flex items-center gap-1 hover:text-purple-800">
+                          <ExternalLink size={14} /> Open
+                        </a>
+                      )}
+                      {playingVideo === clip.id && (
+                        <button onClick={() => setPlayingVideo(null)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
+                          <X size={14} /> Stop
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {filteredHighlights.length === 0 && (
+            <div className="text-center py-12 text-gray-500">
+              <p>No highlights found with tag "{filterTag}"</p>
+              <button 
+                onClick={() => setFilterTag('All')} 
+                className="text-purple-600 font-medium mt-2 hover:underline"
+              >
+                Show all highlights
+              </button>
+            </div>
+          )}
 
           <button 
             onClick={() => setShowAddHighlight(true)}
