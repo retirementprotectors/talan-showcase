@@ -207,12 +207,53 @@ const COLORS = {
   blue: '#3B82F6'
 };
 
-// Default highlights (used if localStorage is empty)
+// Talan's actual highlight clips - these show for everyone
 const defaultHighlights = [
-  { id: 1, title: 'GWG vs Kansas City (12/6)', description: '1G, 2A game - Game-winning goal in 6-2 victory', thumbnail: '🎯', date: '12/06/2025', url: '', tags: ['Goal', 'GWG', 'Multi-Point'] },
-  { id: 2, title: 'Offensive Zone Entry vs Fremont', description: 'Smooth rush up the ice setting up 2 assists', thumbnail: '🏃', date: '11/22/2025', url: '', tags: ['Skating', 'Assist'] },
-  { id: 3, title: 'PP Quarterback vs Omaha', description: 'Power play distribution from the point', thumbnail: '⚡', date: '11/09/2025', url: '', tags: ['Power Play', 'Assist'] },
-  { id: 4, title: 'Goal vs Mason City', description: 'First goal of the season - wrister from the point', thumbnail: '🥅', date: '11/07/2025', url: '', tags: ['Goal', 'Shot'] },
+  { 
+    id: 1, 
+    title: '12/7/25 - Capitals v Jets', 
+    description: 'Strong defensive play with physicality', 
+    thumbnail: '🏒', 
+    date: '12/07/2025', 
+    url: 'https://youtube.com/clip/Ugkx3XuPOEbVntCqpfeO-1n4wjnqoCi6kBIf?si=4p7cSpOjoM1ERObH', 
+    tags: ['Defensive Play', 'Hit', 'Breakout'] 
+  },
+  { 
+    id: 2, 
+    title: '12/7/25 - Capitals v Jets', 
+    description: 'Smooth skating and breakout pass', 
+    thumbnail: '🏒', 
+    date: '12/07/2025', 
+    url: 'https://youtube.com/clip/UgkxT_OXPTVcWUNSwdFkvgV0Z61u3cyaDqjf?si=X5J7oaWtaDQRBEPt', 
+    tags: ['Defensive Play', 'Skating', 'Strength', 'Breakout'] 
+  },
+  { 
+    id: 3, 
+    title: '12/7/25 - Capitals v Jets', 
+    description: 'Solid defensive positioning', 
+    thumbnail: '🏒', 
+    date: '12/07/2025', 
+    url: 'https://youtube.com/clip/Ugkx2_6IfgaLX7dNieII93i61xERTqnwhJ-Q?si=744EgtLG1rIgcKs6', 
+    tags: ['Defensive Play', 'Strength'] 
+  },
+  { 
+    id: 4, 
+    title: '12/7/25 - Capitals v Jets', 
+    description: 'Physical play and puck retrieval', 
+    thumbnail: '🏒', 
+    date: '12/07/2025', 
+    url: 'https://youtube.com/clip/UgkxD3ctIuaZMVFBpEFj84UdFkFzTodgiw_L?si=tuWlBGyvskzcuf2I', 
+    tags: ['Defensive Play', 'Strength', 'Breakout'] 
+  },
+  { 
+    id: 5, 
+    title: '12/7/25 - Capitals v Jets', 
+    description: 'Big hit and zone clearance', 
+    thumbnail: '🏒', 
+    date: '12/07/2025', 
+    url: 'https://youtube.com/clip/UgkxO0IaXD0KvPV86tst0Jo-lqdf3wWYJKIE?si=z7D6_C1lu-UkRJwm', 
+    tags: ['Defensive Play', 'Hit', 'Strength'] 
+  },
 ];
 
 // Available tags for highlights
@@ -244,24 +285,8 @@ export default function App() {
   const [filterTag, setFilterTag] = useState('All');
   const [editingHighlight, setEditingHighlight] = useState(null);
   
-  // Load highlights from localStorage on mount
-  const [highlights, setHighlights] = useState(() => {
-    try {
-      const saved = localStorage.getItem('talanHighlights');
-      return saved ? JSON.parse(saved) : defaultHighlights;
-    } catch {
-      return defaultHighlights;
-    }
-  });
-
-  // Save highlights to localStorage whenever they change
-  useEffect(() => {
-    try {
-      localStorage.setItem('talanHighlights', JSON.stringify(highlights));
-    } catch (e) {
-      console.error('Failed to save highlights:', e);
-    }
-  }, [highlights]);
+  // Always use the hardcoded highlights so everyone sees the same content
+  const [highlights, setHighlights] = useState(defaultHighlights);
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
