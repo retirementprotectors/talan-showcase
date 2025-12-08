@@ -346,28 +346,31 @@ export default function App() {
   // Load highlights from Firebase on mount
   useEffect(() => {
     const highlightsRef = collection(db, 'highlights');
+    let hasSeeded = false; // Prevent multiple seeding attempts
     
     // Real-time listener - updates automatically when data changes
-    const unsubscribe = onSnapshot(highlightsRef, (snapshot) => {
-      if (snapshot.empty) {
-        // No data in Firebase yet - use defaults and seed the database
+    const unsubscribe = onSnapshot(highlightsRef, async (snapshot) => {
+      if (snapshot.empty && !hasSeeded) {
+        // No data in Firebase yet - seed once
+        hasSeeded = true;
         setHighlights(defaultHighlights);
-        // Seed Firebase with default highlights
-        defaultHighlights.forEach(async (highlight) => {
+        
+        // Seed Firebase with default highlights (one batch, not forEach)
+        for (const highlight of defaultHighlights) {
           try {
             await addDoc(highlightsRef, highlight);
           } catch (e) {
             console.error('Error seeding highlight:', e);
           }
-        });
-      } else {
+        }
+      } else if (!snapshot.empty) {
         // Load highlights from Firebase
         const firebaseHighlights = snapshot.docs.map(doc => ({
           ...doc.data(),
-          firebaseId: doc.id // Store Firebase doc ID for updates/deletes
+          firebaseId: doc.id
         }));
-        // Sort by date (newest first)
-        firebaseHighlights.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Sort by id (to maintain order)
+        firebaseHighlights.sort((a, b) => (a.id || 0) - (b.id || 0));
         setHighlights(firebaseHighlights);
       }
       setIsLoading(false);
