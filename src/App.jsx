@@ -346,24 +346,14 @@ export default function App() {
   // Load highlights from Firebase on mount
   useEffect(() => {
     const highlightsRef = collection(db, 'highlights');
-    let hasSeeded = false; // Prevent multiple seeding attempts
     
-    // Real-time listener - updates automatically when data changes
-    const unsubscribe = onSnapshot(highlightsRef, async (snapshot) => {
-      if (snapshot.empty && !hasSeeded) {
-        // No data in Firebase yet - seed once
-        hasSeeded = true;
+    // Real-time listener
+    const unsubscribe = onSnapshot(highlightsRef, (snapshot) => {
+      if (snapshot.empty) {
+        // Firebase is empty - just show the hardcoded defaults
+        // No auto-seeding to avoid race conditions
         setHighlights(defaultHighlights);
-        
-        // Seed Firebase with default highlights (one batch, not forEach)
-        for (const highlight of defaultHighlights) {
-          try {
-            await addDoc(highlightsRef, highlight);
-          } catch (e) {
-            console.error('Error seeding highlight:', e);
-          }
-        }
-      } else if (!snapshot.empty) {
+      } else {
         // Load highlights from Firebase
         const firebaseHighlights = snapshot.docs.map(doc => ({
           ...doc.data(),
