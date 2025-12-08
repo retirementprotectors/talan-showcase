@@ -320,6 +320,25 @@ export default function App() {
       console.error('Logout error:', error);
     }
   };
+  
+  // Force open URL in browser (not YouTube app) on mobile
+  const openInBrowser = (url, e) => {
+    e.preventDefault();
+    
+    // Check if on mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Use Google's redirect to force browser instead of app
+      // This tricks the YouTube app intent filter
+      const encodedUrl = encodeURIComponent(url);
+      const browserUrl = `https://www.google.com/url?sa=t&url=${encodedUrl}`;
+      window.location.href = browserUrl;
+    } else {
+      // Desktop - just open in new tab
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   // Load highlights from Firebase on mount
   useEffect(() => {
@@ -1427,21 +1446,19 @@ export default function App() {
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Click to play</p>
                     </div>
                   ) : clip.url ? (
-                    /* Has URL but not embeddable (YouTube Clips, Hudl, etc) - show external link */
-                    <a 
-                      href={clip.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                    /* Has URL but not embeddable (YouTube Clips, Hudl, etc) - force browser on mobile */
+                    <div 
+                      onClick={(e) => openInBrowser(clip.url, e)}
                       className="text-center cursor-pointer hover:scale-105 transition-transform relative z-[5]"
                     >
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto shadow-lg hover:bg-red-700 transition-colors">
                         <Play className="text-white ml-1" size={40} fill="white" />
                       </div>
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">
-                        {isYouTubeClip(clip.url) ? 'Watch on YouTube' : 'Open Video'}
+                        {isYouTubeClip(clip.url) ? 'Watch Clip' : 'Open Video'}
                       </p>
-                      <p className="text-white/60 text-xs mt-1 drop-shadow">Opens in new tab</p>
-                    </a>
+                      <p className="text-white/60 text-xs mt-1 drop-shadow">Opens in browser</p>
+                    </div>
                   ) : (
                     /* No URL - show placeholder */
                     <div className="text-center relative z-[5]">
@@ -1502,9 +1519,9 @@ export default function App() {
                         </button>
                       )}
                       {clip.url && !embedUrl && (
-                        <a href={clip.url} target="_blank" rel="noopener noreferrer" className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
+                        <button onClick={(e) => openInBrowser(clip.url, e)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
                           <Play size={14} /> {isYouTubeClip(clip.url) ? 'Watch' : 'Open'}
-                        </a>
+                        </button>
                       )}
                       {playingVideo === clip.id && (
                         <button onClick={() => setPlayingVideo(null)} className="text-red-600 text-sm font-medium flex items-center gap-1 hover:text-red-800">
