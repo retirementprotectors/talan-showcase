@@ -170,6 +170,7 @@ export default function App() {
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
+    { id: 'pace', label: 'Season Pace', icon: <TrendingUp size={16} /> },
     { id: 'rankings', label: 'League Rankings', icon: <Trophy size={16} /> },
     { id: 'opponents', label: 'Opponent Impact', icon: <Shield size={16} /> },
     { id: 'class', label: 'Class of 2027', icon: <Users size={16} /> },
@@ -393,6 +394,286 @@ export default function App() {
           ]} />
         </div>
       )}
+
+      {/* Season Pace Tab */}
+      {activeTab === 'pace' && (
+        <div className="space-y-6">
+          <NarrativeBox title="Season Projection Analysis">
+            <p>
+              With 13 games in the books and 19 remaining in the regular season, Talan Millang is on pace for a 
+              <strong> historic offensive season from the blue line</strong>. His current 1.15 PPG projects to 
+              <strong> 37 points</strong> over a full 32-game season—but December's 2.00 PPG surge suggests even 
+              higher upside. Factor in playoff games (the Caps made the finals last year), and Talan could push 
+              toward <strong>45+ total points</strong> this season.
+            </p>
+            <p className="mt-3">
+              The remaining schedule presents a balanced mix: 6 games against weaker opponents (Metros, Riders, Blues) 
+              where Talan historically racks up assists, 7 games against mid-tier teams, and 6 crucial matchups against 
+              top competition (Saints, Oak Leafs, Jr Stars) that will test—and showcase—his abilities against the best.
+            </p>
+          </NarrativeBox>
+
+          {/* Projection Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white">
+              <div className="text-blue-200 text-sm font-medium mb-1">Conservative Pace</div>
+              <div className="text-4xl font-bold">34-37</div>
+              <div className="text-blue-100 text-sm mt-1">Points (Regular Season)</div>
+              <div className="mt-3 text-xs text-blue-200">Based on 1.07-1.15 PPG</div>
+            </div>
+            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-5 text-white">
+              <div className="text-purple-200 text-sm font-medium mb-1">Projected Pace</div>
+              <div className="text-4xl font-bold">38-42</div>
+              <div className="text-purple-100 text-sm mt-1">Points (Regular Season)</div>
+              <div className="mt-3 text-xs text-purple-200">Trend-adjusted (Dec surge)</div>
+            </div>
+            <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl p-5 text-white">
+              <div className="text-amber-200 text-sm font-medium mb-1">Ceiling (w/ Playoffs)</div>
+              <div className="text-4xl font-bold">45-50</div>
+              <div className="text-amber-100 text-sm mt-1">Total Points</div>
+              <div className="mt-3 text-xs text-amber-200">If Caps reach finals again</div>
+            </div>
+          </div>
+
+          {/* Detailed Projections */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 Projection Breakdown</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 px-3 text-gray-500">Scenario</th>
+                    <th className="text-center py-2 px-3 text-gray-500">GP</th>
+                    <th className="text-center py-2 px-3 text-gray-500">PPG</th>
+                    <th className="text-center py-2 px-3 text-gray-500">G</th>
+                    <th className="text-center py-2 px-3 text-gray-500">A</th>
+                    <th className="text-center py-2 px-3 text-gray-500 font-bold">PTS</th>
+                    <th className="text-left py-2 px-3 text-gray-500">Reasoning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100 bg-green-50">
+                    <td className="py-3 px-3 font-medium">✅ Current (Actual)</td>
+                    <td className="text-center py-3 px-3">13</td>
+                    <td className="text-center py-3 px-3">1.15</td>
+                    <td className="text-center py-3 px-3">2</td>
+                    <td className="text-center py-3 px-3">13</td>
+                    <td className="text-center py-3 px-3 font-bold">15</td>
+                    <td className="py-3 px-3 text-gray-600 text-xs">Verified stats through 12/7</td>
+                  </tr>
+                  <tr className="border-b border-gray-100">
+                    <td className="py-3 px-3 font-medium">📉 Floor</td>
+                    <td className="text-center py-3 px-3">32</td>
+                    <td className="text-center py-3 px-3">1.07</td>
+                    <td className="text-center py-3 px-3">4</td>
+                    <td className="text-center py-3 px-3">30</td>
+                    <td className="text-center py-3 px-3 font-bold">34</td>
+                    <td className="py-3 px-3 text-gray-600 text-xs">Regression to Oct/Nov rate vs tough schedule</td>
+                  </tr>
+                  <tr className="border-b border-gray-100 bg-purple-50">
+                    <td className="py-3 px-3 font-medium">📊 Expected</td>
+                    <td className="text-center py-3 px-3">32</td>
+                    <td className="text-center py-3 px-3">1.25</td>
+                    <td className="text-center py-3 px-3">5</td>
+                    <td className="text-center py-3 px-3">35</td>
+                    <td className="text-center py-3 px-3 font-bold text-purple-700">40</td>
+                    <td className="py-3 px-3 text-gray-600 text-xs">Dec surge sustained, opponent-adjusted</td>
+                  </tr>
+                  <tr className="border-b border-gray-100">
+                    <td className="py-3 px-3 font-medium">📈 Ceiling</td>
+                    <td className="text-center py-3 px-3">32</td>
+                    <td className="text-center py-3 px-3">1.40</td>
+                    <td className="text-center py-3 px-3">6</td>
+                    <td className="text-center py-3 px-3">39</td>
+                    <td className="text-center py-3 px-3 font-bold">45</td>
+                    <td className="py-3 px-3 text-gray-600 text-xs">Dec pace continues, dominates weak opponents</td>
+                  </tr>
+                  <tr className="bg-amber-50">
+                    <td className="py-3 px-3 font-medium">🏆 w/ Playoffs</td>
+                    <td className="text-center py-3 px-3">36-40</td>
+                    <td className="text-center py-3 px-3">1.25</td>
+                    <td className="text-center py-3 px-3">6-7</td>
+                    <td className="text-center py-3 px-3">39-43</td>
+                    <td className="text-center py-3 px-3 font-bold text-amber-700">45-50</td>
+                    <td className="py-3 px-3 text-gray-600 text-xs">If Caps reach finals (4-8 playoff games)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Remaining Schedule */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">📅 Remaining Schedule Analysis (19 Games)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span className="font-semibold text-green-800">Easy (6 games)</span>
+                </div>
+                <div className="text-sm text-green-700 space-y-1">
+                  <div>• Metros (1-9) × 2</div>
+                  <div>• Riders (1-11) × 1</div>
+                  <div>• Blues (4-6) × 3</div>
+                </div>
+                <div className="mt-2 text-xs text-green-600">Projected: 1.5-2.0 PPG</div>
+              </div>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <span className="font-semibold text-yellow-800">Medium (7 games)</span>
+                </div>
+                <div className="text-sm text-yellow-700 space-y-1">
+                  <div>• Cyclones (6-6) × 2</div>
+                  <div>• Warriors (6-5) × 3</div>
+                  <div>• Mohawks (8-4) × 2</div>
+                </div>
+                <div className="mt-2 text-xs text-yellow-600">Projected: 1.0-1.3 PPG</div>
+              </div>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <span className="font-semibold text-red-800">Hard (6 games)</span>
+                </div>
+                <div className="text-sm text-red-700 space-y-1">
+                  <div>• Saints (13-1) × 3</div>
+                  <div>• Oak Leafs (9-3) × 1</div>
+                  <div>• Jr Stars (8-3) × 2</div>
+                </div>
+                <div className="mt-2 text-xs text-red-600">Projected: 0.8-1.0 PPG</div>
+              </div>
+            </div>
+            
+            {/* Schedule Chart */}
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={[
+                { difficulty: 'Easy', games: 6, projectedPts: 10, color: '#10B981' },
+                { difficulty: 'Medium', games: 7, projectedPts: 8, color: '#F59E0B' },
+                { difficulty: 'Hard', games: 6, projectedPts: 5, color: '#EF4444' },
+              ]}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                <XAxis dataKey="difficulty" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="projectedPts" name="Projected Points" radius={[8, 8, 0, 0]}>
+                  {[
+                    { difficulty: 'Easy', games: 6, projectedPts: 10, color: '#10B981' },
+                    { difficulty: 'Medium', games: 7, projectedPts: 8, color: '#F59E0B' },
+                    { difficulty: 'Hard', games: 6, projectedPts: 5, color: '#EF4444' },
+                  ].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                  <LabelList dataKey="projectedPts" position="top" formatter={(v) => `${v} pts`} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+            <div className="text-center text-sm text-gray-500 mt-2">
+              Remaining 19 games: <strong className="text-purple-600">~23 projected points</strong> → <strong>38 total</strong> (conservative)
+            </div>
+          </div>
+
+          {/* Monthly Projection */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">📈 Projected Monthly Progression</h3>
+            <ResponsiveContainer width="100%" height={280}>
+              <AreaChart data={[
+                { month: 'Oct', actual: 2, projected: 2, games: 2 },
+                { month: 'Nov', actual: 9, projected: 9, games: 9 },
+                { month: 'Dec', actual: 4, projected: 8, games: 5 },
+                { month: 'Jan', actual: null, projected: 9, games: 7 },
+                { month: 'Feb', actual: null, projected: 10, games: 9 },
+              ]}>
+                <defs>
+                  <linearGradient id="colorActual" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="colorProjected" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.5}/>
+                    <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Area type="monotone" dataKey="projected" stroke="#10B981" strokeWidth={2} strokeDasharray="5 5" fill="url(#colorProjected)" name="Projected" />
+                <Area type="monotone" dataKey="actual" stroke="#8B5CF6" strokeWidth={3} fill="url(#colorActual)" name="Actual" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Milestones */}
+          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-5 text-white">
+            <h3 className="text-xl font-bold mb-4">🎯 Milestone Tracker</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-white/20 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold">20 PTS</div>
+                <div className="text-purple-200 text-sm">~3 games away</div>
+                <div className="text-xs text-purple-300 mt-1">Mid-December</div>
+              </div>
+              <div className="bg-white/20 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold">25 PTS</div>
+                <div className="text-purple-200 text-sm">~8 games away</div>
+                <div className="text-xs text-purple-300 mt-1">Early January</div>
+              </div>
+              <div className="bg-white/20 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold">30 PTS</div>
+                <div className="text-purple-200 text-sm">~13 games away</div>
+                <div className="text-xs text-purple-300 mt-1">Late January</div>
+              </div>
+              <div className="bg-white/20 rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold">40 PTS</div>
+                <div className="text-purple-200 text-sm">Season goal</div>
+                <div className="text-xs text-purple-300 mt-1">End of Feb</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Matchups */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">⭐ Key Upcoming Matchups</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
+                <div>
+                  <div className="font-semibold text-red-800">vs Saints (13-1)</div>
+                  <div className="text-sm text-red-600">Jan 31, Feb 7, Feb 8 — 3 games</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-red-700 font-medium">Showcase games</div>
+                  <div className="text-xs text-red-500">Best D-corps in league</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                <div>
+                  <div className="font-semibold text-yellow-800">@ Oak Leafs (9-3)</div>
+                  <div className="text-sm text-yellow-600">Jan 13</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-yellow-700 font-medium">Rivalry game</div>
+                  <div className="text-xs text-yellow-500">Already beat them 5-2</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                <div>
+                  <div className="font-semibold text-green-800">@ Metros (1-9)</div>
+                  <div className="text-sm text-green-600">Dec 13-14 — THIS WEEKEND</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-green-700 font-medium">Stat-padding opportunity</div>
+                  <div className="text-xs text-green-500">Weakest team in league</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ScoutsNotes notes={[
+            "December surge (2.00 PPG) may indicate adjustment period is over—expect sustained production",
+            "6 games vs bottom-3 teams (Metros, Riders, Blues) present major point opportunities",
+            "3 games vs Saints will be the ultimate test—strong performance here = major recruiting attention",
+            "Playoff experience from last year's finals run should boost postseason production",
+            "If current trajectory holds, 40+ points as a Junior D-man would be exceptional for any level"
+          ]} />
 
       {/* League Rankings Tab */}
       {activeTab === 'rankings' && (
