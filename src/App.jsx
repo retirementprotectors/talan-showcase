@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, ReferenceLine, LabelList } from 'recharts';
 import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye, Edit3 } from 'lucide-react';
-import { db } from './firebase';
+import { db, auth, googleProvider, ADMIN_EMAIL } from './firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 
 // ============================================
 // 📊 TALAN'S GAME DATA - UPDATE WEEKLY HERE
@@ -288,8 +289,37 @@ export default function App() {
   const [editingHighlight, setEditingHighlight] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
+  // Auth state
+  const [user, setUser] = useState(null);
+  const isAdmin = user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+  
   // Highlights from Firebase (falls back to defaults while loading)
   const [highlights, setHighlights] = useState(defaultHighlights);
+  
+  // Listen for auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+  
+  // Login/Logout functions
+  const handleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+  
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   // Load highlights from Firebase on mount
   useEffect(() => {
@@ -1195,8 +1225,35 @@ export default function App() {
       {activeTab === 'highlights' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-2">🎬 Highlight Reel</h3>
-            <p className="text-red-100">Click to play videos inline. Add YouTube, Vimeo, or Hudl links to showcase Talan's best plays.</p>
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <h3 className="text-xl font-bold mb-2">🎬 Highlight Reel</h3>
+                <p className="text-red-100">Click to play videos inline. Add YouTube, Vimeo, or Hudl links to showcase Talan's best plays.</p>
+              </div>
+              {/* Admin Login/Logout */}
+              <div className="flex items-center gap-2">
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    {isAdmin && (
+                      <span className="text-xs bg-white/20 px-2 py-1 rounded-full">✓ Editor Mode</span>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleLogin}
+                    className="text-xs bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full transition-colors"
+                  >
+                    🔐 Editor Login
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Filter Tags */}
@@ -1393,20 +1450,24 @@ export default function App() {
                     </div>
                   )}
                   
-                  {/* Edit Button */}
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleEditHighlight(clip); }}
-                    className="absolute top-2 right-12 w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors z-10"
-                  >
-                    <Edit3 size={14} />
-                  </button>
-                  {/* Delete Button */}
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id, clip.firebaseId); }}
-                    className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors z-10"
-                  >
-                    <X size={16} />
-                  </button>
+                  {/* Edit Button - Admin Only */}
+                  {isAdmin && (
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleEditHighlight(clip); }}
+                      className="absolute top-2 right-12 w-8 h-8 bg-blue-500/80 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors z-10"
+                    >
+                      <Edit3 size={14} />
+                    </button>
+                  )}
+                  {/* Delete Button - Admin Only */}
+                  {isAdmin && (
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleDeleteHighlight(clip.id, clip.firebaseId); }}
+                      className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors z-10"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
                   {playingVideo === clip.id && (
                     <button 
                       onClick={() => setPlayingVideo(null)}
@@ -1470,14 +1531,17 @@ export default function App() {
             </div>
           )}
 
-          <button 
-            onClick={() => setShowAddHighlight(true)}
-            className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 hover:bg-purple-50/50 transition-all cursor-pointer"
-          >
-            <Plus className="mx-auto text-gray-400 mb-3" size={48} />
-            <h4 className="font-semibold text-gray-600">Add New Highlight</h4>
-            <p className="text-sm text-gray-400 mt-1">Click to add a video (YouTube, Vimeo, Hudl)</p>
-          </button>
+          {/* Add New Highlight - Admin Only */}
+          {isAdmin && (
+            <button 
+              onClick={() => setShowAddHighlight(true)}
+              className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-purple-400 hover:bg-purple-50/50 transition-all cursor-pointer"
+            >
+              <Plus className="mx-auto text-gray-400 mb-3" size={48} />
+              <h4 className="font-semibold text-gray-600">Add New Highlight</h4>
+              <p className="text-sm text-gray-400 mt-1">Click to add a video (YouTube, Vimeo, Hudl)</p>
+            </button>
+          )}
 
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
             <h4 className="font-semibold text-blue-800 mb-3 flex items-center gap-2">
