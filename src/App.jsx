@@ -47,40 +47,65 @@ const gameData = [
 const leagueLeaders = [
   { rank: 1, name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70, gradYear: 2027, class: 'Jr' },
   { rank: 2, name: 'Cade Weiner', team: 'DBQ', pos: 'F', gp: 32, goals: 28, assists: 37, pts: 65, gradYear: 2028, class: 'So' },
-  { rank: 3, name: 'Gavin Elliott', team: 'OAKS', pos: 'F', gp: 26, goals: 33, assists: 30, pts: 63, gradYear: null, class: '' },
+  { rank: 3, name: 'Gavin Elliott', team: 'OAKS', pos: 'F', gp: 26, goals: 33, assists: 30, pts: 63, gradYear: 2026, class: 'Sr' },
   { rank: 4, name: 'Logan Caldwell', team: 'WAT', pos: 'F', gp: 31, goals: 35, assists: 28, pts: 63, gradYear: 2026, class: 'Sr' },
   { rank: 5, name: 'Cole Crawford', team: 'AMES', pos: 'D', gp: 32, goals: 22, assists: 40, pts: 62, gradYear: 2028, class: 'So', highlight: true },
   { rank: 6, name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 31, goals: 30, assists: 26, pts: 56, gradYear: 2027, class: 'Jr' },
   { rank: 7, name: 'Maxx Myers', team: 'CAP', pos: 'F', gp: 32, goals: 23, assists: 26, pts: 49, gradYear: 2026, class: 'Sr' },
   { rank: 8, name: 'Jarrett Parker', team: 'CAP', pos: 'F', gp: 27, goals: 29, assists: 19, pts: 48, gradYear: 2026, class: 'Sr' },
-  { rank: 9, name: 'Owen Campbell', team: 'OAKS', pos: 'F', gp: 32, goals: 20, assists: 27, pts: 47, gradYear: null, class: '' },
-  { rank: 10, name: 'Anderson Schiesl', team: 'OAKS', pos: 'F', gp: 30, goals: 25, assists: 21, pts: 46, gradYear: null, class: '' },
+  { rank: 9, name: 'Owen Campbell', team: 'OAKS', pos: 'F', gp: 32, goals: 20, assists: 27, pts: 47, gradYear: 2026, class: 'Sr' },
+  { rank: 10, name: 'Anderson Schiesl', team: 'OAKS', pos: 'F', gp: 30, goals: 25, assists: 21, pts: 46, gradYear: 2026, class: 'Sr' },
   { rank: 11, name: 'Xander Sheehy', team: 'DBQ', pos: 'F', gp: 31, goals: 15, assists: 28, pts: 43, gradYear: 2026, class: 'Sr' },
   { rank: 12, name: 'Sammy Ruiz', team: 'DBQ', pos: 'F', gp: 32, goals: 17, assists: 26, pts: 43, gradYear: 2026, class: 'Sr' },
-  { rank: 13, name: 'Lane Wittrock', team: 'KC', pos: 'F', gp: 31, goals: 18, assists: 24, pts: 42, gradYear: null, class: '' },
-  { rank: 14, name: 'Vincent Kutler', team: 'OJL', pos: 'F', gp: 32, goals: 20, assists: 22, pts: 42, gradYear: null, class: '' },
+  { rank: 13, name: 'Lane Wittrock', team: 'KC', pos: 'F', gp: 31, goals: 18, assists: 24, pts: 42, gradYear: 2026, class: 'Sr' },
+  { rank: 14, name: 'Vincent Kutler', team: 'OJL', pos: 'F', gp: 32, goals: 20, assists: 22, pts: 42, gradYear: 2027, class: 'Jr' },
   { rank: 15, name: 'Gage Behrens', team: 'CAP', pos: 'F', gp: 31, goals: 28, assists: 13, pts: 41, gradYear: 2026, class: 'Sr' },
-  // ... ranks 16-36 omitted ...
+  { rank: 16, name: 'Gavin Montiel-Cline', team: 'FRE', pos: 'F', gp: 23, goals: 27, assists: 11, pts: 38, gradYear: 2026, class: 'Sr' },
+  { rank: 17, name: 'Michael Grant', team: 'OAKS', pos: 'F', gp: 32, goals: 17, assists: 21, pts: 38, gradYear: 2026, class: 'Sr' },
+  { rank: 18, name: 'Brody Lee', team: 'KC', pos: 'F', gp: 30, goals: 19, assists: 18, pts: 37, gradYear: 2026, class: 'Sr' },
+  { rank: 19, name: 'JJ Hope', team: 'SC', pos: 'D', gp: 28, goals: 19, assists: 18, pts: 37, gradYear: 2027, class: 'Jr' },
+  { rank: 20, name: 'Magnus Crinklaw', team: 'OJL', pos: 'F', gp: 29, goals: 19, assists: 17, pts: 36, gradYear: 2026, class: 'Sr' },
+  { rank: 21, name: 'Isaac Flory', team: 'AMES', pos: 'F', gp: 32, goals: 19, assists: 17, pts: 36, gradYear: 2026, class: 'Sr' },
+  { rank: 22, name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 31, goals: 19, assists: 17, pts: 36, gradYear: 2027, class: 'Jr' },
+  { rank: 23, name: 'Kolby Beltz', team: 'CR', pos: 'F', gp: 31, goals: 21, assists: 15, pts: 36, gradYear: 2026, class: 'Sr' },
+  { rank: 24, name: 'Cole Eckland', team: 'KC', pos: 'F', gp: 30, goals: 8, assists: 27, pts: 35, gradYear: 2026, class: 'Sr' },
+  { rank: 25, name: 'Jagger Raisty', team: 'WAT', pos: 'F', gp: 32, goals: 15, assists: 20, pts: 35, gradYear: 2026, class: 'Sr' },
+  { rank: 26, name: 'Paxon Sacre', team: 'CAP', pos: 'F', gp: 27, goals: 16, assists: 19, pts: 35, gradYear: 2026, class: 'Sr' },
+  { rank: 27, name: 'Ryder Borrett', team: 'AMES', pos: 'F', gp: 32, goals: 14, assists: 19, pts: 33, gradYear: 2029, class: 'Fr' },
+  { rank: 28, name: 'Luke Logsdon', team: 'CAP', pos: 'F', gp: 32, goals: 16, assists: 17, pts: 33, gradYear: 2027, class: 'Jr' },
+  { rank: 29, name: 'Jensen Hill', team: 'DBQ', pos: 'F', gp: 31, goals: 16, assists: 16, pts: 32, gradYear: 2026, class: 'Sr' },
+  { rank: 30, name: 'Logan Walsh', team: 'OJL', pos: 'F', gp: 31, goals: 18, assists: 14, pts: 32, gradYear: 2026, class: 'Sr' },
+  { rank: 31, name: 'Kobe Powers', team: 'FRE', pos: 'F', gp: 25, goals: 19, assists: 13, pts: 32, gradYear: 2028, class: 'So' },
+  { rank: 32, name: 'Max Gladson', team: 'OAKS', pos: 'D', gp: 32, goals: 6, assists: 25, pts: 31, gradYear: 2027, class: 'Jr' },
+  { rank: 33, name: 'Ethan Holschlag', team: 'OAKS', pos: 'D', gp: 32, goals: 7, assists: 24, pts: 31, gradYear: 2026, class: 'Sr' },
+  { rank: 34, name: 'Grady Christensen', team: 'CAP', pos: 'F', gp: 32, goals: 13, assists: 18, pts: 31, gradYear: 2027, class: 'Jr' },
+  { rank: 35, name: 'Jax Trosper', team: 'SC', pos: 'F', gp: 26, goals: 15, assists: 15, pts: 30, gradYear: 2026, class: 'Sr' },
+  { rank: 36, name: 'Mason Harn', team: 'WAT', pos: 'D', gp: 31, goals: 4, assists: 25, pts: 29, gradYear: 2026, class: 'Sr' },
   { rank: 37, name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, gradYear: 2027, class: 'Jr', isTalan: true },
 ];
 
-// All confirmed defensemen - end of season
+// All confirmed defensemen - end of season (league-wide top D-men + Caps D-men)
 const allDefensemen = [
   { name: 'Cole Crawford', team: 'AMES', gp: 32, goals: 22, assists: 40, pts: 62, ppg: 1.94, gradYear: 2028, class: 'Sophomore' },
+  { name: 'JJ Hope', team: 'SC', gp: 28, goals: 19, assists: 18, pts: 37, ppg: 1.32, gradYear: 2027, class: 'Junior' },
   { name: 'Max Gladson', team: 'OAKS', gp: 32, goals: 6, assists: 25, pts: 31, ppg: 0.97, gradYear: 2027, class: 'Junior' },
+  { name: 'Ethan Holschlag', team: 'OAKS', gp: 32, goals: 7, assists: 24, pts: 31, ppg: 0.97, gradYear: 2026, class: 'Senior' },
+  { name: 'Mason Harn', team: 'WAT', gp: 31, goals: 4, assists: 25, pts: 29, ppg: 0.94, gradYear: 2026, class: 'Senior' },
   { name: 'Talan Millang', team: 'CAP', gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, gradYear: 2027, class: 'Junior', isTalan: true },
   { name: 'Demetri Tsiobanos', team: 'SC', gp: 30, goals: 7, assists: 16, pts: 23, ppg: 0.77, gradYear: 2027, class: 'Junior' },
   { name: 'Grady Stiles', team: 'CAP', gp: 32, goals: 4, assists: 14, pts: 18, ppg: 0.56, gradYear: 2026, class: 'Senior' },
-  { name: 'Zakary West', team: 'CAP', gp: 32, goals: 2, assists: 11, pts: 13, ppg: 0.41, gradYear: null, class: '' },
-  { name: 'Tyler Nelson', team: 'CAP', gp: 27, goals: 4, assists: 9, pts: 13, ppg: 0.48, gradYear: null, class: '' },
 ];
 
-// Class of 2027 (Juniors) - confirmed
+// Class of 2027 (Juniors) - confirmed via sportngin roster pages
 const juniorsOnly = [
   { name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70 },
   { name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 31, goals: 30, assists: 26, pts: 56 },
+  { name: 'Vincent Kutler', team: 'OJL', pos: 'F', gp: 32, goals: 20, assists: 22, pts: 42 },
+  { name: 'JJ Hope', team: 'SC', pos: 'D', gp: 28, goals: 19, assists: 18, pts: 37 },
   { name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 31, goals: 19, assists: 17, pts: 36 },
+  { name: 'Luke Logsdon', team: 'CAP', pos: 'F', gp: 32, goals: 16, assists: 17, pts: 33 },
   { name: 'Max Gladson', team: 'OAKS', pos: 'D', gp: 32, goals: 6, assists: 25, pts: 31 },
+  { name: 'Grady Christensen', team: 'CAP', pos: 'F', gp: 32, goals: 13, assists: 18, pts: 31 },
   { name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, isTalan: true },
   { name: 'Demetri Tsiobanos', team: 'SC', pos: 'D', gp: 30, goals: 7, assists: 16, pts: 23 },
 ];
@@ -144,10 +169,10 @@ const cumulativeData = gameData.reduce((acc, game, index) => {
 // Rankings
 const talanPtsRankAll = 37; // Actual league rank out of 338 skaters
 const talanAssistsRankAll = 16;
-const talanAssistsRankD = 3;
-const talanPtsRankD = 3;
-const talanPtsRankClass27 = 5;
-const talanPtsRankClass27D = 2;
+const talanAssistsRankD = 5; // Crawford (40), Gladson (25), Harn (25), Holschlag (24), Talan (23)
+const talanPtsRankD = 6; // Crawford (62), Hope (37), Gladson (31), Holschlag (31), Harn (29), Talan (27)
+const talanPtsRankClass27 = 9; // Paulsen, Buchan, Kutler, Hope, Heinkel, Logsdon, Gladson, Christensen, Talan
+const talanPtsRankClass27D = 3; // Hope (37), Gladson (31), Talan (27)
 
 // Helper to check if URL is a YouTube Clip
 const getYouTubeClipId = (url) => {
@@ -409,7 +434,7 @@ export default function App() {
               earning <strong>MWHSHL Varsity First-Team All-Star</strong> honors at defense. The 6'3" 200-pound
               junior anchored the blue line for a <strong>30-1-1 Des Moines Capitals</strong> squad coached by Tony Weil,
               who was named Coach of the Year. Through 32 games, Talan recorded <strong>27 points (4G, 23A)</strong>, ranking
-              him <strong>#3 among all defensemen</strong> league-wide, <strong>#2 among Class of 2027 D-men</strong>,
+              him <strong>#6 among all defensemen</strong> league-wide, <strong>#3 among Class of 2027 D-men</strong>,
               and <strong>#16 in assists out of all 338 skaters</strong> in the league.
             </p>
             <p className="mt-3">
@@ -498,8 +523,8 @@ export default function App() {
               Talan Millang's junior season with the Des Moines Capitals was a resounding success, capped by a
               <strong> MWHSHL Varsity First-Team All-Star</strong> selection at defense. His final line
               of <strong>27 points (4G, 23A) in 32 games</strong> placed him among the league's elite defensemen,
-              finishing <strong>#3 overall among all D-men</strong> behind only Cole Crawford (62 pts, So.)
-              and Max Gladson (31 pts, Jr.). Among Class of 2027 defensemen, only Gladson produced more.
+              finishing <strong>#6 overall among all D-men</strong>. Among Class of 2027 defensemen, he ranked
+              <strong>#3</strong> behind JJ Hope (37 pts, SC) and Max Gladson (31 pts, OAKS).
             </p>
             <p className="mt-3">
               The season showed two distinct halves: an explosive first 13 games at 1.15 PPG, followed by a more
@@ -686,14 +711,15 @@ export default function App() {
             <p>
               In a league dominated by forwards at the top of the scoring charts, Talan Millang stands out as one of
               only a handful of defensemen producing at an elite offensive level. His <strong>27 points</strong> place
-              him <strong>#{talanPtsRankAll} overall</strong> in league scoring and <strong>#3 among all defensemen</strong>—behind
-              only the extraordinary Cole Crawford (62 pts, Sophomore) and Max Gladson (31 pts, Junior).
+              him <strong>#{talanPtsRankAll} overall</strong> in league scoring and <strong>#6 among all defensemen</strong>—behind
+              Crawford (62), Hope (37), Gladson (31), Holschlag (31), and Harn (29).
             </p>
             <p className="mt-3">
               What makes Talan's production stand out is his <strong>23 assists&mdash;#16 in the entire league out of 338 skaters</strong> and
-              <strong> #3 among all defensemen</strong>. His playmaking ability from the back end is rare at this level. Combined with his
-              First-Team All-Star selection, these numbers paint the picture of a complete two-way defenseman
-              who can drive offense while fulfilling his defensive responsibilities.
+              <strong> #5 among all defensemen</strong>. His playmaking ability from the back end is rare at this level.
+              At 6'3" 200 lbs, he has the size advantage over every D-man ahead of him except Crawford.
+              Combined with his First-Team All-Star selection, these numbers paint the picture of a complete
+              two-way defenseman who can drive offense while fulfilling his defensive responsibilities.
             </p>
           </NarrativeBox>
 
@@ -773,11 +799,11 @@ export default function App() {
           </div>
 
           <ScoutsNotes notes={[
-            "Only two defensemen in the entire league outscored Talan\u2014Crawford (generational So.) and Gladson (Jr., Oak Leafs)",
-            "23 assists rank #3 among all D-men; elite vision and distribution from the blue line",
+            "Five defensemen outscored Talan\u2014but only Hope (5'8\" 140) and Gladson are Juniors; the other three are graduating Seniors",
+            "23 assists rank #5 among all D-men; elite vision and distribution from the blue line",
+            "At 6'3\" 200 lbs, Talan has a massive physical advantage over JJ Hope (5'8\" 140)\u2014size translates at higher levels",
             "Production came on a roster with 6 forwards scoring 31+ points\u2014competition for ice time and PP minutes was real",
-            "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game",
-            "At 6'3\" 200 lbs as a Junior, his physical tools match his offensive production\u2014rare combination"
+            "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
           ]} />
         </div>
       )}
@@ -922,15 +948,16 @@ export default function App() {
           <NarrativeBox title="Class of 2027 Comparison">
             <p>
               Among confirmed Class of 2027 (Junior) players in the MWHSHL, Talan Millang stands as the
-              <strong> #2 defenseman in total scoring</strong>, trailing only Max Gladson of DM Oak Leafs (31 pts).
-              Overall in his class, he ranks <strong>#5</strong>—behind forwards Paulsen (70), Buchan (56), Heinkel (36),
-              and fellow D-man Gladson (31).
+              <strong> #3 defenseman in total scoring</strong>, behind JJ Hope of Sioux City (37 pts) and
+              Max Gladson of DM Oak Leafs (31 pts). Overall in his class, he ranks <strong>#9</strong> among
+              10 confirmed Juniors in the top 37 league scorers—behind forwards Paulsen (70), Buchan (56),
+              Kutler (42), Heinkel (36), Logsdon (33), Christensen (31), and D-men Hope (37) and Gladson (31).
             </p>
             <p className="mt-3">
-              The gap between Talan and other Junior defensemen beyond Gladson is significant. Demetri Tsiobanos
-              of Sioux City (23 pts) is the next closest, giving Talan a 4-point edge. His combination of elite
-              size (6'3" 200), offensive production, and First-Team All-Star recognition makes him a standout
-              prospect in the 2027 class at the defensive position.
+              The key context: JJ Hope (5'8" 140 lbs) puts up impressive numbers but at a fraction of Talan's
+              physical profile (6'3" 200 lbs). Size matters at higher levels—Talan's combination of offensive
+              production, elite frame, and First-Team All-Star recognition makes him a standout recruiting
+              prospect. Demetri Tsiobanos of Sioux City (23 pts) rounds out the Junior D-men behind Talan.
             </p>
           </NarrativeBox>
 
@@ -978,10 +1005,10 @@ export default function App() {
                 <h4 className="font-semibold text-purple-800">Class of 2027 Highlights</h4>
               </div>
               <ul className="space-y-2 text-sm text-purple-700">
-                <li>&bull; <strong>#2 scoring D-man</strong> among all Juniors</li>
-                <li>&bull; <strong>#5 overall</strong> in Junior class scoring</li>
+                <li>&bull; <strong>#3 scoring D-man</strong> among all Juniors</li>
+                <li>&bull; <strong>#9 overall</strong> in Junior class scoring (10 Juniors in top 37)</li>
                 <li>&bull; <strong>MWHSHL First-Team All-Star</strong> (Defense)</li>
-                <li>&bull; 23 assists lead all Junior D-men except Gladson (25)</li>
+                <li>&bull; 23 assists rank #2 among Junior D-men (Gladson 25, Talan 23, Hope 18)</li>
               </ul>
             </div>
             <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-5">
