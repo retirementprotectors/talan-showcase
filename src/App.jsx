@@ -722,7 +722,7 @@ export default function App() {
             <p className="mt-3">
               What makes Talan's production stand out is his <strong>23 assists&mdash;#16 in the entire league out of 338 skaters</strong> and
               <strong> #5 among all defensemen</strong>. His playmaking ability from the back end is rare at this level.
-              At 6'3" 200 lbs, he has the size advantage over every D-man ahead of him&mdash;including Crawford (6'2" 157).
+              At 6'3" 200 lbs, he has the size advantage over every D-man ahead of him&mdash;Crawford (6'2" 157), Hope (5'8" 140), Gladson (5'6" 145).
               Combined with his First-Team All-Star selection, these numbers paint the picture of a complete
               two-way defenseman who can drive offense while fulfilling his defensive responsibilities.
             </p>
@@ -831,7 +831,7 @@ export default function App() {
           <ScoutsNotes notes={[
             "Five defensemen outscored Talan\u2014two (Holschlag, Harn) are graduating Seniors. Only Crawford (So), Hope (Jr), and Gladson (Jr) return",
             "23 assists rank #5 among all D-men, #2 among '27 D-men\u2014elite vision and distribution from the blue line",
-            "At 6'3\" 200 lbs, Talan is bigger than EVERY D-man ahead of him\u2014including Crawford (6'2\" 157) and Hope (5'8\" 140)",
+            "At 6'3\" 200 lbs, Talan is bigger than EVERY D-man ahead of him\u2014Crawford (6'2\" 157), Hope (5'8\" 140), Gladson (5'6\" 145)",
             `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned his ice time against elite internal competition`,
             "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
           ]} />
@@ -849,8 +849,8 @@ export default function App() {
             </p>
             <p className="mt-3">
               Among returning Junior defensemen, only JJ Hope (SC, 37 pts) and Max Gladson (OAKS, 31 pts) outproduced Talan.
-              The size comparison tells the recruiting story: Talan at <strong>6'3" 200 lbs</strong> is bigger than every D-man ahead of him&mdash;including
-              Crawford (6'2" 157) and Hope (5'8" 140). The league's two First-Team All-Star defensemen&mdash;Talan (6'3" 200) and
+              The size comparison tells the recruiting story: Talan at <strong>6'3" 200 lbs</strong> is bigger than every D-man ahead of him&mdash;Crawford
+              (6'2" 157), Hope (5'8" 140), and Gladson (5'6" 145). The league's two First-Team All-Star defensemen&mdash;Talan (6'3" 200) and
               Demetri Tsiobanos (6'5" 195, Senior)&mdash;are also the two biggest. That's not a coincidence. Size + skill earns recognition.
             </p>
           </NarrativeBox>
@@ -977,12 +977,12 @@ export default function App() {
               <div className="bg-white/10 rounded-lg p-3 text-center">
                 <div className="text-sm font-bold">Max Gladson</div>
                 <div className="text-indigo-300 text-xs">DM Oak Leafs &bull; Jr</div>
-                <div className="text-xl font-bold mt-1">&mdash;</div>
-                <div className="text-indigo-300 text-sm">Ht/Wt TBD</div>
+                <div className="text-xl font-bold mt-1">5'6"</div>
+                <div className="text-indigo-300 text-sm">145 lbs</div>
                 <div className="mt-1 text-xs">31 PTS</div>
               </div>
             </div>
-            <p className="text-indigo-100 text-xs mt-3 text-center">The league's First-Team All-Star D-men average 6'4" 198 lbs. The next three top scorers? 6'2" 157, 5'8" 140, and TBD. Size wins.</p>
+            <p className="text-indigo-100 text-xs mt-3 text-center">The three D-men who outscored Talan and return next season: 6'2" 157, 5'8" 140, and 5'6" 145. Talan is bigger than all of them.</p>
           </div>
 
           {/* Next Season Outlook */}
@@ -1012,9 +1012,9 @@ export default function App() {
 
           <ScoutsNotes notes={[
             "Prototypical modern offensive D-man frame: 6'3\" 200 lbs with room to fill out through senior year",
-            "Bigger than EVERY D-man ahead of him: +1\" / +43 lbs on Crawford (#1 D-man), +7\" / +60 lbs on Hope\u2014size translates at higher levels",
+            "Bigger than EVERY D-man ahead of him: Crawford 6'2\" 157, Hope 5'8\" 140, Gladson 5'6\" 145\u2014none close to Talan's frame",
             "The two First-Team All-Star D-men (Talan 6'3\" 200, Tsiobanos 6'5\" 195) are the biggest in the league\u2014coaches reward size + skill",
-            "With Holschlag, Harn, and Stiles graduating, Talan projects as a top-3 returning defenseman league-wide",
+            "With Holschlag, Harn, Tsiobanos, and Stiles graduating, Talan projects as a top-3 returning defenseman league-wide",
             "23 assists from the blue line shows he can quarterback a power play at any level",
             "First-Team All-Star as a Junior\u2014entering his senior season with a year of all-star recognition already earned"
           ]} />
@@ -1167,8 +1167,8 @@ export default function App() {
               Kutler (42), Heinkel (36), Logsdon (33), Christensen (31), and D-men Hope (37) and Gladson (31).
             </p>
             <p className="mt-3">
-              The key context: at 6'3" 200 lbs, Talan is physically bigger than every defenseman who outscored him in the entire league&mdash;including
-              the #1 scoring D-man Cole Crawford (6'2" 157, Sophomore) and JJ Hope (5'8" 140). Size matters at higher levels, and Talan's combination of offensive
+              The key context: at 6'3" 200 lbs, Talan is physically bigger than every defenseman who outscored him in the entire league&mdash;Crawford
+              (6'2" 157), Hope (5'8" 140), and fellow Junior D-man Gladson (5'6" 145). Size matters at higher levels, and Talan's combination of offensive
               production, elite frame, and First-Team All-Star recognition makes him a standout recruiting
               prospect among his class.
             </p>
