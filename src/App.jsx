@@ -323,8 +323,9 @@ export default function App() {
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
     { id: 'results', label: 'Season Results', icon: <Trophy size={16} /> },
     { id: 'rankings', label: 'League Rankings', icon: <TrendingUp size={16} /> },
-    { id: 'opponents', label: 'Opponent Impact', icon: <Shield size={16} /> },
+    { id: 'defensemen', label: 'Defensemen', icon: <Shield size={16} /> },
     { id: 'class', label: 'Class of 2027', icon: <Users size={16} /> },
+    { id: 'opponents', label: 'Opponent Impact', icon: <Shield size={16} /> },
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
   ];
 
@@ -828,7 +829,34 @@ export default function App() {
             </div>
           </div>
 
-          {/* D-men chart */}
+          <ScoutsNotes notes={[
+            "Five defensemen outscored Talan\u2014but only Hope (5'8\" 140) and Gladson are Juniors; the other three are graduating Seniors",
+            "23 assists rank #5 among all D-men, #2 among '27 D-men\u2014elite vision and distribution from the blue line",
+            "At 6'3\" 200 lbs, Talan has a massive physical advantage over JJ Hope (5'8\" 140)\u2014size translates at higher levels",
+            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned his ice time against elite internal competition`,
+            "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
+          ]} />
+        </div>
+      )}
+
+      {/* Defensemen Tab */}
+      {activeTab === 'defensemen' && (
+        <div className="space-y-6">
+          <NarrativeBox title="Defensemen Breakdown">
+            <p>
+              Across the MWHSHL, only <strong>6 defensemen</strong> ranked in the top 37 league scorers&mdash;a testament
+              to how rare offensive production from the blue line is at this level. Talan Millang ranks <strong>#{talanPtsRankD} in points</strong> and
+              <strong> #{talanAssistsRankD} in assists</strong> among all D-men. Critically, 3 of the 5 defensemen ahead of him
+              (Holschlag, Harn, Stiles) are <strong>graduating Seniors</strong> who won't return next season.
+            </p>
+            <p className="mt-3">
+              Among returning Junior defensemen, only JJ Hope (SC, 37 pts) and Max Gladson (OAKS, 31 pts) outproduced Talan.
+              The size comparison tells a recruiting story: Hope is 5'8" 140 lbs&mdash;Talan is <strong>6'3" 200 lbs</strong>.
+              At higher levels of play, that physical profile is a decisive advantage.
+            </p>
+          </NarrativeBox>
+
+          {/* D-men Points Chart */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">League Defensemen Scoring (Final)</h3>
             <ResponsiveContainer width="100%" height={350}>
@@ -861,12 +889,107 @@ export default function App() {
             </div>
           </div>
 
+          {/* Full D-men Stats Table */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Defensemen Comparison</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 px-2 text-gray-500">#</th>
+                    <th className="text-left py-2 px-2 text-gray-500">Player</th>
+                    <th className="text-center py-2 px-2 text-gray-500">Team</th>
+                    <th className="text-center py-2 px-2 text-gray-500">Class</th>
+                    <th className="text-center py-2 px-2 text-gray-500">GP</th>
+                    <th className="text-center py-2 px-2 text-gray-500">G</th>
+                    <th className="text-center py-2 px-2 text-gray-500">A</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-bold">PTS</th>
+                    <th className="text-center py-2 px-2 text-gray-500">PPG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allDefensemen.map((d, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 ${d.isTalan ? 'bg-purple-100 font-semibold' : ''}`}>
+                      <td className="py-2 px-2 text-gray-400">{idx + 1}</td>
+                      <td className="py-2 px-2">{d.name} {d.isTalan && '\u2B50'}</td>
+                      <td className="text-center py-2 px-2">{d.team}</td>
+                      <td className="text-center py-2 px-2">
+                        <span className={`px-2 py-0.5 rounded text-xs ${d.gradYear === 2027 ? 'bg-purple-100 text-purple-700' : d.gradYear === 2028 ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}>
+                          {d.class}
+                        </span>
+                      </td>
+                      <td className="text-center py-2 px-2">{d.gp}</td>
+                      <td className="text-center py-2 px-2">{d.goals}</td>
+                      <td className="text-center py-2 px-2">{d.assists}</td>
+                      <td className="text-center py-2 px-2 font-bold">{d.pts}</td>
+                      <td className="text-center py-2 px-2">{d.ppg.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Physical Profile Comparison */}
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-5 text-white">
+            <h3 className="text-xl font-bold mb-4">Size Matters: Junior D-Men Physical Profiles</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white/15 rounded-lg p-4 text-center">
+                <div className="text-lg font-bold">JJ Hope</div>
+                <div className="text-indigo-200 text-sm">Sioux City &bull; Junior</div>
+                <div className="text-3xl font-bold mt-2">5'8"</div>
+                <div className="text-indigo-200">140 lbs</div>
+                <div className="mt-2 text-sm">37 PTS &bull; 1.32 PPG</div>
+              </div>
+              <div className="bg-white/25 rounded-lg p-4 text-center border-2 border-white/50">
+                <div className="text-lg font-bold">Talan Millang</div>
+                <div className="text-purple-200 text-sm">Des Moines &bull; Junior</div>
+                <div className="text-3xl font-bold mt-2">6'3"</div>
+                <div className="text-purple-200">200 lbs</div>
+                <div className="mt-2 text-sm">27 PTS &bull; 0.84 PPG</div>
+                <div className="mt-1 text-yellow-300 text-xs font-semibold">First-Team All-Star</div>
+              </div>
+              <div className="bg-white/15 rounded-lg p-4 text-center">
+                <div className="text-lg font-bold">Max Gladson</div>
+                <div className="text-indigo-200 text-sm">DM Oak Leafs &bull; Junior</div>
+                <div className="text-3xl font-bold mt-2">&mdash;</div>
+                <div className="text-indigo-200">Height/Wt TBD</div>
+                <div className="mt-2 text-sm">31 PTS &bull; 0.97 PPG</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Next Season Outlook */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-green-50 border border-green-200 rounded-xl p-5">
+              <h4 className="font-semibold text-green-800 mb-3">Returning Next Season</h4>
+              <ul className="space-y-2 text-sm text-green-700">
+                <li>&bull; <strong>Cole Crawford</strong> (So, AMES) &mdash; 62 PTS</li>
+                <li>&bull; <strong>JJ Hope</strong> (Jr, SC) &mdash; 37 PTS</li>
+                <li>&bull; <strong>Max Gladson</strong> (Jr, OAKS) &mdash; 31 PTS</li>
+                <li>&bull; <strong>Talan Millang</strong> (Jr, CAP) &mdash; 27 PTS</li>
+                <li>&bull; <strong>Demetri Tsiobanos</strong> (Jr, SC) &mdash; 23 PTS</li>
+              </ul>
+            </div>
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+              <h4 className="font-semibold text-gray-600 mb-3">Graduating (2026)</h4>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>&bull; Ethan Holschlag (Sr, OAKS) &mdash; 31 PTS</li>
+                <li>&bull; Mason Harn (Sr, WAT) &mdash; 29 PTS</li>
+                <li>&bull; Grady Stiles (Sr, CAP) &mdash; 18 PTS</li>
+              </ul>
+              <div className="mt-3 p-2 bg-purple-50 rounded text-purple-700 text-xs font-medium text-center">
+                With 3 Seniors graduating, Talan moves up to #3 among returning D-men
+              </div>
+            </div>
+          </div>
+
           <ScoutsNotes notes={[
-            "Five defensemen outscored Talan\u2014but only Hope (5'8\" 140) and Gladson are Juniors; the other three are graduating Seniors",
-            "23 assists rank #5 among all D-men, #2 among '27 D-men\u2014elite vision and distribution from the blue line",
-            "At 6'3\" 200 lbs, Talan has a massive physical advantage over JJ Hope (5'8\" 140)\u2014size translates at higher levels",
-            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned his ice time against elite internal competition`,
-            "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
+            "Prototypical modern offensive D-man frame: 6'3\" 200 lbs with room to fill out through senior year",
+            "7\" taller and 60 lbs heavier than JJ Hope\u2014that gap only widens at higher levels of play",
+            "With Holschlag, Harn, and Stiles graduating, Talan projects as a top-3 returning defenseman league-wide",
+            "23 assists from the blue line shows he can quarterback a power play at any level",
+            "First-Team All-Star as a Junior\u2014entering his senior season with a year of all-star recognition already earned"
           ]} />
         </div>
       )}
