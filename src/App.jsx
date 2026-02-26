@@ -723,7 +723,7 @@ export default function App() {
             <p className="mt-3">
               What makes Talan's production stand out is his <strong>23 assists&mdash;#16 in the entire league out of 338 skaters</strong> and
               <strong> #5 among all defensemen</strong>. His playmaking ability from the back end is rare at this level.
-              At 6'3" 200 lbs, he has the size advantage over every D-man ahead of him except Crawford.
+              At 6'3" 200 lbs, he has the size advantage over every D-man ahead of him&mdash;including Crawford (6'2" 157).
               Combined with his First-Team All-Star selection, these numbers paint the picture of a complete
               two-way defenseman who can drive offense while fulfilling his defensive responsibilities.
             </p>
@@ -832,7 +832,7 @@ export default function App() {
           <ScoutsNotes notes={[
             "Five defensemen outscored Talan\u2014but only Hope (5'8\" 140) and Gladson are Juniors; the other three are graduating Seniors",
             "23 assists rank #5 among all D-men, #2 among '27 D-men\u2014elite vision and distribution from the blue line",
-            "At 6'3\" 200 lbs, Talan has a massive physical advantage over JJ Hope (5'8\" 140)\u2014size translates at higher levels",
+            "At 6'3\" 200 lbs, Talan is bigger than EVERY D-man ahead of him\u2014including Crawford (6'2\" 157) and Hope (5'8\" 140)",
             `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned his ice time against elite internal competition`,
             "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
           ]} />
@@ -851,8 +851,8 @@ export default function App() {
             </p>
             <p className="mt-3">
               Among returning Junior defensemen, only JJ Hope (SC, 37 pts) and Max Gladson (OAKS, 31 pts) outproduced Talan.
-              The size comparison tells a recruiting story: Hope is 5'8" 140 lbs&mdash;Talan is <strong>6'3" 200 lbs</strong>.
-              At higher levels of play, that physical profile is a decisive advantage.
+              The size comparison tells the recruiting story: Talan at <strong>6'3" 200 lbs</strong> is bigger than every D-man ahead of him&mdash;including
+              Crawford (6'2" 157) and Hope (5'8" 140). At higher levels of play, that physical profile is a decisive advantage.
             </p>
           </NarrativeBox>
 
@@ -932,31 +932,41 @@ export default function App() {
 
           {/* Physical Profile Comparison */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-4">Size Matters: Junior D-Men Physical Profiles</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <h3 className="text-xl font-bold mb-4">Size Matters: Talan vs. Every D-Man Ahead of Him</h3>
+            <p className="text-indigo-100 text-sm mb-4">Talan is physically bigger than every defenseman who outscored him&mdash;including the league's #1 scoring D-man.</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="bg-white/15 rounded-lg p-4 text-center">
+                <div className="text-lg font-bold">Cole Crawford</div>
+                <div className="text-indigo-200 text-xs">Ames &bull; Sophomore</div>
+                <div className="text-2xl font-bold mt-2">6'2"</div>
+                <div className="text-indigo-200">157 lbs</div>
+                <div className="mt-2 text-sm">62 PTS &bull; 1.94 PPG</div>
+                <div className="mt-1 text-indigo-300 text-xs">#1 D-man in league</div>
+              </div>
               <div className="bg-white/15 rounded-lg p-4 text-center">
                 <div className="text-lg font-bold">JJ Hope</div>
-                <div className="text-indigo-200 text-sm">Sioux City &bull; Junior</div>
-                <div className="text-3xl font-bold mt-2">5'8"</div>
+                <div className="text-indigo-200 text-xs">Sioux City &bull; Junior</div>
+                <div className="text-2xl font-bold mt-2">5'8"</div>
                 <div className="text-indigo-200">140 lbs</div>
                 <div className="mt-2 text-sm">37 PTS &bull; 1.32 PPG</div>
               </div>
-              <div className="bg-white/25 rounded-lg p-4 text-center border-2 border-white/50">
+              <div className="bg-white/25 rounded-lg p-4 text-center border-2 border-yellow-300/60">
                 <div className="text-lg font-bold">Talan Millang</div>
-                <div className="text-purple-200 text-sm">Des Moines &bull; Junior</div>
-                <div className="text-3xl font-bold mt-2">6'3"</div>
-                <div className="text-purple-200">200 lbs</div>
+                <div className="text-purple-200 text-xs">Des Moines &bull; Junior</div>
+                <div className="text-2xl font-bold mt-2">6'3"</div>
+                <div className="text-yellow-300 font-bold">200 lbs</div>
                 <div className="mt-2 text-sm">27 PTS &bull; 0.84 PPG</div>
                 <div className="mt-1 text-yellow-300 text-xs font-semibold">First-Team All-Star</div>
               </div>
               <div className="bg-white/15 rounded-lg p-4 text-center">
                 <div className="text-lg font-bold">Max Gladson</div>
-                <div className="text-indigo-200 text-sm">DM Oak Leafs &bull; Junior</div>
-                <div className="text-3xl font-bold mt-2">&mdash;</div>
+                <div className="text-indigo-200 text-xs">DM Oak Leafs &bull; Junior</div>
+                <div className="text-2xl font-bold mt-2">&mdash;</div>
                 <div className="text-indigo-200">Height/Wt TBD</div>
                 <div className="mt-2 text-sm">31 PTS &bull; 0.97 PPG</div>
               </div>
             </div>
+            <p className="text-indigo-100 text-xs mt-3 text-center">Talan has 1" and 43 lbs on Crawford, 7" and 60 lbs on Hope. Size translates at higher levels.</p>
           </div>
 
           {/* Next Season Outlook */}
@@ -986,7 +996,7 @@ export default function App() {
 
           <ScoutsNotes notes={[
             "Prototypical modern offensive D-man frame: 6'3\" 200 lbs with room to fill out through senior year",
-            "7\" taller and 60 lbs heavier than JJ Hope\u2014that gap only widens at higher levels of play",
+            "Bigger than EVERY D-man ahead of him: +1\" / +43 lbs on Crawford (#1 D-man), +7\" / +60 lbs on Hope\u2014size translates at higher levels",
             "With Holschlag, Harn, and Stiles graduating, Talan projects as a top-3 returning defenseman league-wide",
             "23 assists from the blue line shows he can quarterback a power play at any level",
             "First-Team All-Star as a Junior\u2014entering his senior season with a year of all-star recognition already earned"
@@ -1140,8 +1150,8 @@ export default function App() {
               Kutler (42), Heinkel (36), Logsdon (33), Christensen (31), and D-men Hope (37) and Gladson (31).
             </p>
             <p className="mt-3">
-              The key context: JJ Hope (5'8" 140 lbs) puts up impressive numbers but at a fraction of Talan's
-              physical profile (6'3" 200 lbs). Size matters at higher levels—Talan's combination of offensive
+              The key context: at 6'3" 200 lbs, Talan is physically bigger than every defenseman who outscored him in the entire league&mdash;including
+              the #1 scoring D-man Cole Crawford (6'2" 157, Sophomore) and JJ Hope (5'8" 140). Size matters at higher levels, and Talan's combination of offensive
               production, elite frame, and First-Team All-Star recognition makes him a standout recruiting
               prospect. Demetri Tsiobanos of Sioux City (23 pts) rounds out the Junior D-men behind Talan.
             </p>
