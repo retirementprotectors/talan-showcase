@@ -166,13 +166,27 @@ const cumulativeData = gameData.reduce((acc, game, index) => {
   return acc;
 }, []);
 
-// Rankings
+// Rankings — Points
 const talanPtsRankAll = 37; // Actual league rank out of 338 skaters
-const talanAssistsRankAll = 16;
-const talanAssistsRankD = 5; // Crawford (40), Gladson (25), Harn (25), Holschlag (24), Talan (23)
 const talanPtsRankD = 6; // Crawford (62), Hope (37), Gladson (31), Holschlag (31), Harn (29), Talan (27)
 const talanPtsRankClass27 = 9; // Paulsen, Buchan, Kutler, Hope, Heinkel, Logsdon, Gladson, Christensen, Talan
 const talanPtsRankClass27D = 3; // Hope (37), Gladson (31), Talan (27)
+// Rankings — Assists
+const talanAssistsRankAll = 16;
+const talanAssistsRankD = 5; // Crawford (40), Gladson (25), Harn (25), Holschlag (24), Talan (23)
+const talanAssistsRankClass27 = 4; // Paulsen (31), Buchan (26), Gladson (25), Talan (23)
+const talanAssistsRankClass27D = 2; // Gladson (25), Talan (23)
+
+// Stacked roster context — Caps forwards at/near 1+ PPG
+const capsEliteForwards = [
+  { name: 'Jarrett Parker', gp: 27, pts: 48, ppg: 1.78 },
+  { name: 'Maxx Myers', gp: 32, pts: 49, ppg: 1.53 },
+  { name: 'Gage Behrens', gp: 31, pts: 41, ppg: 1.32 },
+  { name: 'Paxon Sacre', gp: 27, pts: 35, ppg: 1.30 },
+  { name: 'Luke Logsdon', gp: 32, pts: 33, ppg: 1.03 },
+  { name: 'Grady Christensen', gp: 32, pts: 31, ppg: 0.97 },
+];
+const capsEliteFwdAvgPPG = (capsEliteForwards.reduce((s, f) => s + f.ppg, 0) / capsEliteForwards.length).toFixed(2);
 
 // Helper to check if URL is a YouTube Clip
 const getYouTubeClipId = (url) => {
@@ -359,20 +373,11 @@ export default function App() {
     </div>
   );
 
-  // Ranking Badge Component
-  const RankBadge = ({ category, vsAll, vsD }) => (
-    <div className="bg-white rounded-xl p-4 border border-gray-200">
-      <div className="text-sm font-medium text-gray-500 mb-2">{category}</div>
-      <div className="flex gap-4">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-indigo-600">#{vsAll}</div>
-          <div className="text-xs text-gray-400">vs All</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-purple-600">#{vsD}</div>
-          <div className="text-xs text-gray-400">vs D-Men</div>
-        </div>
-      </div>
+  // Ranking Cell for grid
+  const RankCell = ({ value, label, highlight }) => (
+    <div className={`text-center p-3 rounded-lg ${highlight ? 'bg-purple-50 border border-purple-200' : ''}`}>
+      <div className={`text-2xl font-bold ${highlight ? 'text-purple-700' : 'text-gray-800'}`}>#{value}</div>
+      <div className="text-xs text-gray-400 mt-1">{label}</div>
     </div>
   );
 
@@ -698,7 +703,7 @@ export default function App() {
             "27 points as a junior defenseman is elite production at this level\u2014validates First-Team All-Star selection",
             "23 assists demonstrate consistent playmaking throughout the entire season, not just hot streaks",
             "6'3\" 200 lbs with a full senior season ahead\u2014physical development trajectory is ideal",
-            "Playing on a stacked roster (7 players with 27+ pts) means Talan earned his ice time and production",
+            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG}), 7 players with 27+ pts\u2014Talan earned every minute`,
             "Second-half schedule toughened up considerably; sustained production against better opponents"
           ]} />
         </div>
@@ -723,12 +728,55 @@ export default function App() {
             </p>
           </NarrativeBox>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <RankBadge category="Total Points" vsAll={talanPtsRankAll} vsD={talanPtsRankD} />
-            <RankBadge category="Assists" vsAll={talanAssistsRankAll} vsD={talanAssistsRankD} />
-            <RankBadge category="Among '27 D-Men" vsAll={talanPtsRankClass27} vsD={talanPtsRankClass27D} />
+          {/* Comprehensive Ranking Grid */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Where Talan Ranks</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 px-3 text-gray-500"></th>
+                    <th className="text-center py-2 px-3 text-gray-500 font-semibold">All Skaters</th>
+                    <th className="text-center py-2 px-3 text-indigo-600 font-semibold">Defensemen</th>
+                    <th className="text-center py-2 px-3 text-purple-600 font-semibold">Class of 2027</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100">
+                    <td className="py-3 px-3 font-semibold text-gray-700">Total Points</td>
+                    <td className="text-center py-3 px-3"><span className="text-2xl font-bold text-gray-800">#{talanPtsRankAll}</span><div className="text-xs text-gray-400">of 338</div></td>
+                    <td className="text-center py-3 px-3 bg-indigo-50 rounded"><span className="text-2xl font-bold text-indigo-700">#{talanPtsRankD}</span><div className="text-xs text-indigo-400">all D-men</div></td>
+                    <td className="text-center py-3 px-3 bg-purple-50 rounded"><span className="text-2xl font-bold text-purple-700">#{talanPtsRankClass27}</span><div className="text-xs text-purple-400">#{talanPtsRankClass27D} among '27 D</div></td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-3 font-semibold text-gray-700">Assists</td>
+                    <td className="text-center py-3 px-3"><span className="text-2xl font-bold text-gray-800">#{talanAssistsRankAll}</span><div className="text-xs text-gray-400">of 338</div></td>
+                    <td className="text-center py-3 px-3 bg-indigo-50 rounded"><span className="text-2xl font-bold text-indigo-700">#{talanAssistsRankD}</span><div className="text-xs text-indigo-400">all D-men</div></td>
+                    <td className="text-center py-3 px-3 bg-purple-50 rounded"><span className="text-2xl font-bold text-purple-700">#{talanAssistsRankClass27}</span><div className="text-xs text-purple-400">#{talanAssistsRankClass27D} among '27 D</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
+          {/* Stacked Roster Context */}
+          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-5 text-white">
+            <h3 className="text-xl font-bold mb-2">Playing on a Stacked Roster</h3>
+            <p className="text-purple-100 mb-4">
+              6 Capitals forwards produced at or near 1+ PPG, averaging <strong>{capsEliteFwdAvgPPG} PPG</strong>. With 7 players recording 27+ points, Talan earned every minute of ice time and every point on his stat line.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {capsEliteForwards.map((f, idx) => (
+                <div key={idx} className="bg-white/15 rounded-lg p-3 text-center">
+                  <div className="font-semibold text-sm">{f.name}</div>
+                  <div className="text-2xl font-bold">{f.ppg.toFixed(2)}</div>
+                  <div className="text-purple-200 text-xs">PPG ({f.pts} pts / {f.gp} GP)</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* League Leaders Table */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">League Scoring Leaders (Final)</h3>
             <div className="overflow-x-auto">
@@ -780,9 +828,10 @@ export default function App() {
             </div>
           </div>
 
+          {/* D-men chart */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">League Defensemen Scoring (Final)</h3>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={350}>
               <BarChart data={allDefensemen} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                 <XAxis type="number" tick={{ fontSize: 11 }} />
@@ -790,19 +839,33 @@ export default function App() {
                 <Tooltip />
                 <Bar dataKey="pts" radius={[0, 8, 8, 0]} name="Points">
                   {allDefensemen.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.isTalan ? COLORS.purple : COLORS.indigo} />
+                    <Cell key={`cell-${index}`} fill={entry.isTalan ? COLORS.purple : entry.gradYear === 2027 ? COLORS.indigo : COLORS.gray} />
                   ))}
                   <LabelList dataKey="pts" position="right" />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+            <div className="flex gap-4 mt-4 justify-center text-sm flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: COLORS.purple }}></div>
+                <span>Talan Millang (Jr)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: COLORS.indigo }}></div>
+                <span>Other Juniors</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 rounded" style={{ backgroundColor: COLORS.gray }}></div>
+                <span>Seniors (graduating)</span>
+              </div>
+            </div>
           </div>
 
           <ScoutsNotes notes={[
             "Five defensemen outscored Talan\u2014but only Hope (5'8\" 140) and Gladson are Juniors; the other three are graduating Seniors",
-            "23 assists rank #5 among all D-men; elite vision and distribution from the blue line",
+            "23 assists rank #5 among all D-men, #2 among '27 D-men\u2014elite vision and distribution from the blue line",
             "At 6'3\" 200 lbs, Talan has a massive physical advantage over JJ Hope (5'8\" 140)\u2014size translates at higher levels",
-            "Production came on a roster with 6 forwards scoring 31+ points\u2014competition for ice time and PP minutes was real",
+            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned his ice time against elite internal competition`,
             "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game"
           ]} />
         </div>
