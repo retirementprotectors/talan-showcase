@@ -5,7 +5,7 @@ import { TrendingUp, Target, Award, Trophy, Users, Star, Shield, Play, Video, X,
 // ============================================
 // TALAN'S GAME DATA - 2025-26 SEASON
 // ============================================
-// Game-by-game data (first 13 games tracked individually)
+// Complete game-by-game data - all 32 regular season games
 const gameData = [
   { date: '10/24', month: 'Oct', opponent: 'at Cedar Rapids', result: 'W 8-0', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 8, oppScore: 0 },
   { date: '10/31', month: 'Oct', opponent: 'Ames', result: 'W 4-2', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 4, oppScore: 2 },
@@ -13,13 +13,32 @@ const gameData = [
   { date: '11/07', month: 'Nov', opponent: 'Mason City', result: 'W 2-1', goals: 1, assists: 0, pts: 1, pim: 0, gw: 0, capsScore: 2, oppScore: 1 },
   { date: '11/08', month: 'Nov', opponent: 'Omaha', result: 'W 6-5', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 6, oppScore: 5 },
   { date: '11/09', month: 'Nov', opponent: 'Omaha', result: 'W 5-2', goals: 0, assists: 2, pts: 2, pim: 0, gw: 0, capsScore: 5, oppScore: 2 },
-  { date: '11/15', month: 'Nov', opponent: 'Spirit Lake', result: 'W 10-0', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 10, oppScore: 0 },
-  { date: '11/16', month: 'Nov', opponent: 'Spirit Lake', result: 'W 3-0', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 3, oppScore: 0 },
+  { date: '11/15', month: 'Nov', opponent: 'Boji', result: 'W 10-0', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 10, oppScore: 0 },
+  { date: '11/16', month: 'Nov', opponent: 'Boji', result: 'W 3-0', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 3, oppScore: 0 },
   { date: '11/22', month: 'Nov', opponent: 'at Fremont', result: 'W 8-1', goals: 0, assists: 2, pts: 2, pim: 0, gw: 0, capsScore: 8, oppScore: 1 },
   { date: '11/23', month: 'Nov', opponent: 'at Fremont', result: 'W 6-2', goals: 0, assists: 2, pts: 2, pim: 0, gw: 0, capsScore: 6, oppScore: 2 },
-  { date: '11/25', month: 'Nov', opponent: 'DM Oaks', result: 'W 5-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 5, oppScore: 2 },
+  { date: '11/25', month: 'Nov', opponent: 'DM Oak Leafs', result: 'W 5-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 5, oppScore: 2 },
   { date: '12/06', month: 'Dec', opponent: 'Kansas City', result: 'W 6-2', goals: 1, assists: 2, pts: 3, pim: 2, gw: 1, capsScore: 6, oppScore: 2 },
   { date: '12/07', month: 'Dec', opponent: 'Kansas City', result: 'W 3-2', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 3, oppScore: 2 },
+  { date: '12/13', month: 'Dec', opponent: 'at Sioux City', result: 'W 6-0', goals: 1, assists: 1, pts: 2, pim: 0, gw: 0, capsScore: 6, oppScore: 0 },
+  { date: '12/14', month: 'Dec', opponent: 'at Sioux City', result: 'W 3-1', goals: 0, assists: 0, pts: 0, pim: 2, gw: 0, capsScore: 3, oppScore: 1 },
+  { date: '12/19', month: 'Dec', opponent: 'at Cedar Rapids', result: 'W 6-0', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 6, oppScore: 0 },
+  { date: '12/20', month: 'Dec', opponent: 'Quad City', result: 'W 7-1', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 7, oppScore: 1 },
+  { date: '12/21', month: 'Dec', opponent: 'Quad City', result: 'W 9-1', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 9, oppScore: 1 },
+  { date: '01/03', month: 'Jan', opponent: 'at Ames', result: 'W 3-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 3, oppScore: 2 },
+  { date: '01/09', month: 'Jan', opponent: 'Ames', result: 'L 2-5', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 2, oppScore: 5 },
+  { date: '01/13', month: 'Jan', opponent: 'at DM Oak Leafs', result: 'W 2-1', goals: 0, assists: 1, pts: 1, pim: 2, gw: 0, capsScore: 2, oppScore: 1 },
+  { date: '01/24', month: 'Jan', opponent: 'at Mason City', result: 'W 8-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 8, oppScore: 2 },
+  { date: '01/25', month: 'Jan', opponent: 'at Mason City', result: 'W 2-0', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 2, oppScore: 0 },
+  { date: '01/30', month: 'Jan', opponent: 'at Quad City', result: 'W 9-0', goals: 0, assists: 2, pts: 2, pim: 0, gw: 0, capsScore: 9, oppScore: 0 },
+  { date: '01/31', month: 'Jan', opponent: 'at Dubuque', result: 'L 1-2', goals: 0, assists: 1, pts: 1, pim: 2, gw: 0, capsScore: 1, oppScore: 2 },
+  { date: '02/01', month: 'Feb', opponent: 'at Waterloo', result: 'W 9-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 9, oppScore: 2 },
+  { date: '02/07', month: 'Feb', opponent: 'Dubuque', result: 'W 4-1', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 4, oppScore: 1 },
+  { date: '02/08', month: 'Feb', opponent: 'Dubuque', result: 'W 2-0', goals: 0, assists: 0, pts: 0, pim: 4, gw: 0, capsScore: 2, oppScore: 0 },
+  { date: '02/14', month: 'Feb', opponent: 'at Lincoln', result: 'W 5-1', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 5, oppScore: 1 },
+  { date: '02/15', month: 'Feb', opponent: 'at Lincoln', result: 'W 4-2', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 4, oppScore: 2 },
+  { date: '02/19', month: 'Feb', opponent: 'at Waterloo', result: 'W 5-4', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 5, oppScore: 4 },
+  { date: '02/20', month: 'Feb', opponent: 'Waterloo', result: 'W 8-0', goals: 1, assists: 1, pts: 2, pim: 2, gw: 0, capsScore: 8, oppScore: 0 },
 ];
 
 // ============================================
@@ -74,16 +93,21 @@ const juniorsOnly = [
   { name: 'Demetri Tsiobanos', team: 'SC', pos: 'D', gp: 30, goals: 7, assists: 16, pts: 23 },
 ];
 
-// Opponent scoring data (from tracked games)
+// Opponent scoring data - full season (from standings + schedule)
 const opponentScoringData = [
-  { team: 'Cedar Rapids', avgGoalsScored: 2.8, goalsVsCaps: 1.0, gamesVsCaps: 2, pctBelow: 64 },
-  { team: 'Ames', avgGoalsScored: 3.5, goalsVsCaps: 2.0, gamesVsCaps: 1, pctBelow: 43 },
-  { team: 'Mason City', avgGoalsScored: 2.2, goalsVsCaps: 1.0, gamesVsCaps: 1, pctBelow: 55 },
-  { team: 'Omaha', avgGoalsScored: 3.8, goalsVsCaps: 3.5, gamesVsCaps: 2, pctBelow: 8 },
-  { team: 'Spirit Lake', avgGoalsScored: 1.5, goalsVsCaps: 0.0, gamesVsCaps: 2, pctBelow: 100 },
-  { team: 'Fremont', avgGoalsScored: 2.4, goalsVsCaps: 1.5, gamesVsCaps: 2, pctBelow: 38 },
-  { team: 'DM Oaks', avgGoalsScored: 3.2, goalsVsCaps: 2.0, gamesVsCaps: 1, pctBelow: 38 },
-  { team: 'Kansas City', avgGoalsScored: 3.1, goalsVsCaps: 2.0, gamesVsCaps: 2, pctBelow: 35 },
+  { team: 'Boji', avgGoalsScored: 1.16, goalsVsCaps: 0.0, gamesVsCaps: 2, pctBelow: 100 },
+  { team: 'Sioux City', avgGoalsScored: 2.50, goalsVsCaps: 0.5, gamesVsCaps: 2, pctBelow: 80 },
+  { team: 'Cedar Rapids', avgGoalsScored: 2.97, goalsVsCaps: 0.67, gamesVsCaps: 3, pctBelow: 77 },
+  { team: 'Dubuque', avgGoalsScored: 3.91, goalsVsCaps: 1.0, gamesVsCaps: 3, pctBelow: 74 },
+  { team: 'Quad City', avgGoalsScored: 2.38, goalsVsCaps: 0.67, gamesVsCaps: 3, pctBelow: 72 },
+  { team: 'DM Oak Leafs', avgGoalsScored: 4.78, goalsVsCaps: 1.5, gamesVsCaps: 2, pctBelow: 69 },
+  { team: 'Mason City', avgGoalsScored: 2.13, goalsVsCaps: 1.0, gamesVsCaps: 3, pctBelow: 53 },
+  { team: 'Waterloo', avgGoalsScored: 4.13, goalsVsCaps: 2.0, gamesVsCaps: 3, pctBelow: 52 },
+  { team: 'Lincoln', avgGoalsScored: 2.81, goalsVsCaps: 1.5, gamesVsCaps: 2, pctBelow: 47 },
+  { team: 'Fremont', avgGoalsScored: 2.59, goalsVsCaps: 1.5, gamesVsCaps: 2, pctBelow: 42 },
+  { team: 'Kansas City', avgGoalsScored: 3.25, goalsVsCaps: 2.0, gamesVsCaps: 2, pctBelow: 38 },
+  { team: 'Ames', avgGoalsScored: 3.78, goalsVsCaps: 3.0, gamesVsCaps: 3, pctBelow: 21 },
+  { team: 'Omaha', avgGoalsScored: 3.53, goalsVsCaps: 3.5, gamesVsCaps: 2, pctBelow: 1 },
 ];
 
 const avgSuppression = Math.round(opponentScoringData.reduce((sum, t) => sum + t.pctBelow, 0) / opponentScoringData.length);
@@ -96,10 +120,19 @@ const talanStats = {
   height: "6'3\"", weight: 200, position: 'D', number: 11, gradYear: 2027
 };
 
+// Monthly breakdown data
+const monthlyData = [
+  { month: 'October', games: 2, goals: 0, assists: 2, pts: 2, ppg: 1.00 },
+  { month: 'November', games: 9, goals: 1, assists: 8, pts: 9, ppg: 1.00 },
+  { month: 'December', games: 7, goals: 2, assists: 6, pts: 8, ppg: 1.14 },
+  { month: 'January', games: 6, goals: 0, assists: 4, pts: 4, ppg: 0.67 },
+  { month: 'February', games: 8, goals: 1, assists: 3, pts: 4, ppg: 0.50 },
+];
+
 // Season split data
 const seasonSplitData = [
-  { split: 'First 13 GP', gp: 13, goals: 2, assists: 13, pts: 15, ppg: 1.15, pim: 2 },
-  { split: 'Last 19 GP', gp: 19, goals: 2, assists: 10, pts: 12, ppg: 0.63, pim: 12 },
+  { split: 'First Half (Oct-Dec)', gp: 18, goals: 3, assists: 16, pts: 19, ppg: 1.06, pim: 4 },
+  { split: 'Second Half (Jan-Feb)', gp: 14, goals: 1, assists: 7, pts: 8, ppg: 0.57, pim: 10 },
   { split: 'Full Season', gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, pim: 14 },
 ];
 
@@ -118,6 +151,7 @@ const cumulativeData = gameData.reduce((acc, game, index) => {
 
 // Rankings
 const talanPtsRankAll = leagueLeaders.findIndex(p => p.isTalan) + 1;
+const talanAssistsRankAll = 16;
 const talanAssistsRankD = 3;
 const talanPtsRankD = 3;
 const talanPtsRankClass27 = 5;
@@ -342,6 +376,7 @@ export default function App() {
               <span className="bg-white/20 px-3 py-1 rounded-full">Valley HS</span>
               <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.height}</span>
               <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.weight} lbs</span>
+              <span className="bg-green-500/30 px-3 py-1 rounded-full font-semibold">30-1-1 Record</span>
               <span className="bg-yellow-500/40 px-3 py-1 rounded-full font-semibold">First-Team All-Star</span>
             </div>
           </div>
@@ -380,9 +415,10 @@ export default function App() {
             <p>
               Talan Millang finished the 2025-26 MWHSHL season as one of the most productive defensemen in the league,
               earning <strong>MWHSHL Varsity First-Team All-Star</strong> honors at defense. The 6'3" 200-pound
-              junior anchored the blue line for a dominant Des Moines Capitals squad coached by Tony Weil, who was named
-              Coach of the Year. Through 32 games, Talan recorded <strong>27 points (4G, 23A)</strong>, ranking
-              him <strong>#3 among all defensemen</strong> league-wide and <strong>#2 among Class of 2027 D-men</strong>.
+              junior anchored the blue line for a <strong>30-1-1 Des Moines Capitals</strong> squad coached by Tony Weil,
+              who was named Coach of the Year. Through 32 games, Talan recorded <strong>27 points (4G, 23A)</strong>, ranking
+              him <strong>#3 among all defensemen</strong> league-wide, <strong>#2 among Class of 2027 D-men</strong>,
+              and <strong>#16 in assists out of all 338 skaters</strong> in the league.
             </p>
             <p className="mt-3">
               His 23 assists from the blue line demonstrate elite playmaking ability and vision that translates to any level.
@@ -411,14 +447,14 @@ export default function App() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatCard label="Points" value={talanStats.pts} subtitle={`#${talanPtsRankAll} in league`} icon={<Star className="text-yellow-500" size={20} />} highlight />
             <StatCard label="Goals" value={talanStats.goals} subtitle="32 games played" icon={<Target className="text-red-500" size={20} />} />
-            <StatCard label="Assists" value={talanStats.assists} subtitle="#3 among D-Men" icon={<TrendingUp className="text-green-500" size={20} />} />
+            <StatCard label="Assists" value={talanStats.assists} subtitle="#16 in league (338 skaters)" icon={<TrendingUp className="text-green-500" size={20} />} />
             <StatCard label="GWG" value={talanStats.gw} subtitle="Game Winners" icon={<Trophy className="text-amber-500" size={20} />} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
               <h3 className="text-lg font-semibold text-gray-800 mb-1">Cumulative Points Growth</h3>
-              <p className="text-xs text-gray-400 mb-4">First 13 tracked games (Oct-Dec)</p>
+              <p className="text-xs text-gray-400 mb-4">All 32 regular season games</p>
               <ResponsiveContainer width="100%" height={250}>
                 <AreaChart data={cumulativeData}>
                   <defs>
@@ -438,7 +474,7 @@ export default function App() {
 
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
               <h3 className="text-lg font-semibold text-gray-800 mb-1">Points Breakdown by Game</h3>
-              <p className="text-xs text-gray-400 mb-4">First 13 tracked games (Oct-Dec)</p>
+              <p className="text-xs text-gray-400 mb-4">All 32 regular season games</p>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={gameData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -535,6 +571,23 @@ export default function App() {
                 </tbody>
               </table>
             </div>
+          </div>
+
+          {/* Monthly PPG Chart */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Monthly Points Per Game</h3>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 11 }} domain={[0, 1.5]} />
+                <Tooltip />
+                <Bar dataKey="ppg" fill="#8B5CF6" radius={[8, 8, 0, 0]} name="PPG">
+                  <LabelList dataKey="ppg" position="top" formatter={(v) => v.toFixed(2)} />
+                </Bar>
+                <ReferenceLine y={0.84} stroke="#10B981" strokeDasharray="5 5" label={{ value: "Season Avg: 0.84", fill: "#10B981", fontSize: 10 }} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
 
           {/* Split Comparison Chart */}
@@ -645,8 +698,8 @@ export default function App() {
               only the extraordinary Cole Crawford (62 pts, Sophomore) and Max Gladson (31 pts, Junior).
             </p>
             <p className="mt-3">
-              What makes Talan's production stand out is his <strong>23 assists, ranking #3 among all defensemen</strong> in
-              the league. His playmaking ability from the back end is rare at this level. Combined with his
+              What makes Talan's production stand out is his <strong>23 assists&mdash;#16 in the entire league out of 338 skaters</strong> and
+              <strong> #3 among all defensemen</strong>. His playmaking ability from the back end is rare at this level. Combined with his
               First-Team All-Star selection, these numbers paint the picture of a complete two-way defenseman
               who can drive offense while fulfilling his defensive responsibilities.
             </p>
@@ -654,7 +707,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <RankBadge category="Total Points" vsAll={talanPtsRankAll} vsD={talanPtsRankD} />
-            <RankBadge category="Assists" vsAll="Top 40" vsD={talanAssistsRankD} />
+            <RankBadge category="Assists" vsAll={talanAssistsRankAll} vsD={talanAssistsRankD} />
             <RankBadge category="Among '27 D-Men" vsAll={talanPtsRankClass27} vsD={talanPtsRankClass27D} />
           </div>
 
@@ -731,10 +784,11 @@ export default function App() {
         <div className="space-y-6">
           <NarrativeBox title="Defensive Impact Analysis">
             <p>
-              The Des Moines Capitals' dominant season under Coach Tony Weil was built on suffocating team defense,
-              and Talan Millang was a cornerstone of that success. During the first 13 tracked games (all wins),
+              The Des Moines Capitals' 30-1-1 season under Coach Tony Weil was built on suffocating team defense,
+              and Talan Millang was a cornerstone of that success. Across 32 regular season games,
               opponents scored an average of <strong>{avgSuppression}% below their season scoring average</strong> when
-              facing the Capitals.
+              facing the Capitals. The team allowed just <strong>46 goals all season (1.44 GA/game)</strong> while
+              scoring 164.
             </p>
             <p className="mt-3">
               The data reveals a consistent pattern: teams simply could not generate their normal offensive output against
@@ -746,7 +800,7 @@ export default function App() {
 
           <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl p-5 text-white">
             <h3 className="text-xl font-bold mb-2">The Capitals Shutdown Effect</h3>
-            <p className="text-red-100">How opponents' offensive output dropped when facing the Des Moines Capitals (first 13 games)</p>
+            <p className="text-red-100">How opponents' offensive output dropped when facing the Des Moines Capitals (full season, all 13 opponents)</p>
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
@@ -799,20 +853,68 @@ export default function App() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-4 text-white text-center">
-              <div className="text-3xl font-bold">69</div>
-              <div className="text-purple-100 text-sm">Goals For (13 GP)</div>
+              <div className="text-3xl font-bold">164</div>
+              <div className="text-purple-100 text-sm">Goals For</div>
             </div>
             <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-4 text-white text-center">
-              <div className="text-3xl font-bold">21</div>
-              <div className="text-green-100 text-sm">Goals Against (13 GP)</div>
+              <div className="text-3xl font-bold">46</div>
+              <div className="text-green-100 text-sm">Goals Against</div>
             </div>
             <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-4 text-white text-center">
               <div className="text-3xl font-bold">{avgSuppression}%</div>
               <div className="text-amber-100 text-sm">Avg Suppression</div>
             </div>
             <div className="bg-gradient-to-br from-red-500 to-pink-600 rounded-xl p-4 text-white text-center">
-              <div className="text-3xl font-bold">1.6</div>
+              <div className="text-3xl font-bold">1.44</div>
               <div className="text-red-100 text-sm">GA/Game</div>
+            </div>
+          </div>
+
+          {/* League Standings */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">MWHSHL Final Standings</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 px-2 text-gray-500">Team</th>
+                    <th className="text-center py-2 px-2 text-gray-500">W</th>
+                    <th className="text-center py-2 px-2 text-gray-500">L</th>
+                    <th className="text-center py-2 px-2 text-gray-500">OTL</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-bold">PTS</th>
+                    <th className="text-center py-2 px-2 text-gray-500">GF</th>
+                    <th className="text-center py-2 px-2 text-gray-500">GA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { team: 'DM Capitals', w: 30, l: 1, otl: 1, pts: 61, gf: 164, ga: 46, isCaps: true },
+                    { team: 'DM Oak Leafs', w: 28, l: 4, otl: 0, pts: 56, gf: 153, ga: 61 },
+                    { team: 'Dubuque Saints', w: 22, l: 8, otl: 2, pts: 46, gf: 125, ga: 63 },
+                    { team: 'Ames Cyclones', w: 21, l: 9, otl: 2, pts: 44, gf: 121, ga: 82 },
+                    { team: 'Waterloo Warriors', w: 20, l: 11, otl: 1, pts: 41, gf: 132, ga: 100 },
+                    { team: 'Omaha Jr Lancers', w: 19, l: 10, otl: 3, pts: 41, gf: 113, ga: 84 },
+                    { team: 'Lincoln Jr Stars', w: 19, l: 11, otl: 2, pts: 40, gf: 90, ga: 73 },
+                    { team: 'Kansas City Jets', w: 16, l: 15, otl: 1, pts: 33, gf: 104, ga: 87 },
+                    { team: 'Cedar Rapids Riders', w: 12, l: 18, otl: 2, pts: 26, gf: 95, ga: 128 },
+                    { team: 'Mason City Mohawks', w: 11, l: 20, otl: 1, pts: 23, gf: 68, ga: 100 },
+                    { team: 'Sioux City Metros', w: 11, l: 20, otl: 1, pts: 23, gf: 80, ga: 132 },
+                    { team: 'Fremont Warbirds', w: 8, l: 21, otl: 3, pts: 19, gf: 83, ga: 145 },
+                    { team: 'Quad City Blues', w: 7, l: 25, otl: 0, pts: 14, gf: 76, ga: 164 },
+                    { team: 'Boji Mammoths', w: 0, l: 31, otl: 1, pts: 1, gf: 37, ga: 176 },
+                  ].map((t, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-100 font-semibold' : ''}`}>
+                      <td className="py-2 px-2">{t.team} {t.isCaps && '\u2B50'}</td>
+                      <td className="text-center py-2 px-2">{t.w}</td>
+                      <td className="text-center py-2 px-2">{t.l}</td>
+                      <td className="text-center py-2 px-2">{t.otl}</td>
+                      <td className="text-center py-2 px-2 font-bold">{t.pts}</td>
+                      <td className="text-center py-2 px-2">{t.gf}</td>
+                      <td className="text-center py-2 px-2">{t.ga}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
