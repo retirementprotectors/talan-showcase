@@ -152,6 +152,12 @@ const seasonSplitData = [
   { split: 'Full Season', gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, pim: 14 },
 ];
 
+// Schedule strength by half — opponent avgGoalsScored as quality proxy
+const scheduleStrength = {
+  firstHalf: { games: 18, avgOppQuality: 2.75, topOppGames: 6, topOppPct: 33, goalsAllowedPerGame: 1.33, record: '18-0' },
+  secondHalf: { games: 14, avgOppQuality: 3.48, topOppGames: 9, topOppPct: 64, goalsAllowedPerGame: 1.57, record: '12-2' },
+};
+
 // Calculate cumulative stats from tracked games
 const cumulativeData = gameData.reduce((acc, game, index) => {
   const prev = acc[index - 1] || { cumGoals: 0, cumAssists: 0, cumPts: 0 };
@@ -532,9 +538,10 @@ export default function App() {
               <strong>#3</strong> behind JJ Hope (37 pts, SC) and Max Gladson (31 pts, OAKS).
             </p>
             <p className="mt-3">
-              The season showed two distinct halves: an explosive first 13 games at 1.15 PPG, followed by a more
-              physically demanding stretch against tougher competition. The full body of work earned him First-Team
-              All-Star recognition—a testament to his consistency and two-way impact over the entire season.
+              The season showed two distinct halves: a dominant first half at 1.06 PPG against a schedule where only 33% of games
+              were against top opponents, followed by a second half where <strong>64% of games were against the league's best offenses</strong> (Waterloo 3x, Dubuque 3x, Ames 2x).
+              The production dip to 0.57 PPG wasn't regression—it was a shutdown defenseman doing his job against elite competition.
+              The full body of work earned him First-Team All-Star recognition.
             </p>
           </NarrativeBox>
 
@@ -592,6 +599,65 @@ export default function App() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* Schedule Strength: Why the 2nd Half Dip? */}
+          <div className="bg-gradient-to-r from-slate-700 to-slate-900 rounded-xl p-5 text-white">
+            <h3 className="text-xl font-bold mb-2">Why the Second-Half Dip? The Schedule Got Harder.</h3>
+            <p className="text-slate-300 text-sm mb-4">
+              Talan's PPG dropped from 1.06 to 0.57 in the second half—but the schedule tells the real story.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="bg-white/10 rounded-lg p-4">
+                <div className="text-slate-300 text-xs uppercase tracking-wide mb-2">First Half (Oct–Dec)</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-2xl font-bold text-green-400">{scheduleStrength.firstHalf.record}</div>
+                    <div className="text-slate-400 text-xs">Record</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold">{scheduleStrength.firstHalf.avgOppQuality}</div>
+                    <div className="text-slate-400 text-xs">Avg Opp Goals/Game</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold">{scheduleStrength.firstHalf.topOppPct}%</div>
+                    <div className="text-slate-400 text-xs">Games vs Top Teams</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-green-400">1.06</div>
+                    <div className="text-slate-400 text-xs">Talan PPG</div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4 border border-amber-400/30">
+                <div className="text-amber-300 text-xs uppercase tracking-wide mb-2">Second Half (Jan–Feb)</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-2xl font-bold text-amber-300">{scheduleStrength.secondHalf.record}</div>
+                    <div className="text-slate-400 text-xs">Record</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-amber-300">{scheduleStrength.secondHalf.avgOppQuality}</div>
+                    <div className="text-slate-400 text-xs">Avg Opp Goals/Game</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-amber-300">{scheduleStrength.secondHalf.topOppPct}%</div>
+                    <div className="text-slate-400 text-xs">Games vs Top Teams</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold">0.57</div>
+                    <div className="text-slate-400 text-xs">Talan PPG</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/5 rounded-lg p-3 text-sm text-slate-300">
+              <strong className="text-white">The 2nd half featured Waterloo (3x), Dubuque (3x), and Ames (2x)</strong>—8 of 14 games
+              against the league's best offenses. These teams play tight, structured hockey that collapses passing lanes and limits
+              transition opportunities from the blue line. The production dip wasn't regression—it was a
+              <strong className="text-white"> shutdown defenseman doing his job against elite competition</strong>, while still
+              contributing 0.57 PPG and helping the Caps go 12-2.
             </div>
           </div>
 
@@ -703,8 +769,9 @@ export default function App() {
             "27 points as a junior defenseman is elite production at this level\u2014validates First-Team All-Star selection",
             "23 assists demonstrate consistent playmaking throughout the entire season, not just hot streaks",
             "6'3\" 200 lbs with a full senior season ahead\u2014physical development trajectory is ideal",
-            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG}), 7 players with 27+ pts\u2014Talan earned every minute`,
-            "Second-half schedule toughened up considerably; sustained production against better opponents"
+            `Stacked roster: 6 forwards at/near 1+ PPG (avg ${capsEliteFwdAvgPPG})\u2014Talan earned every minute competing alongside elite talent`,
+            "2nd half: 64% of games vs top offenses (avg 3.48 goals/game) vs 33% in 1st half (avg 2.75)\u2014schedule-driven dip, not regression",
+            "Still helped Caps go 12-2 in that tougher stretch while holding opponents to 1.57 goals/game\u2014shutdown D-man doing his job"
           ]} />
         </div>
       )}
@@ -763,7 +830,7 @@ export default function App() {
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-5 text-white">
             <h3 className="text-xl font-bold mb-2">Playing on a Stacked Roster</h3>
             <p className="text-purple-100 mb-4">
-              6 Capitals forwards produced at or near 1+ PPG, averaging <strong>{capsEliteFwdAvgPPG} PPG</strong>. With 7 players recording 27+ points, Talan earned every minute of ice time and every point on his stat line.
+              6 Capitals forwards produced at or near 1+ PPG, averaging <strong>{capsEliteFwdAvgPPG} PPG</strong>. Talan earned every minute of ice time and every point on his stat line competing alongside this elite forward group.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {capsEliteForwards.map((f, idx) => (
@@ -1095,6 +1162,19 @@ export default function App() {
               <div className="text-3xl font-bold">1.44</div>
               <div className="text-red-100 text-sm">GA/Game</div>
             </div>
+          </div>
+
+          {/* Schedule Strength + Shutdown Connection */}
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
+            <h4 className="font-semibold text-slate-800 mb-3">Schedule Strength Meets Shutdown Defense</h4>
+            <p className="text-sm text-slate-600">
+              The Caps' 2nd half schedule was <strong>26% tougher</strong> by opponent offensive quality (avg 3.48 vs 2.75 goals/game),
+              with <strong>64% of games against top offenses</strong> vs just 33% in the 1st half. Despite that, the defense held
+              opponents to <strong>{scheduleStrength.secondHalf.goalsAllowedPerGame} goals/game</strong> in the 2nd half—still
+              elite. Talan's point production dipped (1.06 to 0.57 PPG) because teams like Waterloo, Dubuque, and Ames play tight,
+              structured hockey that collapses passing lanes. The shutdown defense didn't skip a beat—the opportunities for
+              offensive production from the blue line simply decreased against better competition.
+            </p>
           </div>
 
           {/* League Standings */}
