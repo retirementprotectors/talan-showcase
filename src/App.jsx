@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart, ReferenceLine, LabelList } from 'recharts';
-import { TrendingUp, Target, Award, Zap, Trophy, Users, Star, Shield, Play, Video, ChevronRight, Plus, X, Link, ExternalLink, FileText, Eye, Edit3 } from 'lucide-react';
-// Firebase removed for highlights - using hardcoded data for reliability
+import React, { useState } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ReferenceLine, LabelList } from 'recharts';
+import { TrendingUp, Target, Award, Trophy, Users, Star, Shield, Play, Video, X, FileText, Eye } from 'lucide-react';
 
 // ============================================
-// 📊 TALAN'S GAME DATA - UPDATE WEEKLY HERE
+// TALAN'S GAME DATA - 2025-26 SEASON
 // ============================================
+// Game-by-game data (first 13 games tracked individually)
 const gameData = [
   { date: '10/24', month: 'Oct', opponent: 'at Cedar Rapids', result: 'W 8-0', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 8, oppScore: 0 },
   { date: '10/31', month: 'Oct', opponent: 'Ames', result: 'W 4-2', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 4, oppScore: 2 },
@@ -20,49 +20,61 @@ const gameData = [
   { date: '11/25', month: 'Nov', opponent: 'DM Oaks', result: 'W 5-2', goals: 0, assists: 0, pts: 0, pim: 0, gw: 0, capsScore: 5, oppScore: 2 },
   { date: '12/06', month: 'Dec', opponent: 'Kansas City', result: 'W 6-2', goals: 1, assists: 2, pts: 3, pim: 2, gw: 1, capsScore: 6, oppScore: 2 },
   { date: '12/07', month: 'Dec', opponent: 'Kansas City', result: 'W 3-2', goals: 0, assists: 1, pts: 1, pim: 0, gw: 0, capsScore: 3, oppScore: 2 },
-  // 👆 ADD NEW GAMES HERE - Copy format above
 ];
 
 // ============================================
-// 🏆 LEAGUE LEADERS - UPDATE WEEKLY
+// LEAGUE LEADERS - FINAL 2025-26 SEASON
 // ============================================
 const leagueLeaders = [
-  { rank: 1, name: 'Cade Weiner', team: 'DBQ', pos: 'F', gp: 14, goals: 17, assists: 18, pts: 35, gradYear: 2028, class: 'So' },
-  { rank: 2, name: 'Sammy Ruiz', team: 'DBQ', pos: 'F', gp: 14, goals: 8, assists: 16, pts: 24, gradYear: 2026, class: 'Sr' },
-  { rank: 3, name: 'Xander Sheehy', team: 'DBQ', pos: 'F', gp: 14, goals: 9, assists: 14, pts: 23, gradYear: 2026, class: 'Sr' },
-  { rank: 4, name: 'Maxx Myers', team: 'CAP', pos: 'F', gp: 13, goals: 10, assists: 12, pts: 22, gradYear: 2026, class: 'Sr' },
-  { rank: 5, name: 'Cole Crawford', team: 'AMES', pos: 'D', gp: 12, goals: 7, assists: 14, pts: 21, gradYear: 2028, class: 'So', highlight: true },
-  { rank: 6, name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 14, goals: 11, assists: 9, pts: 20, gradYear: 2027, class: 'Jr' },
-  { rank: 7, name: 'Gage Behrens', team: 'CAP', pos: 'F', gp: 13, goals: 13, assists: 6, pts: 19, gradYear: 2026, class: 'Sr' },
-  { rank: 8, name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 11, goals: 9, assists: 10, pts: 19, gradYear: 2027, class: 'Jr' },
-  { rank: 9, name: 'Jensen Hill', team: 'DBQ', pos: 'F', gp: 14, goals: 9, assists: 10, pts: 19, gradYear: 2026, class: 'Sr' },
-  { rank: 10, name: 'Logan Caldwell', team: 'WAT', pos: 'F', gp: 11, goals: 11, assists: 7, pts: 18, gradYear: 2026, class: 'Sr' },
-  { rank: 11, name: 'Jarrett Parker', team: 'CAP', pos: 'F', gp: 10, goals: 10, assists: 7, pts: 17, gradYear: 2026, class: 'Sr' },
-  { rank: 12, name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 13, goals: 2, assists: 13, pts: 15, gradYear: 2027, class: 'Jr', isTalan: true },
-  { rank: 13, name: 'Luke Logsdon', team: 'CAP', pos: 'F', gp: 13, goals: 11, assists: 5, pts: 16, gradYear: 2026, class: 'Sr' },
+  { rank: 1, name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70, gradYear: 2027, class: 'Jr' },
+  { rank: 2, name: 'Cade Weiner', team: 'DBQ', pos: 'F', gp: 32, goals: 28, assists: 37, pts: 65, gradYear: 2028, class: 'So' },
+  { rank: 3, name: 'Gavin Elliott', team: 'OAKS', pos: 'F', gp: 26, goals: 33, assists: 30, pts: 63, gradYear: null, class: '' },
+  { rank: 4, name: 'Logan Caldwell', team: 'WAT', pos: 'F', gp: 31, goals: 35, assists: 28, pts: 63, gradYear: 2026, class: 'Sr' },
+  { rank: 5, name: 'Cole Crawford', team: 'AMES', pos: 'D', gp: 32, goals: 22, assists: 40, pts: 62, gradYear: 2028, class: 'So', highlight: true },
+  { rank: 6, name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 31, goals: 30, assists: 26, pts: 56, gradYear: 2027, class: 'Jr' },
+  { rank: 7, name: 'Maxx Myers', team: 'CAP', pos: 'F', gp: 32, goals: 23, assists: 26, pts: 49, gradYear: 2026, class: 'Sr' },
+  { rank: 8, name: 'Jarrett Parker', team: 'CAP', pos: 'F', gp: 27, goals: 29, assists: 19, pts: 48, gradYear: 2026, class: 'Sr' },
+  { rank: 9, name: 'Owen Campbell', team: 'OAKS', pos: 'F', gp: 32, goals: 20, assists: 27, pts: 47, gradYear: null, class: '' },
+  { rank: 10, name: 'Anderson Schiesl', team: 'OAKS', pos: 'F', gp: 30, goals: 25, assists: 21, pts: 46, gradYear: null, class: '' },
+  { rank: 11, name: 'Xander Sheehy', team: 'DBQ', pos: 'F', gp: 31, goals: 15, assists: 28, pts: 43, gradYear: 2026, class: 'Sr' },
+  { rank: 12, name: 'Sammy Ruiz', team: 'DBQ', pos: 'F', gp: 32, goals: 17, assists: 26, pts: 43, gradYear: 2026, class: 'Sr' },
+  { rank: 13, name: 'Lane Wittrock', team: 'KC', pos: 'F', gp: 31, goals: 18, assists: 24, pts: 42, gradYear: null, class: '' },
+  { rank: 14, name: 'Vincent Kutler', team: 'OJL', pos: 'F', gp: 32, goals: 20, assists: 22, pts: 42, gradYear: null, class: '' },
+  { rank: 15, name: 'Gage Behrens', team: 'CAP', pos: 'F', gp: 31, goals: 28, assists: 13, pts: 41, gradYear: 2026, class: 'Sr' },
+  { rank: 16, name: 'Gavin Montiel-Cline', team: 'FRE', pos: 'F', gp: 23, goals: 27, assists: 11, pts: 38, gradYear: null, class: '' },
+  { rank: 17, name: 'Michael Grant', team: 'OAKS', pos: 'F', gp: 32, goals: 17, assists: 21, pts: 38, gradYear: null, class: '' },
+  { rank: 18, name: 'Brody Lee', team: 'KC', pos: 'F', gp: 30, goals: 19, assists: 18, pts: 37, gradYear: null, class: '' },
+  { rank: 19, name: 'JJ Hope', team: 'SC', pos: 'F', gp: 28, goals: 19, assists: 18, pts: 37, gradYear: null, class: '' },
+  { rank: 20, name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 31, goals: 19, assists: 17, pts: 36, gradYear: 2027, class: 'Jr' },
+  { rank: 21, name: 'Paxon Sacre', team: 'CAP', pos: 'F', gp: 27, goals: 16, assists: 19, pts: 35, gradYear: null, class: '' },
+  { rank: 22, name: 'Luke Logsdon', team: 'CAP', pos: 'F', gp: 32, goals: 16, assists: 17, pts: 33, gradYear: 2026, class: 'Sr' },
+  { rank: 23, name: 'Max Gladson', team: 'OAKS', pos: 'D', gp: 32, goals: 6, assists: 25, pts: 31, gradYear: 2027, class: 'Jr' },
+  { rank: 24, name: 'Grady Christensen', team: 'CAP', pos: 'F', gp: 32, goals: 13, assists: 18, pts: 31, gradYear: null, class: '' },
+  { rank: 25, name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, gradYear: 2027, class: 'Jr', isTalan: true },
 ];
 
-// All league defensemen
+// All confirmed defensemen - end of season
 const allDefensemen = [
-  { name: 'Cole Crawford', team: 'AMES', gp: 12, goals: 7, assists: 14, pts: 21, ppg: 1.75, gradYear: 2028, class: 'Sophomore' },
-  { name: 'Talan Millang', team: 'CAP', gp: 13, goals: 2, assists: 13, pts: 15, ppg: 1.15, gradYear: 2027, class: 'Junior', isTalan: true },
-  { name: 'Grady Stiles', team: 'CAP', gp: 13, goals: 3, assists: 4, pts: 7, ppg: 0.54, gradYear: 2026, class: 'Senior' },
-  { name: 'Adam Wey', team: 'CAP', gp: 13, goals: 2, assists: 2, pts: 4, ppg: 0.31, gradYear: 2027, class: 'Junior' },
-  { name: 'Luke Henely', team: 'CAP', gp: 13, goals: 2, assists: 1, pts: 3, ppg: 0.23, gradYear: 2027, class: 'Junior' },
-  { name: 'Luke Behrens', team: 'CAP', gp: 12, goals: 0, assists: 3, pts: 3, ppg: 0.25, gradYear: 2028, class: 'Sophomore' },
-  { name: 'William Reed', team: 'CAP', gp: 13, goals: 0, assists: 2, pts: 2, ppg: 0.15, gradYear: 2028, class: 'Sophomore' },
+  { name: 'Cole Crawford', team: 'AMES', gp: 32, goals: 22, assists: 40, pts: 62, ppg: 1.94, gradYear: 2028, class: 'Sophomore' },
+  { name: 'Max Gladson', team: 'OAKS', gp: 32, goals: 6, assists: 25, pts: 31, ppg: 0.97, gradYear: 2027, class: 'Junior' },
+  { name: 'Talan Millang', team: 'CAP', gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, gradYear: 2027, class: 'Junior', isTalan: true },
+  { name: 'Demetri Tsiobanos', team: 'SC', gp: 30, goals: 7, assists: 16, pts: 23, ppg: 0.77, gradYear: 2027, class: 'Junior' },
+  { name: 'Grady Stiles', team: 'CAP', gp: 32, goals: 4, assists: 14, pts: 18, ppg: 0.56, gradYear: 2026, class: 'Senior' },
+  { name: 'Zakary West', team: 'CAP', gp: 32, goals: 2, assists: 11, pts: 13, ppg: 0.41, gradYear: null, class: '' },
+  { name: 'Tyler Nelson', team: 'CAP', gp: 27, goals: 4, assists: 9, pts: 13, ppg: 0.48, gradYear: null, class: '' },
 ];
 
-// Class of 2027 (Juniors)
+// Class of 2027 (Juniors) - confirmed
 const juniorsOnly = [
-  { name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 14, goals: 11, assists: 9, pts: 20 },
-  { name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 11, goals: 9, assists: 10, pts: 19 },
-  { name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 13, goals: 2, assists: 13, pts: 15, isTalan: true },
-  { name: 'Adam Wey', team: 'CAP', pos: 'D', gp: 13, goals: 2, assists: 2, pts: 4 },
-  { name: 'Luke Henely', team: 'CAP', pos: 'D', gp: 13, goals: 2, assists: 1, pts: 3 },
+  { name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70 },
+  { name: 'Cale Buchan', team: 'WAT', pos: 'F', gp: 31, goals: 30, assists: 26, pts: 56 },
+  { name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 31, goals: 19, assists: 17, pts: 36 },
+  { name: 'Max Gladson', team: 'OAKS', pos: 'D', gp: 32, goals: 6, assists: 25, pts: 31 },
+  { name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, isTalan: true },
+  { name: 'Demetri Tsiobanos', team: 'SC', pos: 'D', gp: 30, goals: 7, assists: 16, pts: 23 },
 ];
 
-// Opponent scoring data
+// Opponent scoring data (from tracked games)
 const opponentScoringData = [
   { team: 'Cedar Rapids', avgGoalsScored: 2.8, goalsVsCaps: 1.0, gamesVsCaps: 2, pctBelow: 64 },
   { team: 'Ames', avgGoalsScored: 3.5, goalsVsCaps: 2.0, gamesVsCaps: 1, pctBelow: 43 },
@@ -77,21 +89,21 @@ const opponentScoringData = [
 const avgSuppression = Math.round(opponentScoringData.reduce((sum, t) => sum + t.pctBelow, 0) / opponentScoringData.length);
 
 // ============================================
-// 📋 TALAN'S BIO - UPDATE AS NEEDED
+// TALAN'S BIO - FINAL 2025-26 SEASON
 // ============================================
 const talanStats = {
-  gp: 13, goals: 2, assists: 13, pts: 15, ppg: 1.15, pim: 2, gw: 1,
-  height: "6'3\"", weight: 195, position: 'D', number: 11, gradYear: 2027
+  gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, pim: 14, gw: 1,
+  height: "6'3\"", weight: 200, position: 'D', number: 11, gradYear: 2027
 };
 
-// Monthly data - auto-calculated or update manually
-const monthlyData = [
-  { month: 'October', games: 2, goals: 0, assists: 2, pts: 2, ppg: 1.00 },
-  { month: 'November', games: 9, goals: 1, assists: 8, pts: 9, ppg: 1.00 },
-  { month: 'December', games: 2, goals: 1, assists: 3, pts: 4, ppg: 2.00 }
+// Season split data
+const seasonSplitData = [
+  { split: 'First 13 GP', gp: 13, goals: 2, assists: 13, pts: 15, ppg: 1.15, pim: 2 },
+  { split: 'Last 19 GP', gp: 19, goals: 2, assists: 10, pts: 12, ppg: 0.63, pim: 12 },
+  { split: 'Full Season', gp: 32, goals: 4, assists: 23, pts: 27, ppg: 0.84, pim: 14 },
 ];
 
-// Calculate cumulative stats automatically
+// Calculate cumulative stats from tracked games
 const cumulativeData = gameData.reduce((acc, game, index) => {
   const prev = acc[index - 1] || { cumGoals: 0, cumAssists: 0, cumPts: 0 };
   acc.push({
@@ -104,14 +116,12 @@ const cumulativeData = gameData.reduce((acc, game, index) => {
   return acc;
 }, []);
 
-// Rankings calculations
-const allPlayersByPts = [...leagueLeaders].sort((a, b) => b.pts - a.pts);
-const talanPtsRankAll = allPlayersByPts.findIndex(p => p.isTalan) + 1;
-const talanGoalsRankAll = 13;
-const talanAssistsRankAll = 3;
-const talanGoalsRankD = 2;
-const talanAssistsRankD = 1;
-const talanPtsRankD = 2;
+// Rankings
+const talanPtsRankAll = leagueLeaders.findIndex(p => p.isTalan) + 1;
+const talanAssistsRankD = 3;
+const talanPtsRankD = 3;
+const talanPtsRankClass27 = 5;
+const talanPtsRankClass27D = 2;
 
 // Helper to check if URL is a YouTube Clip
 const getYouTubeClipId = (url) => {
@@ -124,81 +134,47 @@ const getYouTubeClipId = (url) => {
 // Helper to extract YouTube video ID from various URL formats
 const getYouTubeId = (url) => {
   if (!url || typeof url !== 'string') return null;
-  
-  // Clean the URL - trim whitespace and decode if needed
   const cleanUrl = url.trim();
-  
-  // Method 1: Look for v= parameter (most common)
   const vParam = cleanUrl.match(/[?&]v=([a-zA-Z0-9_-]+)/);
   if (vParam && vParam[1]) return vParam[1];
-  
-  // Method 2: youtu.be short links
   const shortLink = cleanUrl.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
   if (shortLink && shortLink[1]) return shortLink[1].split(/[?&]/)[0];
-  
-  // Method 3: /embed/ URLs
   const embedUrl = cleanUrl.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
   if (embedUrl && embedUrl[1]) return embedUrl[1].split(/[?&]/)[0];
-  
-  // Method 4: /shorts/ URLs
   const shortsUrl = cleanUrl.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
   if (shortsUrl && shortsUrl[1]) return shortsUrl[1].split(/[?&]/)[0];
-  
-  // Method 5: /live/ URLs
   const liveUrl = cleanUrl.match(/youtube\.com\/live\/([a-zA-Z0-9_-]+)/);
   if (liveUrl && liveUrl[1]) return liveUrl[1].split(/[?&]/)[0];
-  
-  // Method 6: /v/ URLs (old format)
   const oldFormat = cleanUrl.match(/youtube\.com\/v\/([a-zA-Z0-9_-]+)/);
   if (oldFormat && oldFormat[1]) return oldFormat[1].split(/[?&]/)[0];
-  
-  // Method 7: If it looks like just a video ID (11 chars, alphanumeric with dashes/underscores)
   if (/^[a-zA-Z0-9_-]{11}$/.test(cleanUrl)) return cleanUrl;
-  
   return null;
 };
 
 // Helper to convert video URLs to embed URLs
 const getEmbedUrl = (url) => {
   if (!url || typeof url !== 'string' || !url.trim()) return null;
-  
-  // YouTube Clips CANNOT be embedded - they must open in new tab
   const clipId = getYouTubeClipId(url);
   if (clipId) return null;
-  
-  // Regular YouTube videos CAN be embedded
   const ytId = getYouTubeId(url);
   if (ytId) {
-    // Check for timestamp parameter
     const timeMatch = url.match(/[?&]t=(\d+)s?/);
     const startTime = timeMatch ? timeMatch[1] : null;
     return `https://www.youtube.com/embed/${ytId}?rel=0${startTime ? `&start=${startTime}` : ''}`;
   }
-  
-  // Vimeo
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-  
-  // Hudl - these need to be opened in new tab (can't embed)
   if (url.includes('hudl.com')) return null;
-  
   return null;
 };
 
-// Check if URL is a YouTube Clip (for showing appropriate UI message)
 const isYouTubeClip = (url) => {
   return getYouTubeClipId(url) !== null;
 };
 
-// Helper to get YouTube thumbnail
 const getYouTubeThumbnail = (url) => {
-  // Regular YouTube videos have predictable thumbnails
   const ytId = getYouTubeId(url);
-  if (ytId) {
-    return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
-  }
-  // YouTube Clips don't have standard thumbnails (clip IDs aren't video IDs)
-  // So we return null and the UI will show a play button overlay instead
+  if (ytId) return `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
   return null;
 };
 
@@ -214,95 +190,81 @@ const COLORS = {
 
 // Talan's actual highlights - using timestamp URLs that work on all devices
 const defaultHighlights = [
-  { 
-    id: 1, 
-    title: '12/7/25 - Capitals v Jets', 
-    description: 'Strong defensive play with physicality', 
-    thumbnail: '🏒', 
-    date: '12/07/2025', 
-    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3740s', 
-    tags: ['Defensive Play', 'Hit', 'Breakout'] 
+  {
+    id: 1,
+    title: '12/7/25 - Capitals v Jets',
+    description: 'Strong defensive play with physicality',
+    thumbnail: '',
+    date: '12/07/2025',
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3740s',
+    tags: ['Defensive Play', 'Hit', 'Breakout']
   },
-  { 
-    id: 2, 
-    title: '12/7/25 - Capitals v Jets', 
-    description: 'Smooth skating and breakout pass', 
-    thumbnail: '🏒', 
-    date: '12/07/2025', 
-    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4278s', 
-    tags: ['Defensive Play', 'Skating', 'Strength', 'Breakout'] 
+  {
+    id: 2,
+    title: '12/7/25 - Capitals v Jets',
+    description: 'Smooth skating and breakout pass',
+    thumbnail: '',
+    date: '12/07/2025',
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4278s',
+    tags: ['Defensive Play', 'Skating', 'Strength', 'Breakout']
   },
-  { 
-    id: 3, 
-    title: '12/7/25 - Capitals v Jets', 
-    description: 'Physical play and zone defense', 
-    thumbnail: '🏒', 
-    date: '12/07/2025', 
-    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4881s', 
-    tags: ['Defensive Play', 'Strength'] 
+  {
+    id: 3,
+    title: '12/7/25 - Capitals v Jets',
+    description: 'Physical play and zone defense',
+    thumbnail: '',
+    date: '12/07/2025',
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=4881s',
+    tags: ['Defensive Play', 'Strength']
   },
-  { 
-    id: 4, 
-    title: '12/7/25 - Capitals v Jets', 
-    description: 'Solid positioning and puck retrieval', 
-    thumbnail: '🏒', 
-    date: '12/07/2025', 
-    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=6915s', 
-    tags: ['Defensive Play', 'Strength', 'Breakout'] 
+  {
+    id: 4,
+    title: '12/7/25 - Capitals v Jets',
+    description: 'Solid positioning and puck retrieval',
+    thumbnail: '',
+    date: '12/07/2025',
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=6915s',
+    tags: ['Defensive Play', 'Strength', 'Breakout']
   },
-  { 
-    id: 5, 
-    title: '12/7/25 - Capitals v Jets', 
-    description: 'Big hit and zone clearance', 
-    thumbnail: '🏒', 
-    date: '12/07/2025', 
-    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3741s', 
-    tags: ['Defensive Play', 'Hit', 'Strength'] 
+  {
+    id: 5,
+    title: '12/7/25 - Capitals v Jets',
+    description: 'Big hit and zone clearance',
+    thumbnail: '',
+    date: '12/07/2025',
+    url: 'https://www.youtube.com/watch?v=1TFwT-PVpcw&t=3741s',
+    tags: ['Defensive Play', 'Hit', 'Strength']
   },
 ];
 
-// Available tags for highlights
 const availableTags = [
-  'Goal', 
-  'Assist', 
-  'GWG', 
-  'Penalty Kill',
-  'Power Play', 
-  'Defensive Play', 
-  'Skating', 
-  'Shot', 
-  'Pass', 
-  'Hit', 
-  'Block', 
-  'Multi-Point', 
-  'Strength', 
-  'Breakout'
+  'Goal', 'Assist', 'GWG', 'Penalty Kill', 'Power Play',
+  'Defensive Play', 'Skating', 'Shot', 'Pass', 'Hit',
+  'Block', 'Multi-Point', 'Strength', 'Breakout'
 ];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [playingVideo, setPlayingVideo] = useState(null);
   const [filterTag, setFilterTag] = useState('All');
-  
-  // Hardcoded highlights - simple and reliable, works everywhere
+
   const highlights = defaultHighlights;
-  
-  // Open video in new tab
+
   const openVideo = (url) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: <Target size={16} /> },
-    { id: 'pace', label: 'Season Pace', icon: <TrendingUp size={16} /> },
-    { id: 'rankings', label: 'League Rankings', icon: <Trophy size={16} /> },
+    { id: 'results', label: 'Season Results', icon: <Trophy size={16} /> },
+    { id: 'rankings', label: 'League Rankings', icon: <TrendingUp size={16} /> },
     { id: 'opponents', label: 'Opponent Impact', icon: <Shield size={16} /> },
     { id: 'class', label: 'Class of 2027', icon: <Users size={16} /> },
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
   ];
 
-  const filteredHighlights = filterTag === 'All' 
-    ? highlights 
+  const filteredHighlights = filterTag === 'All'
+    ? highlights
     : highlights.filter(h => h.tags && h.tags.includes(filterTag));
 
   // Narrative Component
@@ -326,7 +288,7 @@ export default function App() {
       <ul className="space-y-2">
         {notes.map((note, idx) => (
           <li key={idx} className="flex items-start gap-2 text-amber-900">
-            <span className="text-amber-500 mt-1">•</span>
+            <span className="text-amber-500 mt-1">&bull;</span>
             <span>{note}</span>
           </li>
         ))}
@@ -373,21 +335,21 @@ export default function App() {
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">11</div>
               <div>
                 <h1 className="text-3xl font-bold">Talan Millang</h1>
-                <p className="text-purple-200">Defenseman • Des Moines Capitals • Class of 2027</p>
+                <p className="text-purple-200">Defenseman &bull; Des Moines Capitals &bull; Class of 2027</p>
               </div>
             </div>
-            <div className="flex gap-4 mt-4 text-sm flex-wrap">
-              <span className="bg-white/20 px-3 py-1 rounded-full">🏫 Valley HS</span>
-              <span className="bg-white/20 px-3 py-1 rounded-full">📏 {talanStats.height}</span>
-              <span className="bg-white/20 px-3 py-1 rounded-full">⚖️ {talanStats.weight} lbs</span>
-              <span className="bg-green-500/30 px-3 py-1 rounded-full">🏆 13-0 Record</span>
+            <div className="flex gap-3 mt-4 text-sm flex-wrap">
+              <span className="bg-white/20 px-3 py-1 rounded-full">Valley HS</span>
+              <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.height}</span>
+              <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.weight} lbs</span>
+              <span className="bg-yellow-500/40 px-3 py-1 rounded-full font-semibold">First-Team All-Star</span>
             </div>
           </div>
           <div className="text-right">
             <div className="text-5xl font-bold">{talanStats.pts}</div>
             <div className="text-purple-200">Total Points</div>
             <div className="text-sm mt-2 bg-white/20 px-3 py-1 rounded-full inline-block">
-              {talanStats.ppg} PPG
+              {talanStats.gp} GP &bull; {talanStats.ppg} PPG
             </div>
           </div>
         </div>
@@ -400,8 +362,8 @@ export default function App() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-              activeTab === tab.id 
-                ? 'bg-purple-600 text-white shadow-lg' 
+              activeTab === tab.id
+                ? 'bg-purple-600 text-white shadow-lg'
                 : 'bg-white text-gray-600 hover:bg-purple-50 border border-gray-200'
             }`}
           >
@@ -416,29 +378,47 @@ export default function App() {
         <div className="space-y-6">
           <NarrativeBox title="Season Overview">
             <p>
-              Talan Millang has emerged as one of the premier offensive defensemen in the MWHSHL this season, 
-              anchoring the blue line for an undefeated Des Moines Capitals squad. Through 13 games, the 6'3" 195-pound 
-              junior has accumulated <strong>15 points (2G, 13A)</strong>, ranking him <strong>#12 overall</strong> in 
-              league scoring and <strong>#2 among all defensemen</strong>. His playmaking ability is exceptional—averaging 
-              exactly one assist per game—while maintaining elite discipline with only 2 penalty minutes all season.
+              Talan Millang finished the 2025-26 MWHSHL season as one of the most productive defensemen in the league,
+              earning <strong>MWHSHL Varsity First-Team All-Star</strong> honors at defense. The 6'3" 200-pound
+              junior anchored the blue line for a dominant Des Moines Capitals squad coached by Tony Weil, who was named
+              Coach of the Year. Through 32 games, Talan recorded <strong>27 points (4G, 23A)</strong>, ranking
+              him <strong>#3 among all defensemen</strong> league-wide and <strong>#2 among Class of 2027 D-men</strong>.
             </p>
             <p className="mt-3">
-              December has showcased an offensive surge, with Talan posting a <strong>2.00 PPG</strong> rate including 
-              a game-winning goal against Kansas City. His ability to quarterback the power play and create offense 
-              from the back end has been instrumental in the Capitals' perfect 13-0 record.
+              His 23 assists from the blue line demonstrate elite playmaking ability and vision that translates to any level.
+              Combined with his physical frame and defensive reliability, Talan projects as a prototypical modern offensive
+              defenseman—a two-way threat who can quarterback a power play while shutting down opponents in his own zone.
             </p>
           </NarrativeBox>
 
+          {/* Awards Banner */}
+          <div className="bg-gradient-to-r from-yellow-500 via-amber-500 to-yellow-600 rounded-xl p-5 text-white shadow-lg">
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <Award size={28} />
+                <div>
+                  <div className="text-xl font-bold">MWHSHL Varsity First-Team All-Star</div>
+                  <div className="text-yellow-100">Defense &bull; 2025-26 Season</div>
+                </div>
+              </div>
+              <div className="ml-auto text-right text-sm text-yellow-100">
+                <div>Coach Tony Weil — Coach of the Year</div>
+                <div>Jackson Fleming — All-League Goaltender</div>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatCard label="Points" value={talanStats.pts} subtitle={`#${talanPtsRankAll} in league`} icon={<Star className="text-yellow-500" size={20} />} highlight />
-            <StatCard label="Goals" value={talanStats.goals} subtitle="#2 among D-Men" icon={<Target className="text-red-500" size={20} />} />
-            <StatCard label="Assists" value={talanStats.assists} subtitle="#1 among D-Men" icon={<TrendingUp className="text-green-500" size={20} />} />
+            <StatCard label="Goals" value={talanStats.goals} subtitle="32 games played" icon={<Target className="text-red-500" size={20} />} />
+            <StatCard label="Assists" value={talanStats.assists} subtitle="#3 among D-Men" icon={<TrendingUp className="text-green-500" size={20} />} />
             <StatCard label="GWG" value={talanStats.gw} subtitle="Game Winners" icon={<Trophy className="text-amber-500" size={20} />} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">📈 Cumulative Points Growth</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">Cumulative Points Growth</h3>
+              <p className="text-xs text-gray-400 mb-4">First 13 tracked games (Oct-Dec)</p>
               <ResponsiveContainer width="100%" height={250}>
                 <AreaChart data={cumulativeData}>
                   <defs>
@@ -457,327 +437,199 @@ export default function App() {
             </div>
 
             <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">🔥 Monthly PPG Trend</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">Points Breakdown by Game</h3>
+              <p className="text-xs text-gray-400 mb-4">First 13 tracked games (Oct-Dec)</p>
               <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={monthlyData}>
+                <BarChart data={gameData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                  <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} domain={[0, 2.5]} />
+                  <XAxis dataKey="opponent" tick={{ fontSize: 8 }} angle={-45} textAnchor="end" height={80} />
+                  <YAxis tick={{ fontSize: 11 }} />
                   <Tooltip />
-                  <Bar dataKey="ppg" fill="#8B5CF6" radius={[8, 8, 0, 0]} name="PPG">
-                    <LabelList dataKey="ppg" position="top" formatter={(v) => v.toFixed(2)} />
-                  </Bar>
-                  <ReferenceLine y={1.0} stroke="#10B981" strokeDasharray="5 5" label={{ value: "Season Avg", fill: "#10B981", fontSize: 10 }} />
+                  <Bar dataKey="goals" stackId="pts" fill="#EF4444" name="Goals" />
+                  <Bar dataKey="assists" stackId="pts" fill="#8B5CF6" name="Assists" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
-              <div className="mt-3 p-3 bg-green-50 rounded-lg text-center">
-                <span className="text-green-700 font-semibold">⬆️ 100% PPG increase in December!</span>
-              </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">🎯 Points Breakdown by Game</h3>
-            <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={gameData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis dataKey="opponent" tick={{ fontSize: 9 }} angle={-45} textAnchor="end" height={80} />
-                <YAxis tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="goals" stackId="pts" fill="#EF4444" name="Goals" />
-                <Bar dataKey="assists" stackId="pts" fill="#8B5CF6" name="Assists" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
           <ScoutsNotes notes={[
-            "Elite size (6'3\" 195 lbs) with smooth skating ability and excellent gap control",
-            "High hockey IQ—consistently makes the right read on breakouts and zone entries",
-            "Exceptional vision and passing ability; generates offense without sacrificing defensive positioning",
+            "Elite size (6'3\" 200 lbs) with smooth skating ability and excellent gap control",
+            "High hockey IQ\u2014consistently makes the right read on breakouts and zone entries",
+            "23 assists from the blue line demonstrate vision and passing ability that sets him apart from peers",
             "Poised under pressure with the puck; rarely forces plays or turns it over",
-            "Strong candidate for top D-pair minutes at the next level; projects as a PP quarterback"
+            "First-Team All-Star selection validates his impact as a two-way defenseman at this level"
           ]} />
         </div>
       )}
 
-      {/* Season Pace Tab */}
-      {activeTab === 'pace' && (
+      {/* Season Results Tab */}
+      {activeTab === 'results' && (
         <div className="space-y-6">
-          <NarrativeBox title="Season Projection Analysis">
+          <NarrativeBox title="Final Season Analysis">
             <p>
-              With 13 games in the books and 19 remaining in the regular season, Talan Millang is on pace for a 
-              <strong> historic offensive season from the blue line</strong>. His current 1.15 PPG projects to 
-              <strong> 37 points</strong> over a full 32-game season—but December's 2.00 PPG surge suggests even 
-              higher upside. Factor in playoff games (the Caps made the finals last year), and Talan could push 
-              toward <strong>45+ total points</strong> this season.
+              Talan Millang's junior season with the Des Moines Capitals was a resounding success, capped by a
+              <strong> MWHSHL Varsity First-Team All-Star</strong> selection at defense. His final line
+              of <strong>27 points (4G, 23A) in 32 games</strong> placed him among the league's elite defensemen,
+              finishing <strong>#3 overall among all D-men</strong> behind only Cole Crawford (62 pts, So.)
+              and Max Gladson (31 pts, Jr.). Among Class of 2027 defensemen, only Gladson produced more.
             </p>
             <p className="mt-3">
-              The remaining schedule presents a balanced mix: 6 games against weaker opponents (Metros, Riders, Blues) 
-              where Talan historically racks up assists, 7 games against mid-tier teams, and 6 crucial matchups against 
-              top competition (Saints, Oak Leafs, Jr Stars) that will test—and showcase—his abilities against the best.
+              The season showed two distinct halves: an explosive first 13 games at 1.15 PPG, followed by a more
+              physically demanding stretch against tougher competition. The full body of work earned him First-Team
+              All-Star recognition—a testament to his consistency and two-way impact over the entire season.
             </p>
           </NarrativeBox>
 
-          {/* Projection Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white">
-              <div className="text-blue-200 text-sm font-medium mb-1">Conservative Pace</div>
-              <div className="text-4xl font-bold">34-37</div>
-              <div className="text-blue-100 text-sm mt-1">Points (Regular Season)</div>
-              <div className="mt-3 text-xs text-blue-200">Based on 1.07-1.15 PPG</div>
+          {/* Final Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-5 text-white text-center">
+              <div className="text-purple-200 text-sm font-medium mb-1">Games Played</div>
+              <div className="text-4xl font-bold">32</div>
+              <div className="text-purple-100 text-sm mt-1">Full Season</div>
             </div>
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-5 text-white">
-              <div className="text-purple-200 text-sm font-medium mb-1">Projected Pace</div>
-              <div className="text-4xl font-bold">38-42</div>
-              <div className="text-purple-100 text-sm mt-1">Points (Regular Season)</div>
-              <div className="mt-3 text-xs text-purple-200">Trend-adjusted (Dec surge)</div>
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-5 text-white text-center">
+              <div className="text-green-200 text-sm font-medium mb-1">Total Points</div>
+              <div className="text-4xl font-bold">27</div>
+              <div className="text-green-100 text-sm mt-1">4G + 23A</div>
             </div>
-            <div className="bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl p-5 text-white">
-              <div className="text-amber-200 text-sm font-medium mb-1">Ceiling (w/ Playoffs)</div>
-              <div className="text-4xl font-bold">45-50</div>
-              <div className="text-amber-100 text-sm mt-1">Total Points</div>
-              <div className="mt-3 text-xs text-amber-200">If Caps reach finals again</div>
+            <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-5 text-white text-center">
+              <div className="text-amber-200 text-sm font-medium mb-1">Points/Game</div>
+              <div className="text-4xl font-bold">0.84</div>
+              <div className="text-amber-100 text-sm mt-1">Season Average</div>
+            </div>
+            <div className="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl p-5 text-white text-center">
+              <div className="text-yellow-200 text-sm font-medium mb-1">Award</div>
+              <div className="text-2xl font-bold leading-tight">First-Team All-Star</div>
+              <div className="text-yellow-100 text-sm mt-1">Defense</div>
             </div>
           </div>
 
-          {/* Detailed Projections */}
+          {/* Season Splits */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 Projection Breakdown</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Season Splits</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-2 px-3 text-gray-500">Scenario</th>
+                    <th className="text-left py-2 px-3 text-gray-500">Split</th>
                     <th className="text-center py-2 px-3 text-gray-500">GP</th>
-                    <th className="text-center py-2 px-3 text-gray-500">PPG</th>
                     <th className="text-center py-2 px-3 text-gray-500">G</th>
                     <th className="text-center py-2 px-3 text-gray-500">A</th>
                     <th className="text-center py-2 px-3 text-gray-500 font-bold">PTS</th>
-                    <th className="text-left py-2 px-3 text-gray-500">Reasoning</th>
+                    <th className="text-center py-2 px-3 text-gray-500">PPG</th>
+                    <th className="text-center py-2 px-3 text-gray-500">PIM</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 bg-green-50">
-                    <td className="py-3 px-3 font-medium">✅ Current (Actual)</td>
-                    <td className="text-center py-3 px-3">13</td>
-                    <td className="text-center py-3 px-3">1.15</td>
-                    <td className="text-center py-3 px-3">2</td>
-                    <td className="text-center py-3 px-3">13</td>
-                    <td className="text-center py-3 px-3 font-bold">15</td>
-                    <td className="py-3 px-3 text-gray-600 text-xs">Verified stats through 12/7</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-3 font-medium">📉 Floor</td>
-                    <td className="text-center py-3 px-3">32</td>
-                    <td className="text-center py-3 px-3">1.07</td>
-                    <td className="text-center py-3 px-3">4</td>
-                    <td className="text-center py-3 px-3">30</td>
-                    <td className="text-center py-3 px-3 font-bold">34</td>
-                    <td className="py-3 px-3 text-gray-600 text-xs">Regression to Oct/Nov rate vs tough schedule</td>
-                  </tr>
-                  <tr className="border-b border-gray-100 bg-purple-50">
-                    <td className="py-3 px-3 font-medium">📊 Expected</td>
-                    <td className="text-center py-3 px-3">32</td>
-                    <td className="text-center py-3 px-3">1.25</td>
-                    <td className="text-center py-3 px-3">5</td>
-                    <td className="text-center py-3 px-3">35</td>
-                    <td className="text-center py-3 px-3 font-bold text-purple-700">40</td>
-                    <td className="py-3 px-3 text-gray-600 text-xs">Dec surge sustained, opponent-adjusted</td>
-                  </tr>
-                  <tr className="border-b border-gray-100">
-                    <td className="py-3 px-3 font-medium">📈 Ceiling</td>
-                    <td className="text-center py-3 px-3">32</td>
-                    <td className="text-center py-3 px-3">1.40</td>
-                    <td className="text-center py-3 px-3">6</td>
-                    <td className="text-center py-3 px-3">39</td>
-                    <td className="text-center py-3 px-3 font-bold">45</td>
-                    <td className="py-3 px-3 text-gray-600 text-xs">Dec pace continues, dominates weak opponents</td>
-                  </tr>
-                  <tr className="bg-amber-50">
-                    <td className="py-3 px-3 font-medium">🏆 w/ Playoffs</td>
-                    <td className="text-center py-3 px-3">36-40</td>
-                    <td className="text-center py-3 px-3">1.25</td>
-                    <td className="text-center py-3 px-3">6-7</td>
-                    <td className="text-center py-3 px-3">39-43</td>
-                    <td className="text-center py-3 px-3 font-bold text-amber-700">45-50</td>
-                    <td className="py-3 px-3 text-gray-600 text-xs">If Caps reach finals (4-8 playoff games)</td>
-                  </tr>
+                  {seasonSplitData.map((row, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 ${idx === 2 ? 'bg-purple-50 font-semibold' : ''}`}>
+                      <td className="py-3 px-3 font-medium">{row.split}</td>
+                      <td className="text-center py-3 px-3">{row.gp}</td>
+                      <td className="text-center py-3 px-3">{row.goals}</td>
+                      <td className="text-center py-3 px-3">{row.assists}</td>
+                      <td className="text-center py-3 px-3 font-bold">{row.pts}</td>
+                      <td className="text-center py-3 px-3">{row.ppg.toFixed(2)}</td>
+                      <td className="text-center py-3 px-3">{row.pim}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
 
-          {/* Remaining Schedule */}
+          {/* Split Comparison Chart */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📅 Remaining Schedule Analysis (19 Games)</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="font-semibold text-green-800">Easy (6 games)</span>
-                </div>
-                <div className="text-sm text-green-700 space-y-1">
-                  <div>• Metros (1-9) × 2</div>
-                  <div>• Riders (1-11) × 1</div>
-                  <div>• Blues (4-6) × 3</div>
-                </div>
-                <div className="mt-2 text-xs text-green-600">Projected: 1.5-2.0 PPG</div>
-              </div>
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <span className="font-semibold text-yellow-800">Medium (7 games)</span>
-                </div>
-                <div className="text-sm text-yellow-700 space-y-1">
-                  <div>• Cyclones (6-6) × 2</div>
-                  <div>• Warriors (6-5) × 3</div>
-                  <div>• Mohawks (8-4) × 2</div>
-                </div>
-                <div className="mt-2 text-xs text-yellow-600">Projected: 1.0-1.3 PPG</div>
-              </div>
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <span className="font-semibold text-red-800">Hard (6 games)</span>
-                </div>
-                <div className="text-sm text-red-700 space-y-1">
-                  <div>• Saints (13-1) × 3</div>
-                  <div>• Oak Leafs (9-3) × 1</div>
-                  <div>• Jr Stars (8-3) × 2</div>
-                </div>
-                <div className="mt-2 text-xs text-red-600">Projected: 0.8-1.0 PPG</div>
-              </div>
-            </div>
-            
-            {/* Schedule Chart */}
-            <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={[
-                { difficulty: 'Easy', games: 6, projectedPts: 10, color: '#10B981' },
-                { difficulty: 'Medium', games: 7, projectedPts: 8, color: '#F59E0B' },
-                { difficulty: 'Hard', games: 6, projectedPts: 5, color: '#EF4444' },
-              ]}>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Production by Season Half</h3>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={seasonSplitData.slice(0, 2)}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis dataKey="difficulty" tick={{ fontSize: 12 }} />
+                <XAxis dataKey="split" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip />
-                <Bar dataKey="projectedPts" name="Projected Points" radius={[8, 8, 0, 0]}>
-                  {[
-                    { difficulty: 'Easy', games: 6, projectedPts: 10, color: '#10B981' },
-                    { difficulty: 'Medium', games: 7, projectedPts: 8, color: '#F59E0B' },
-                    { difficulty: 'Hard', games: 6, projectedPts: 5, color: '#EF4444' },
-                  ].map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                  <LabelList dataKey="projectedPts" position="top" formatter={(v) => `${v} pts`} />
-                </Bar>
+                <Legend />
+                <Bar dataKey="goals" fill="#EF4444" name="Goals" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="assists" fill="#8B5CF6" name="Assists" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-            <div className="text-center text-sm text-gray-500 mt-2">
-              Remaining 19 games: <strong className="text-purple-600">~23 projected points</strong> → <strong>38 total</strong> (conservative)
-            </div>
           </div>
 
-          {/* Monthly Projection */}
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📈 Projected Monthly Progression</h3>
-            <ResponsiveContainer width="100%" height={280}>
-              <AreaChart data={[
-                { month: 'Oct', actual: 2, projected: 2, games: 2 },
-                { month: 'Nov', actual: 9, projected: 9, games: 9 },
-                { month: 'Dec', actual: 4, projected: 8, games: 5 },
-                { month: 'Jan', actual: null, projected: 9, games: 7 },
-                { month: 'Feb', actual: null, projected: 10, games: 9 },
-              ]}>
-                <defs>
-                  <linearGradient id="colorActual" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0.1}/>
-                  </linearGradient>
-                  <linearGradient id="colorProjected" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.5}/>
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0.1}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Area type="monotone" dataKey="projected" stroke="#10B981" strokeWidth={2} strokeDasharray="5 5" fill="url(#colorProjected)" name="Projected" />
-                <Area type="monotone" dataKey="actual" stroke="#8B5CF6" strokeWidth={3} fill="url(#colorActual)" name="Actual" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Milestones */}
+          {/* Milestones Achieved */}
           <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-4">🎯 Milestone Tracker</h3>
+            <h3 className="text-xl font-bold mb-4">Season Milestones</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white/20 rounded-lg p-3 text-center">
                 <div className="text-2xl font-bold">20 PTS</div>
-                <div className="text-purple-200 text-sm">~3 games away</div>
-                <div className="text-xs text-purple-300 mt-1">Mid-December</div>
+                <div className="text-green-300 text-sm font-semibold">Reached</div>
               </div>
               <div className="bg-white/20 rounded-lg p-3 text-center">
                 <div className="text-2xl font-bold">25 PTS</div>
-                <div className="text-purple-200 text-sm">~8 games away</div>
-                <div className="text-xs text-purple-300 mt-1">Early January</div>
+                <div className="text-green-300 text-sm font-semibold">Reached</div>
               </div>
               <div className="bg-white/20 rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold">30 PTS</div>
-                <div className="text-purple-200 text-sm">~13 games away</div>
-                <div className="text-xs text-purple-300 mt-1">Late January</div>
+                <div className="text-2xl font-bold">27 PTS</div>
+                <div className="text-yellow-300 text-sm font-semibold">Final Total</div>
               </div>
               <div className="bg-white/20 rounded-lg p-3 text-center">
-                <div className="text-2xl font-bold">40 PTS</div>
-                <div className="text-purple-200 text-sm">Season goal</div>
-                <div className="text-xs text-purple-300 mt-1">End of Feb</div>
+                <div className="text-2xl font-bold">All-Star</div>
+                <div className="text-yellow-300 text-sm font-semibold">First-Team</div>
               </div>
             </div>
           </div>
 
-          {/* Key Matchups */}
+          {/* Caps Scoring Leaders */}
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">⭐ Key Upcoming Matchups</h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
-                <div>
-                  <div className="font-semibold text-red-800">vs Saints (13-1)</div>
-                  <div className="text-sm text-red-600">Jan 31, Feb 7, Feb 8 — 3 games</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-red-700 font-medium">Showcase games</div>
-                  <div className="text-xs text-red-500">Best D-corps in league</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                <div>
-                  <div className="font-semibold text-yellow-800">@ Oak Leafs (9-3)</div>
-                  <div className="text-sm text-yellow-600">Jan 13</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-yellow-700 font-medium">Rivalry game</div>
-                  <div className="text-xs text-yellow-500">Already beat them 5-2</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
-                <div>
-                  <div className="font-semibold text-green-800">@ Metros (1-9)</div>
-                  <div className="text-sm text-green-600">Dec 13-14 — THIS WEEKEND</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-green-700 font-medium">Stat-padding opportunity</div>
-                  <div className="text-xs text-green-500">Weakest team in league</div>
-                </div>
-              </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Capitals Scoring Leaders (Final)</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 px-2 text-gray-500">Player</th>
+                    <th className="text-center py-2 px-2 text-gray-500">Pos</th>
+                    <th className="text-center py-2 px-2 text-gray-500">GP</th>
+                    <th className="text-center py-2 px-2 text-gray-500">G</th>
+                    <th className="text-center py-2 px-2 text-gray-500">A</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-bold">PTS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { name: 'Maxx Myers', pos: 'F', gp: 32, g: 23, a: 26, pts: 49 },
+                    { name: 'Jarrett Parker', pos: 'F', gp: 27, g: 29, a: 19, pts: 48 },
+                    { name: 'Gage Behrens', pos: 'F', gp: 31, g: 28, a: 13, pts: 41 },
+                    { name: 'Paxon Sacre', pos: 'F', gp: 27, g: 16, a: 19, pts: 35 },
+                    { name: 'Luke Logsdon', pos: 'F', gp: 32, g: 16, a: 17, pts: 33 },
+                    { name: 'Grady Christensen', pos: 'F', gp: 32, g: 13, a: 18, pts: 31 },
+                    { name: 'Talan Millang', pos: 'D', gp: 32, g: 4, a: 23, pts: 27, isTalan: true },
+                    { name: 'Grady Stiles', pos: 'D', gp: 32, g: 4, a: 14, pts: 18 },
+                    { name: 'Ryan Logan', pos: 'F', gp: 32, g: 7, a: 9, pts: 16 },
+                  ].map((p, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 ${p.isTalan ? 'bg-purple-100 font-semibold' : ''}`}>
+                      <td className="py-2 px-2">{p.name} {p.isTalan && '\u2B50'}</td>
+                      <td className="text-center py-2 px-2">
+                        <span className={`px-2 py-0.5 rounded text-xs ${p.pos === 'D' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
+                          {p.pos}
+                        </span>
+                      </td>
+                      <td className="text-center py-2 px-2">{p.gp}</td>
+                      <td className="text-center py-2 px-2">{p.g}</td>
+                      <td className="text-center py-2 px-2">{p.a}</td>
+                      <td className="text-center py-2 px-2 font-bold">{p.pts}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-3 p-3 bg-purple-50 rounded-lg text-center">
+              <span className="text-purple-700 font-semibold">Talan led all Capitals defensemen in scoring by 9 points</span>
             </div>
           </div>
 
           <ScoutsNotes notes={[
-            "December surge (2.00 PPG) may indicate adjustment period is over—expect sustained production",
-            "6 games vs bottom-3 teams (Metros, Riders, Blues) present major point opportunities",
-            "3 games vs Saints will be the ultimate test—strong performance here = major recruiting attention",
-            "Playoff experience from last year's finals run should boost postseason production",
-            "If current trajectory holds, 40+ points as a Junior D-man would be exceptional for any level"
+            "27 points as a junior defenseman is elite production at this level\u2014validates First-Team All-Star selection",
+            "23 assists demonstrate consistent playmaking throughout the entire season, not just hot streaks",
+            "6'3\" 200 lbs with a full senior season ahead\u2014physical development trajectory is ideal",
+            "Playing on a stacked roster (7 players with 27+ pts) means Talan earned his ice time and production",
+            "Second-half schedule toughened up considerably; sustained production against better opponents"
           ]} />
         </div>
       )}
@@ -787,27 +639,27 @@ export default function App() {
         <div className="space-y-6">
           <NarrativeBox title="League Standing Analysis">
             <p>
-              In a league dominated by forwards at the top of the scoring charts, Talan Millang stands out as a 
-              rare offensive threat from the blue line. His <strong>15 points</strong> place him <strong>#12 overall</strong> in 
-              league scoring—remarkable given that only <strong>two defensemen</strong> crack the top 20 scorers 
-              (Cole Crawford of Ames leads D-men with 21 points).
+              In a league dominated by forwards at the top of the scoring charts, Talan Millang stands out as one of
+              only a handful of defensemen producing at an elite offensive level. His <strong>27 points</strong> place
+              him <strong>#{talanPtsRankAll} overall</strong> in league scoring and <strong>#3 among all defensemen</strong>—behind
+              only the extraordinary Cole Crawford (62 pts, Sophomore) and Max Gladson (31 pts, Junior).
             </p>
             <p className="mt-3">
-              What makes Talan's production exceptional is its distribution: his <strong>13 assists lead all defensemen</strong> and 
-              rank <strong>#3 in the entire league</strong>. Only Cade Weiner (18) and Sammy Ruiz (16) have more helpers—both 
-              are forwards on the league's highest-scoring team in Dubuque. Among players on undefeated teams, 
-              Talan's playmaking ability is unmatched from the back end.
+              What makes Talan's production stand out is his <strong>23 assists, ranking #3 among all defensemen</strong> in
+              the league. His playmaking ability from the back end is rare at this level. Combined with his
+              First-Team All-Star selection, these numbers paint the picture of a complete two-way defenseman
+              who can drive offense while fulfilling his defensive responsibilities.
             </p>
           </NarrativeBox>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <RankBadge category="Total Points" vsAll={talanPtsRankAll} vsD={talanPtsRankD} />
-            <RankBadge category="Goals" vsAll={`${talanGoalsRankAll}+`} vsD={talanGoalsRankD} />
-            <RankBadge category="Assists" vsAll={talanAssistsRankAll} vsD={talanAssistsRankD} />
+            <RankBadge category="Assists" vsAll="Top 40" vsD={talanAssistsRankD} />
+            <RankBadge category="Among '27 D-Men" vsAll={talanPtsRankClass27} vsD={talanPtsRankClass27D} />
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">🏒 League Scoring Leaders</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">League Scoring Leaders (Final)</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -824,10 +676,10 @@ export default function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leagueLeaders.slice(0, 15).map((player, idx) => (
+                  {leagueLeaders.map((player, idx) => (
                     <tr key={idx} className={`border-b border-gray-100 ${player.isTalan ? 'bg-purple-100 font-semibold' : ''} ${player.pos === 'D' ? 'text-indigo-700' : ''}`}>
                       <td className="py-2 px-2">{player.rank}</td>
-                      <td className="py-2 px-2">{player.name} {player.isTalan && '⭐'}</td>
+                      <td className="py-2 px-2">{player.name} {player.isTalan && '\u2B50'}</td>
                       <td className="text-center py-2 px-2">
                         <span className={`px-2 py-0.5 rounded text-xs ${player.pos === 'D' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
                           {player.pos}
@@ -847,12 +699,12 @@ export default function App() {
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">🛡️ League Defensemen Scoring</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">League Defensemen Scoring (Final)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={allDefensemen} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                 <XAxis type="number" tick={{ fontSize: 11 }} />
-                <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={120} />
+                <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={130} />
                 <Tooltip />
                 <Bar dataKey="pts" radius={[0, 8, 8, 0]} name="Points">
                   {allDefensemen.map((entry, index) => (
@@ -865,11 +717,11 @@ export default function App() {
           </div>
 
           <ScoutsNotes notes={[
-            "Only Cole Crawford (So., Ames) outscores Talan among D-men—and Crawford has the advantage of playing with a high-octane offense",
-            "Talan's 13 assists are TIED for #1 among all defensemen league-wide",
-            "His 2:13 goal-to-assist ratio demonstrates elite playmaking; not just a one-dimensional shooter",
-            "Production is sustainable—consistent 1.00 PPG through Oct/Nov before December surge",
-            "Two-way game allows coaches to deploy him in all situations without sacrificing offense"
+            "Only two defensemen in the entire league outscored Talan\u2014Crawford (generational So.) and Gladson (Jr., Oak Leafs)",
+            "23 assists rank #3 among all D-men; elite vision and distribution from the blue line",
+            "Production came on a roster with 6 forwards scoring 31+ points\u2014competition for ice time and PP minutes was real",
+            "First-Team All-Star validates the numbers\u2014coaches and scouts recognized his complete game",
+            "At 6'3\" 200 lbs as a Junior, his physical tools match his offensive production\u2014rare combination"
           ]} />
         </div>
       )}
@@ -879,25 +731,26 @@ export default function App() {
         <div className="space-y-6">
           <NarrativeBox title="Defensive Impact Analysis">
             <p>
-              The Des Moines Capitals' perfect 13-0 record isn't just about offensive firepower—it's built on 
-              suffocating team defense, and Talan Millang is a cornerstone of that success. When facing the Capitals, 
-              opponents score an average of <strong>{avgSuppression}% below their season scoring average</strong>.
+              The Des Moines Capitals' dominant season under Coach Tony Weil was built on suffocating team defense,
+              and Talan Millang was a cornerstone of that success. During the first 13 tracked games (all wins),
+              opponents scored an average of <strong>{avgSuppression}% below their season scoring average</strong> when
+              facing the Capitals.
             </p>
             <p className="mt-3">
-              The data reveals a consistent pattern: teams simply can't generate their normal offensive output against 
-              Des Moines. Spirit Lake was completely shut out in both meetings (100% suppression), while competitive 
-              teams like Cedar Rapids, Mason City, and Kansas City all scored significantly below their typical rates. 
-              Even Omaha—the only team to push the Caps—still fell 8% below their average.
+              The data reveals a consistent pattern: teams simply could not generate their normal offensive output against
+              Des Moines. Spirit Lake was completely shut out in both meetings (100% suppression), while competitive
+              teams like Cedar Rapids, Mason City, and Kansas City all scored significantly below their typical rates.
+              This defensive foundation earned Tony Weil Coach of the Year honors.
             </p>
           </NarrativeBox>
 
           <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-2">🛡️ The Capitals Shutdown Effect</h3>
-            <p className="text-red-100">How opponents' offensive output drops when they face Des Moines Capitals</p>
+            <h3 className="text-xl font-bold mb-2">The Capitals Shutdown Effect</h3>
+            <p className="text-red-100">How opponents' offensive output dropped when facing the Des Moines Capitals (first 13 games)</p>
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 Opponent Goals: Season Average vs Against Caps</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Opponent Goals: Season Avg vs Against Caps</h3>
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={opponentScoringData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
@@ -912,15 +765,15 @@ export default function App() {
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📉 Scoring Suppression: % Below Season Average vs Caps</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Scoring Suppression: % Below Season Average vs Caps</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={opponentScoringData.sort((a, b) => b.pctBelow - a.pctBelow)}>
+              <BarChart data={[...opponentScoringData].sort((a, b) => b.pctBelow - a.pctBelow)}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
                 <XAxis dataKey="team" tick={{ fontSize: 10 }} angle={-45} textAnchor="end" height={80} />
                 <YAxis tick={{ fontSize: 11 }} domain={[0, 100]} label={{ value: '% Below Average', angle: -90, position: 'insideLeft', fontSize: 11 }} />
                 <Tooltip formatter={(value) => [`${value}%`, 'Below Average']} />
                 <Bar dataKey="pctBelow" radius={[8, 8, 0, 0]} name="% Below Avg">
-                  {opponentScoringData.map((entry, index) => (
+                  {[...opponentScoringData].sort((a, b) => b.pctBelow - a.pctBelow).map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.pctBelow >= 50 ? '#10B981' : entry.pctBelow >= 30 ? '#F59E0B' : '#EF4444'} />
                   ))}
                   <LabelList dataKey="pctBelow" position="top" formatter={(v) => `${v}%`} />
@@ -947,11 +800,11 @@ export default function App() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-4 text-white text-center">
               <div className="text-3xl font-bold">69</div>
-              <div className="text-purple-100 text-sm">Goals For</div>
+              <div className="text-purple-100 text-sm">Goals For (13 GP)</div>
             </div>
             <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-4 text-white text-center">
               <div className="text-3xl font-bold">21</div>
-              <div className="text-green-100 text-sm">Goals Against</div>
+              <div className="text-green-100 text-sm">Goals Against (13 GP)</div>
             </div>
             <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-4 text-white text-center">
               <div className="text-3xl font-bold">{avgSuppression}%</div>
@@ -964,11 +817,11 @@ export default function App() {
           </div>
 
           <ScoutsNotes notes={[
-            "Talan's defensive awareness complements his offensive game—rarely caught out of position on the rush",
+            "Talan's defensive awareness complements his offensive game\u2014rarely caught out of position on the rush",
             "Strong stick and active in passing lanes; breaks up plays before they develop",
-            "Physical presence deters opponents from high-traffic areas; not afraid to finish checks",
+            "Physical presence at 6'3\" 200 lbs deters opponents from high-traffic areas",
             "Excellent at retrieving pucks and making quick outlet passes to start the transition",
-            "His +/- and team's GA when he's on ice support his two-way value (detailed +/- data TBD)"
+            "Coach of the Year (Tony Weil) speaks to the team's defensive system\u2014Talan was a key part of that foundation"
           ]} />
         </div>
       )}
@@ -978,31 +831,31 @@ export default function App() {
         <div className="space-y-6">
           <NarrativeBox title="Class of 2027 Comparison">
             <p>
-              Among verified Class of 2027 (Junior) players in the MWHSHL, Talan Millang stands alone as the 
-              <strong> only defenseman producing at an elite offensive level</strong>. With 15 points, he trails only 
-              forwards Alex Heinkel (20 pts, Dubuque) and Cale Buchan (19 pts, Waterloo) in his graduating class—both 
-              of whom are pure offensive players.
+              Among confirmed Class of 2027 (Junior) players in the MWHSHL, Talan Millang stands as the
+              <strong> #2 defenseman in total scoring</strong>, trailing only Max Gladson of DM Oak Leafs (31 pts).
+              Overall in his class, he ranks <strong>#5</strong>—behind forwards Paulsen (70), Buchan (56), Heinkel (36),
+              and fellow D-man Gladson (31).
             </p>
             <p className="mt-3">
-              The gap between Talan and other Junior defensemen is staggering. The next-highest scoring Junior D-man 
-              is his own teammate Adam Wey with just 4 points—meaning Talan has <strong>nearly 4x the production</strong> of 
-              the next best in his class at his position. This elite offensive output, combined with his size and 
-              defensive reliability, makes him a unique prospect in this draft class.
+              The gap between Talan and other Junior defensemen beyond Gladson is significant. Demetri Tsiobanos
+              of Sioux City (23 pts) is the next closest, giving Talan a 4-point edge. His combination of elite
+              size (6'3" 200), offensive production, and First-Team All-Star recognition makes him a standout
+              prospect in the 2027 class at the defensive position.
             </p>
           </NarrativeBox>
 
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-2">🎓 Class of 2027 (Juniors)</h3>
-            <p className="text-indigo-100">Verified Junior scoring leaders in the MWHSHL</p>
+            <h3 className="text-xl font-bold mb-2">Class of 2027 (Juniors) &mdash; Final Standings</h3>
+            <p className="text-indigo-100">Confirmed Junior scoring leaders in the MWHSHL &bull; 2025-26 Season</p>
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">📊 Junior Scoring Leaders</h3>
-            <ResponsiveContainer width="100%" height={280}>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Junior Scoring Leaders (Final)</h3>
+            <ResponsiveContainer width="100%" height={300}>
               <BarChart data={juniorsOnly} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis type="number" tick={{ fontSize: 11 }} domain={[0, 25]} />
-                <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={120} />
+                <XAxis type="number" tick={{ fontSize: 11 }} domain={[0, 75]} />
+                <YAxis dataKey="name" type="category" tick={{ fontSize: 11 }} width={130} />
                 <Tooltip />
                 <Bar dataKey="pts" radius={[0, 8, 8, 0]} name="Points">
                   {juniorsOnly.map((entry, index) => (
@@ -1035,10 +888,10 @@ export default function App() {
                 <h4 className="font-semibold text-purple-800">Class of 2027 Highlights</h4>
               </div>
               <ul className="space-y-2 text-sm text-purple-700">
-                <li>✓ <strong>#1 scoring D-man</strong> among all Juniors</li>
-                <li>✓ <strong>#3 overall</strong> in Junior class scoring</li>
-                <li>✓ Only Junior defenseman in top 20 league scorers</li>
-                <li>✓ <strong>3.75x more points</strong> than next Junior D-man</li>
+                <li>&bull; <strong>#2 scoring D-man</strong> among all Juniors</li>
+                <li>&bull; <strong>#5 overall</strong> in Junior class scoring</li>
+                <li>&bull; <strong>MWHSHL First-Team All-Star</strong> (Defense)</li>
+                <li>&bull; 23 assists lead all Junior D-men except Gladson (25)</li>
               </ul>
             </div>
             <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-5">
@@ -1047,20 +900,21 @@ export default function App() {
                 <h4 className="font-semibold text-indigo-800">Physical Profile</h4>
               </div>
               <ul className="space-y-2 text-sm text-indigo-700">
-                <li>📏 Height: <strong>6'3"</strong></li>
-                <li>⚖️ Weight: <strong>195 lbs</strong></li>
-                <li>🎂 DOB: 08/18/2008</li>
-                <li>🏫 Valley High School</li>
+                <li>Height: <strong>6'3"</strong></li>
+                <li>Weight: <strong>200 lbs</strong></li>
+                <li>DOB: 08/18/2008</li>
+                <li>Valley High School</li>
+                <li>Shoots: Left</li>
               </ul>
             </div>
           </div>
 
           <ScoutsNotes notes={[
-            "Prototypical modern NHL defenseman frame at 6'3\" 195—still has room to add muscle",
-            "Production at this level as a Junior defenseman is rare; projects well to higher competition",
+            "Prototypical modern defenseman frame at 6'3\" 200\u2014still has room to add muscle through senior year and beyond",
+            "Production at this level as a Junior D-man is rare; projects well to higher competition",
             "Offensive instincts rival many forwards in his class; can run a power play at any level",
-            "On an undefeated team, demonstrating he doesn't sacrifice team defense for personal stats",
-            "High-character player; disciplined (2 PIM all season) and accountable in all three zones"
+            "First-Team All-Star selection as a Junior speaks to his maturity and complete game",
+            "With a full senior season ahead, his stock is trending up heading into the recruiting window"
           ]} />
         </div>
       )}
@@ -1069,7 +923,7 @@ export default function App() {
       {activeTab === 'highlights' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-xl p-5 text-white">
-            <h3 className="text-xl font-bold mb-2">🎬 Highlight Reel</h3>
+            <h3 className="text-xl font-bold mb-2">Highlight Reel</h3>
             <p className="text-red-100">Click to watch Talan's best plays from the 2025-26 season.</p>
           </div>
 
@@ -1080,8 +934,8 @@ export default function App() {
               <button
                 onClick={() => setFilterTag('All')}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                  filterTag === 'All' 
-                    ? 'bg-purple-600 text-white' 
+                  filterTag === 'All'
+                    ? 'bg-purple-600 text-white'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
@@ -1095,8 +949,8 @@ export default function App() {
                     key={tag}
                     onClick={() => setFilterTag(tag)}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                      filterTag === tag 
-                        ? 'bg-purple-600 text-white' 
+                      filterTag === tag
+                        ? 'bg-purple-600 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
@@ -1111,19 +965,17 @@ export default function App() {
             {filteredHighlights.map(clip => {
               const thumbnailUrl = getYouTubeThumbnail(clip.url);
               const embedUrl = getEmbedUrl(clip.url);
-              
+
               return (
               <div key={clip.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div 
+                <div
                   className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative bg-cover bg-center"
                   style={thumbnailUrl && playingVideo !== clip.id ? { backgroundImage: `url(${thumbnailUrl})` } : {}}
                 >
-                  {/* Dark overlay for better button visibility when thumbnail is shown */}
                   {thumbnailUrl && playingVideo !== clip.id && (
                     <div className="absolute inset-0 bg-black/30"></div>
                   )}
-                  
-                  {/* Playing state - show iframe */}
+
                   {playingVideo === clip.id && clip.url && embedUrl ? (
                     <iframe
                       src={embedUrl}
@@ -1134,9 +986,8 @@ export default function App() {
                       title={clip.title}
                     />
                   ) : clip.url && embedUrl ? (
-                    /* Has embeddable URL - show play button */
-                    <div 
-                      className="text-center cursor-pointer relative z-[5]" 
+                    <div
+                      className="text-center cursor-pointer relative z-[5]"
                       onClick={() => setPlayingVideo(clip.id)}
                     >
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto hover:bg-red-700 transition-colors shadow-lg">
@@ -1145,8 +996,7 @@ export default function App() {
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Click to play</p>
                     </div>
                   ) : clip.url ? (
-                    /* Has URL but not embeddable - open in new tab */
-                    <div 
+                    <div
                       onClick={() => openVideo(clip.url)}
                       className="text-center cursor-pointer hover:scale-105 transition-transform relative z-[5]"
                     >
@@ -1156,31 +1006,29 @@ export default function App() {
                       <p className="text-white text-sm mt-3 font-medium drop-shadow-lg">Watch Video</p>
                     </div>
                   ) : (
-                    /* No URL - show placeholder */
                     <div className="text-center relative z-[5]">
                       <div className="text-6xl mb-2">{clip.thumbnail}</div>
                       <p className="text-white/60 text-xs">No video URL</p>
                     </div>
                   )}
-                  
+
                   {playingVideo === clip.id && (
-                    <button 
+                    <button
                       onClick={() => setPlayingVideo(null)}
                       className="absolute top-2 left-2 px-3 py-1 bg-black/70 rounded-full text-white text-xs hover:bg-black/90 transition-colors z-10"
                     >
-                      ✕ Close
+                      <X size={12} className="inline mr-1" /> Close
                     </button>
                   )}
                 </div>
                 <div className="p-4">
                   <h4 className="font-semibold text-gray-800">{clip.title}</h4>
                   <p className="text-sm text-gray-500 mt-1">{clip.description}</p>
-                  {/* Tags Display */}
                   {clip.tags && clip.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {clip.tags.map(tag => (
-                        <span 
-                          key={tag} 
+                        <span
+                          key={tag}
                           className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
                         >
                           {tag}
@@ -1216,9 +1064,9 @@ export default function App() {
 
           {filteredHighlights.length === 0 && (
             <div className="text-center py-12 text-gray-500">
-              <p>No highlights found with tag "{filterTag}"</p>
-              <button 
-                onClick={() => setFilterTag('All')} 
+              <p>No highlights found with tag &quot;{filterTag}&quot;</p>
+              <button
+                onClick={() => setFilterTag('All')}
                 className="text-purple-600 font-medium mt-2 hover:underline"
               >
                 Show all highlights
@@ -1230,8 +1078,8 @@ export default function App() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-gray-400 text-sm">
-        <p>Talan Millang #11 • Des Moines Capitals • 2025-26 Season Analytics</p>
-        <p className="mt-1">Data verified from MWHSHL player profiles • TalanShowcase.com</p>
+        <p>Talan Millang #11 &bull; Des Moines Capitals &bull; 2025-26 Season Analytics</p>
+        <p className="mt-1">MWHSHL Varsity First-Team All-Star (Defense) &bull; Class of 2027</p>
       </div>
     </div>
   );
