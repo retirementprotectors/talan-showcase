@@ -60,16 +60,8 @@ const leagueLeaders = [
   { rank: 13, name: 'Lane Wittrock', team: 'KC', pos: 'F', gp: 31, goals: 18, assists: 24, pts: 42, gradYear: null, class: '' },
   { rank: 14, name: 'Vincent Kutler', team: 'OJL', pos: 'F', gp: 32, goals: 20, assists: 22, pts: 42, gradYear: null, class: '' },
   { rank: 15, name: 'Gage Behrens', team: 'CAP', pos: 'F', gp: 31, goals: 28, assists: 13, pts: 41, gradYear: 2026, class: 'Sr' },
-  { rank: 16, name: 'Gavin Montiel-Cline', team: 'FRE', pos: 'F', gp: 23, goals: 27, assists: 11, pts: 38, gradYear: null, class: '' },
-  { rank: 17, name: 'Michael Grant', team: 'OAKS', pos: 'F', gp: 32, goals: 17, assists: 21, pts: 38, gradYear: null, class: '' },
-  { rank: 18, name: 'Brody Lee', team: 'KC', pos: 'F', gp: 30, goals: 19, assists: 18, pts: 37, gradYear: null, class: '' },
-  { rank: 19, name: 'JJ Hope', team: 'SC', pos: 'F', gp: 28, goals: 19, assists: 18, pts: 37, gradYear: null, class: '' },
-  { rank: 20, name: 'Alex Heinkel', team: 'DBQ', pos: 'F', gp: 31, goals: 19, assists: 17, pts: 36, gradYear: 2027, class: 'Jr' },
-  { rank: 21, name: 'Paxon Sacre', team: 'CAP', pos: 'F', gp: 27, goals: 16, assists: 19, pts: 35, gradYear: null, class: '' },
-  { rank: 22, name: 'Luke Logsdon', team: 'CAP', pos: 'F', gp: 32, goals: 16, assists: 17, pts: 33, gradYear: 2026, class: 'Sr' },
-  { rank: 23, name: 'Max Gladson', team: 'OAKS', pos: 'D', gp: 32, goals: 6, assists: 25, pts: 31, gradYear: 2027, class: 'Jr' },
-  { rank: 24, name: 'Grady Christensen', team: 'CAP', pos: 'F', gp: 32, goals: 13, assists: 18, pts: 31, gradYear: null, class: '' },
-  { rank: 25, name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, gradYear: 2027, class: 'Jr', isTalan: true },
+  // ... ranks 16-36 omitted ...
+  { rank: 37, name: 'Talan Millang', team: 'CAP', pos: 'D', gp: 32, goals: 4, assists: 23, pts: 27, gradYear: 2027, class: 'Jr', isTalan: true },
 ];
 
 // All confirmed defensemen - end of season
@@ -150,7 +142,7 @@ const cumulativeData = gameData.reduce((acc, game, index) => {
 }, []);
 
 // Rankings
-const talanPtsRankAll = leagueLeaders.findIndex(p => p.isTalan) + 1;
+const talanPtsRankAll = 37; // Actual league rank out of 338 skaters
 const talanAssistsRankAll = 16;
 const talanAssistsRankD = 3;
 const talanPtsRankD = 3;
@@ -445,7 +437,7 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard label="Points" value={talanStats.pts} subtitle={`#${talanPtsRankAll} in league`} icon={<Star className="text-yellow-500" size={20} />} highlight />
+            <StatCard label="Points" value={talanStats.pts} subtitle={`#${talanPtsRankAll} of 338 skaters`} icon={<Star className="text-yellow-500" size={20} />} highlight />
             <StatCard label="Goals" value={talanStats.goals} subtitle="32 games played" icon={<Target className="text-red-500" size={20} />} />
             <StatCard label="Assists" value={talanStats.assists} subtitle="#16 in league (338 skaters)" icon={<TrendingUp className="text-green-500" size={20} />} />
             <StatCard label="GWG" value={talanStats.gw} subtitle="Game Winners" icon={<Trophy className="text-amber-500" size={20} />} />
@@ -729,23 +721,34 @@ export default function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leagueLeaders.map((player, idx) => (
-                    <tr key={idx} className={`border-b border-gray-100 ${player.isTalan ? 'bg-purple-100 font-semibold' : ''} ${player.pos === 'D' ? 'text-indigo-700' : ''}`}>
-                      <td className="py-2 px-2">{player.rank}</td>
-                      <td className="py-2 px-2">{player.name} {player.isTalan && '\u2B50'}</td>
-                      <td className="text-center py-2 px-2">
-                        <span className={`px-2 py-0.5 rounded text-xs ${player.pos === 'D' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
-                          {player.pos}
-                        </span>
-                      </td>
-                      <td className="text-center py-2 px-2">{player.team}</td>
-                      <td className="text-center py-2 px-2">{player.class}</td>
-                      <td className="text-center py-2 px-2">{player.gp}</td>
-                      <td className="text-center py-2 px-2">{player.goals}</td>
-                      <td className="text-center py-2 px-2">{player.assists}</td>
-                      <td className="text-center py-2 px-2 font-bold">{player.pts}</td>
-                    </tr>
-                  ))}
+                  {leagueLeaders.map((player, idx) => {
+                    const prevPlayer = leagueLeaders[idx - 1];
+                    const showGap = prevPlayer && player.rank - prevPlayer.rank > 1;
+                    return (
+                    <React.Fragment key={idx}>
+                      {showGap && (
+                        <tr className="border-b border-gray-200">
+                          <td colSpan={9} className="py-1 px-2 text-center text-gray-400 text-xs bg-gray-50">&#8942; ranks {prevPlayer.rank + 1}&ndash;{player.rank - 1} &#8942;</td>
+                        </tr>
+                      )}
+                      <tr className={`border-b border-gray-100 ${player.isTalan ? 'bg-purple-100 font-semibold' : ''} ${player.pos === 'D' ? 'text-indigo-700' : ''}`}>
+                        <td className="py-2 px-2">{player.rank}</td>
+                        <td className="py-2 px-2">{player.name} {player.isTalan && '\u2B50'}</td>
+                        <td className="text-center py-2 px-2">
+                          <span className={`px-2 py-0.5 rounded text-xs ${player.pos === 'D' ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
+                            {player.pos}
+                          </span>
+                        </td>
+                        <td className="text-center py-2 px-2">{player.team}</td>
+                        <td className="text-center py-2 px-2">{player.class}</td>
+                        <td className="text-center py-2 px-2">{player.gp}</td>
+                        <td className="text-center py-2 px-2">{player.goals}</td>
+                        <td className="text-center py-2 px-2">{player.assists}</td>
+                        <td className="text-center py-2 px-2 font-bold">{player.pts}</td>
+                      </tr>
+                    </React.Fragment>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -801,21 +804,6 @@ export default function App() {
           <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl p-5 text-white">
             <h3 className="text-xl font-bold mb-2">The Capitals Shutdown Effect</h3>
             <p className="text-red-100">How opponents' offensive output dropped when facing the Des Moines Capitals (full season, all 13 opponents)</p>
-          </div>
-
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Opponent Goals: Season Avg vs Against Caps</h3>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={opponentScoringData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis type="number" tick={{ fontSize: 11 }} domain={[0, 5]} label={{ value: 'Goals per Game', position: 'bottom', fontSize: 11 }} />
-                <YAxis dataKey="team" type="category" tick={{ fontSize: 11 }} width={100} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="avgGoalsScored" fill="#94A3B8" name="Season Avg Goals" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="goalsVsCaps" fill="#10B981" name="Goals vs Capitals" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
           </div>
 
           <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
