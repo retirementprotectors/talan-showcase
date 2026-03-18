@@ -118,7 +118,7 @@ const nationalsTeams2A = [
   { seed: 13, team: 'Coyotes Gold', state: 'CO', rating: null, record: '--', gf: null, ga: null, stateRank: 'CO', url: null, note: '' },
   { seed: 14, team: 'Mavericks Hockey', state: 'FL', rating: null, record: '--', gf: null, ga: null, stateRank: 'FL', url: null, note: 'Est. 2024' },
   { seed: 15, team: 'Middletown Valley Knights', state: 'MD', rating: null, record: '--', gf: null, ga: null, stateRank: 'MD HS MSHL', url: null, note: '' },
-  { seed: 16, team: 'Osseo Maple Grove Saints', state: 'MN', rating: null, record: '--', gf: null, ga: null, stateRank: 'MN', url: null, note: '' },
+  { seed: 16, team: 'Osseo Maple Grove Saints', state: 'MN', rating: 89.49, record: '19-3-1', gf: 129, ga: 56, stateRank: '#3 MN-Kota JGA', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=23765', note: '' },
 ];
 
 const nationalsTeams3A = [
