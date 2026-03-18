@@ -137,6 +137,76 @@ const nationalsTeams3A = [
   { seed: 8, team: 'Seacoast Spartans', state: 'NH', rating: 88.48, record: '15-9-4', gf: 89, ga: 72, stateRank: '#8 NH 18U', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=25242', note: '' },
 ];
 
+// ============================================
+// NATIONALS SCHEDULE - CAPS POOL PLAY
+// ============================================
+const capsSchedule = [
+  { date: 'Wed, Mar 18', time: '12:45 PM', opponent: 'Notre Dame Prep', state: 'AZ', venue: 'Plymouth, MN', result: null },
+  { date: 'Thu, Mar 19', time: '11:00 AM', opponent: 'North Broward Prep', state: 'FL', venue: 'Plymouth, MN', result: null },
+  { date: 'Fri, Mar 20', time: '7:15 PM', opponent: 'Sun Valley', state: 'ID', venue: 'Plymouth, MN', result: null },
+];
+
+// Pool scouting reports
+const poolScouting = {
+  USA: {
+    name: 'Pool USA',
+    analysis: 'The most balanced pool in the tournament. All 4 teams have MHR ratings between 85.80 and 88.59 — every game could go either way. No easy wins here.',
+    teams: [
+      {
+        team: 'Notre Dame Prep',
+        state: 'AZ',
+        rating: 86.19,
+        record: '13-12-4',
+        scouting: 'Mid-pack rating but battle-tested with a .500+ record in a tough AZ D1 schedule. The 4 ties suggest they play close games. Could be dangerous — they\'ve been in more tight contests than the Caps have all season.',
+      },
+      {
+        team: 'North Broward Prep',
+        state: 'FL',
+        rating: 88.59,
+        record: '32-6-1',
+        scouting: 'Highest-rated team in Pool USA and FL State Champs. 32-6-1 record shows consistency. Rated just above the Caps (88.48). This is likely the game that decides pool positioning. They play a lot of games which means deep roster.',
+      },
+      {
+        team: 'Sun Valley',
+        state: 'ID',
+        rating: 85.80,
+        record: '17-7-5',
+        scouting: 'Lowest-rated team in pool but #1 in Idaho. The 5 ties suggest a defensive-minded team that keeps games close. Don\'t overlook them — they\'re used to being underdogs.',
+      },
+    ],
+  },
+  Liberty: {
+    name: 'Pool Liberty',
+    analysis: 'Osseo Maple Grove (91.72) is the clear favorite — 2nd highest MHR in the entire 2A field. Dayton Stealth Gold (88.64) and Denver East (87.91) will battle for 2nd. Mavericks Hockey is the unknown.',
+    teams: [
+      { team: 'Osseo Maple Grove Saints', state: 'MN', rating: 91.72, record: '38-4-3', scouting: '2nd highest rating in 2A behind only Rushmore Thunder. 38-4-3 in JGHSL Gold A is elite. Playing on home ice in MN is a massive advantage.' },
+      { team: 'Denver East', state: 'CO', rating: 87.91, record: '21-15-2', scouting: '#12 in CO 18U. Solid but not dominant. The 15 losses suggest they can be beaten by good teams.' },
+      { team: 'Dayton Stealth (Gold)', state: 'OH', rating: 88.64, record: '28-25-6', scouting: 'OH State Champs with a high rating (88.64) but 25 losses is a lot. They\'ve played a very tough schedule which inflates rating but shows inconsistency.' },
+      { team: 'Mavericks Hockey', state: 'FL', rating: null, record: '--', scouting: 'New program (Est. 2024). No MHR data available. Complete unknown — could be overmatched or could surprise.' },
+    ],
+  },
+  NHL: {
+    name: 'Pool NHL',
+    analysis: 'A balanced pool without a dominant team. Omaha Jr. Lancers (88.49) are a familiar MWHSHL rival. BGHW Stampede is unrated but IL Combined Champs.',
+    teams: [
+      { team: 'Omaha Jr. Lancers', state: 'NE', rating: 88.49, record: '21-19-0', scouting: 'The Caps know this team well from the MWHSHL. 21-19-0 on the season — Caps beat them twice in Nov (6-5, 5-2). Beatable but competitive.' },
+      { team: 'Central Cathedral Jets', state: 'CA', rating: 86.85, record: '8-7-0', scouting: '#6 in CA HS D2. Small sample size (15 games). Hard to evaluate but rating suggests mid-tier.' },
+      { team: 'BGHW Stampede', state: 'IL', rating: null, record: '~18-5-1', scouting: 'IL HS Combined Champs. No MHR rating but the strong record (18-5-1) is notable. Don\'t underestimate them.' },
+      { team: 'Bellmore/Merrick Bulldogs', state: 'NY', rating: 86.37, record: '16-1-1', scouting: '2026 NYS Champs. Only 1 loss all season. Rating is lower but that record is impressive — they dominate their competition.' },
+    ],
+  },
+  Olympic: {
+    name: 'Pool Olympic',
+    analysis: 'The pool of extremes. Rushmore Thunder (93.32, 31-0-0) and Springfield Thunderbirds (91.91) are the two highest-rated teams in 2A. Coyotes Gold and Middletown Valley are both unrated unknowns.',
+    teams: [
+      { team: 'Rushmore Thunder', state: 'SD', rating: 93.32, record: '31-0-0', scouting: 'Defending 2A champs. UNDEFEATED at 31-0-0 with a +272 goal differential (303 GF, 31 GA). The clear tournament favorite. Averaging nearly 10 goals per game.' },
+      { team: 'Springfield Thunderbirds', state: 'MA', rating: 91.91, record: '10-7-5', scouting: '2nd highest rating in 2A. The 10-7-5 record looks modest but they play in the ultra-competitive MA 18U league (#9 in MA 18U). Quality over quantity.' },
+      { team: 'Coyotes Gold', state: 'CO', rating: null, record: '--', scouting: 'No MHR data. Complete unknown from Colorado.' },
+      { team: 'Middletown Valley Knights', state: 'MD', rating: null, record: '--', scouting: 'No MHR data. From the MD MSHL. Another unknown quantity.' },
+    ],
+  },
+};
+
 // Class of 2027 (Juniors) - confirmed via sportngin roster pages
 const juniorsOnly = [
   { name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70 },
@@ -412,6 +482,7 @@ const leagueStandings = [
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [nationalsSubTab, setNationalsSubTab] = useState('schedule');
   const [playingVideo, setPlayingVideo] = useState(null);
   const [filterTag, setFilterTag] = useState('All');
 
@@ -1516,113 +1587,299 @@ export default function App() {
               <Trophy className="text-purple-600" size={24} />
               <h2 className="text-xl font-bold text-gray-800">2026 USA Hockey High School Nationals</h2>
             </div>
-            <p className="text-gray-500 text-sm mb-6">Plymouth, MN &bull; March 18-22, 2026 &bull; Ranked by MHR Rating</p>
+            <p className="text-gray-500 text-sm mb-4">Plymouth, MN &bull; March 18-22, 2026 &bull; Division 2A &amp; 3A</p>
 
-            {/* Division 2A */}
-            <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
-              <Shield size={18} className="text-blue-600" /> Division 2A
-              <span className="text-xs font-normal text-gray-400 ml-2">16 Teams</span>
-            </h3>
-            <div className="overflow-x-auto mb-8">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-16">Pool</th>
-                    <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GF</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GA</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nationalsTeams2A.map((t, i) => {
-                    const prevPool = i > 0 ? nationalsTeams2A[i - 1].pool : null;
-                    const showPool = t.pool !== prevPool;
-                    return (
-                    <tr
-                      key={t.team}
-                      className={`${showPool && i > 0 ? 'border-t-2 border-gray-300' : 'border-b border-gray-100'} ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/50' : ''}`}
-                    >
-                      <td className="py-2 px-2 text-gray-400 text-xs font-semibold">{showPool ? t.pool : ''}</td>
-                      <td className="py-2 px-2">
-                        <div className="flex items-center gap-1">
-                          {t.url ? (
-                            <a href={t.url} target="_blank" rel="noopener noreferrer" className={`hover:underline ${t.isCaps ? 'text-purple-700' : 'text-gray-800'}`}>
-                              {t.team}
-                            </a>
-                          ) : (
-                            <span className="text-gray-800">{t.team}</span>
-                          )}
-                          <span className="text-gray-400 text-xs">({t.state})</span>
-                          {t.isCaps && <Star size={14} className="text-purple-500 ml-1" />}
-                          {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
-                        </div>
-                      </td>
-                      <td className={`py-2 px-2 text-center font-mono ${t.isCaps ? 'text-purple-700 font-bold' : 'text-gray-700'}`}>
-                        {t.rating ? t.rating.toFixed(2) : '--'}
-                      </td>
-                      <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
-                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.gf ?? '--'}</td>
-                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.ga ?? '--'}</td>
-                      <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
-                    </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            {/* Sub-tabs */}
+            <div className="flex gap-1 mb-6 border-b border-gray-200 overflow-x-auto">
+              {[
+                { id: 'schedule', label: 'Schedule' },
+                { id: 'pools', label: 'Pool Play' },
+                { id: 'scouting', label: 'Scouting' },
+                { id: 'allteams', label: 'All Teams' },
+              ].map(sub => (
+                <button
+                  key={sub.id}
+                  onClick={() => setNationalsSubTab(sub.id)}
+                  className={`px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+                    nationalsSubTab === sub.id
+                      ? 'border-purple-600 text-purple-700'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {sub.label}
+                </button>
+              ))}
             </div>
 
-            {/* Division 3A */}
-            <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
-              <Shield size={18} className="text-green-600" /> Division 3A
-              <span className="text-xs font-normal text-gray-400 ml-2">8 Teams</span>
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-8">#</th>
-                    <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GF</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GA</th>
-                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {nationalsTeams3A.map((t, i) => (
-                    <tr key={t.team} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
-                      <td className="py-2 px-2 text-gray-400">{t.seed}</td>
-                      <td className="py-2 px-2">
-                        <div className="flex items-center gap-1">
-                          {t.url ? (
-                            <a href={t.url} target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:underline">
-                              {t.team}
-                            </a>
-                          ) : (
-                            <span className="text-gray-800">{t.team}</span>
-                          )}
-                          <span className="text-gray-400 text-xs">({t.state})</span>
-                          {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
+            {/* SCHEDULE SUB-TAB */}
+            {nationalsSubTab === 'schedule' && (
+              <div className="space-y-6">
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 border border-purple-100">
+                  <h3 className="font-bold text-purple-800 mb-1 flex items-center gap-2">
+                    <Star size={16} className="text-purple-600" /> Caps Pool Play Schedule — Pool USA
+                  </h3>
+                  <p className="text-purple-600 text-xs mb-4">Des Moines Capitals (30-2-0) &bull; MHR Rating: 88.48 &bull; #1 MWHSHL</p>
+                  <div className="space-y-3">
+                    {capsSchedule.map((g, i) => (
+                      <div key={i} className={`bg-white rounded-lg p-4 border ${g.result ? 'border-gray-200' : 'border-purple-200 shadow-sm'}`}>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="text-xs text-gray-500 mb-1">{g.date}</div>
+                            <div className="font-semibold text-gray-800">
+                              vs {g.opponent} <span className="text-gray-400 text-sm">({g.state})</span>
+                            </div>
+                            {(() => {
+                              const opp = nationalsTeams2A.find(t => t.team === g.opponent);
+                              return opp ? (
+                                <div className="text-xs text-gray-500 mt-1">
+                                  MHR: {opp.rating?.toFixed(2) ?? '--'} &bull; Season: {opp.record} &bull; {opp.stateRank}
+                                </div>
+                              ) : null;
+                            })()}
+                          </div>
+                          <div className="text-right">
+                            {g.result ? (
+                              <span className={`text-lg font-bold ${g.result.startsWith('W') ? 'text-green-600' : g.result.startsWith('L') ? 'text-red-600' : 'text-gray-600'}`}>
+                                {g.result}
+                              </span>
+                            ) : (
+                              <div>
+                                <div className="text-lg font-bold text-purple-700">{g.time}</div>
+                                <div className="text-xs text-gray-400">CT</div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </td>
-                      <td className="py-2 px-2 text-center text-gray-700 font-mono">{t.rating ? t.rating.toFixed(2) : '--'}</td>
-                      <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
-                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.gf ?? '--'}</td>
-                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.ga ?? '--'}</td>
-                      <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-            <p className="text-xs text-gray-400 mt-4 text-center">
-              Data from <a href="https://myhockeyrankings.com/rank?y=2025&a=4&range=1&p=0" target="_blank" rel="noopener noreferrer" className="text-purple-500 hover:underline">myhockeyrankings.com</a> &bull; Seeding based on MHR Rating &bull; Some data approximate
-            </p>
+                {/* Pool USA Rating Comparison */}
+                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                  <h4 className="font-semibold text-gray-700 mb-3">Pool USA — MHR Rating Comparison</h4>
+                  <div className="space-y-2">
+                    {nationalsTeams2A.filter(t => t.pool === 'USA').sort((a, b) => (b.rating || 0) - (a.rating || 0)).map(t => (
+                      <div key={t.team} className="flex items-center gap-3">
+                        <div className={`w-32 text-sm truncate ${t.isCaps ? 'font-bold text-purple-700' : 'text-gray-700'}`}>{t.team}</div>
+                        <div className="flex-1 bg-gray-100 rounded-full h-6 relative overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${t.isCaps ? 'bg-purple-500' : 'bg-blue-400'}`}
+                            style={{ width: `${t.rating ? ((t.rating - 80) / 15) * 100 : 0}%` }}
+                          />
+                          <span className="absolute inset-0 flex items-center justify-center text-xs font-mono font-semibold text-gray-700">
+                            {t.rating?.toFixed(2) ?? '--'}
+                          </span>
+                        </div>
+                        <div className="w-16 text-xs text-gray-500 text-right">{t.record}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* POOL PLAY SUB-TAB */}
+            {nationalsSubTab === 'pools' && (
+              <div className="space-y-6">
+                {['Liberty', 'NHL', 'Olympic', 'USA'].map(poolName => {
+                  const poolTeams = nationalsTeams2A.filter(t => t.pool === poolName);
+                  const hasCaps = poolTeams.some(t => t.isCaps);
+                  return (
+                    <div key={poolName} className={`rounded-lg border p-4 ${hasCaps ? 'border-purple-200 bg-purple-50/30' : 'border-gray-200'}`}>
+                      <h4 className={`font-bold mb-3 flex items-center gap-2 ${hasCaps ? 'text-purple-700' : 'text-gray-700'}`}>
+                        {hasCaps && <Star size={14} className="text-purple-500" />}
+                        Pool {poolName}
+                        {hasCaps && <span className="text-xs font-normal text-purple-500 ml-2">Caps' Pool</span>}
+                      </h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b-2 border-gray-200">
+                              <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                              <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
+                              <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
+                              <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">State Rank</th>
+                              <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">Note</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {poolTeams.map((t, i) => (
+                              <tr key={t.team} className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/30' : ''}`}>
+                                <td className="py-2 px-2">
+                                  <div className="flex items-center gap-1">
+                                    {t.url ? (
+                                      <a href={t.url} target="_blank" rel="noopener noreferrer" className={`hover:underline ${t.isCaps ? 'text-purple-700' : 'text-gray-800'}`}>{t.team}</a>
+                                    ) : (
+                                      <span className="text-gray-800">{t.team}</span>
+                                    )}
+                                    <span className="text-gray-400 text-xs">({t.state})</span>
+                                    {t.isCaps && <Star size={12} className="text-purple-500" />}
+                                  </div>
+                                </td>
+                                <td className={`py-2 px-2 text-center font-mono ${t.isCaps ? 'text-purple-700 font-bold' : 'text-gray-700'}`}>{t.rating?.toFixed(2) ?? '--'}</td>
+                                <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
+                                <td className="py-2 px-2 text-center text-gray-500 text-xs hidden sm:table-cell">{t.stateRank}</td>
+                                <td className="py-2 px-2 text-center text-xs hidden sm:table-cell">
+                                  {t.note && <span className="text-blue-500">{t.note}</span>}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      {/* Pool avg rating */}
+                      {(() => {
+                        const rated = poolTeams.filter(t => t.rating);
+                        const avg = rated.length > 0 ? rated.reduce((sum, t) => sum + t.rating, 0) / rated.length : null;
+                        return avg ? (
+                          <div className="mt-2 text-xs text-gray-400 text-right">
+                            Avg MHR (rated teams): <span className="font-mono font-semibold text-gray-500">{avg.toFixed(2)}</span>
+                          </div>
+                        ) : null;
+                      })()}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* SCOUTING SUB-TAB */}
+            {nationalsSubTab === 'scouting' && (
+              <div className="space-y-6">
+                {['USA', 'Liberty', 'NHL', 'Olympic'].map(poolKey => {
+                  const pool = poolScouting[poolKey];
+                  const isCapsPool = poolKey === 'USA';
+                  return (
+                    <div key={poolKey} className={`rounded-lg border p-4 ${isCapsPool ? 'border-purple-200 bg-purple-50/30' : 'border-gray-200'}`}>
+                      <h4 className={`font-bold mb-2 ${isCapsPool ? 'text-purple-700' : 'text-gray-700'}`}>
+                        {isCapsPool && <Star size={14} className="text-purple-500 inline mr-1" />}
+                        {pool.name}
+                        {isCapsPool && <span className="text-xs font-normal text-purple-500 ml-2">Caps' Pool</span>}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-4 italic">{pool.analysis}</p>
+                      <div className="space-y-3">
+                        {pool.teams.map(t => (
+                          <div key={t.team} className="bg-white rounded-lg border border-gray-100 p-3">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-semibold text-gray-800">
+                                {t.team} <span className="text-gray-400 text-xs">({t.state})</span>
+                              </span>
+                              <div className="flex gap-3 text-xs">
+                                <span className="font-mono text-gray-600">MHR: {t.rating?.toFixed(2) ?? '--'}</span>
+                                <span className="font-mono text-gray-500">{t.record}</span>
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-600">{t.scouting}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* ALL TEAMS SUB-TAB */}
+            {nationalsSubTab === 'allteams' && (
+              <div className="space-y-8">
+                {/* Division 2A */}
+                <div>
+                  <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
+                    <Shield size={18} className="text-blue-600" /> Division 2A
+                    <span className="text-xs font-normal text-gray-400 ml-2">16 Teams &bull; 4 Pools</span>
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b-2 border-gray-200">
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold w-16">Pool</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {nationalsTeams2A.map((t, i) => {
+                          const prevPool = i > 0 ? nationalsTeams2A[i - 1].pool : null;
+                          const showPool = t.pool !== prevPool;
+                          return (
+                            <tr
+                              key={t.team}
+                              className={`${showPool && i > 0 ? 'border-t-2 border-gray-300' : 'border-b border-gray-100'} ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/50' : ''}`}
+                            >
+                              <td className="py-2 px-2 text-gray-400 text-xs font-semibold">{showPool ? t.pool : ''}</td>
+                              <td className="py-2 px-2">
+                                <div className="flex items-center gap-1">
+                                  {t.url ? (
+                                    <a href={t.url} target="_blank" rel="noopener noreferrer" className={`hover:underline ${t.isCaps ? 'text-purple-700' : 'text-gray-800'}`}>{t.team}</a>
+                                  ) : (
+                                    <span className="text-gray-800">{t.team}</span>
+                                  )}
+                                  <span className="text-gray-400 text-xs">({t.state})</span>
+                                  {t.isCaps && <Star size={14} className="text-purple-500 ml-1" />}
+                                  {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
+                                </div>
+                              </td>
+                              <td className={`py-2 px-2 text-center font-mono ${t.isCaps ? 'text-purple-700 font-bold' : 'text-gray-700'}`}>{t.rating?.toFixed(2) ?? '--'}</td>
+                              <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
+                              <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Division 3A */}
+                <div>
+                  <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
+                    <Shield size={18} className="text-green-600" /> Division 3A
+                    <span className="text-xs font-normal text-gray-400 ml-2">8 Teams</span>
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b-2 border-gray-200">
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold w-8">#</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {nationalsTeams3A.map((t, i) => (
+                          <tr key={t.team} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
+                            <td className="py-2 px-2 text-gray-400">{t.seed}</td>
+                            <td className="py-2 px-2">
+                              <div className="flex items-center gap-1">
+                                {t.url ? (
+                                  <a href={t.url} target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:underline">{t.team}</a>
+                                ) : (
+                                  <span className="text-gray-800">{t.team}</span>
+                                )}
+                                <span className="text-gray-400 text-xs">({t.state})</span>
+                                {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
+                              </div>
+                            </td>
+                            <td className="py-2 px-2 text-center text-gray-700 font-mono">{t.rating?.toFixed(2) ?? '--'}</td>
+                            <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
+                            <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-400 text-center">
+                  Data from <a href="https://myhockeyrankings.com/rank?y=2025&a=4&range=1&p=0" target="_blank" rel="noopener noreferrer" className="text-purple-500 hover:underline">myhockeyrankings.com</a> &bull; Pool assignments from <a href="https://nationals.usahockey.com" target="_blank" rel="noopener noreferrer" className="text-purple-500 hover:underline">nationals.usahockey.com</a>
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}
