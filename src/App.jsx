@@ -96,6 +96,42 @@ const allDefensemen = [
   { name: 'Grady Stiles', team: 'CAP', gp: 32, goals: 4, assists: 14, pts: 18, ppg: 0.56, gradYear: 2026, class: 'Senior' },
 ];
 
+// ============================================
+// 2026 USA HOCKEY HS NATIONALS - MHR RANKINGS
+// ============================================
+// Teams competing at 2026 USA Hockey High School National Championships
+// Plymouth, MN - March 18-22, 2026
+// Data sourced from myhockeyrankings.com (2025-26 season)
+const nationalsTeams2A = [
+  { seed: 1, team: 'Rushmore Thunder', state: 'SD', rating: 93.32, record: '31-0-0', gf: 303, ga: 31, stateRank: '#1 SD HS', url: 'https://myhockeyrankings.com/team-info/7675/2025', note: 'Defending 2A Champs' },
+  { seed: 2, team: 'Springfield Thunderbirds', state: 'MA', rating: 91.91, record: '10-7-5', gf: 80, ga: 64, stateRank: '#9 MA 18U', url: 'https://myhockeyrankings.com/team-info/12161/2024', note: '' },
+  { seed: 3, team: 'North Broward Prep', state: 'FL', rating: 89.43, record: '19-5-0', gf: 152, ga: 69, stateRank: '#1 FL HS', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9232', note: '' },
+  { seed: 4, team: 'Omaha Jr. Lancers', state: 'NE', rating: 88.47, record: '11-11-0', gf: 64, ga: 63, stateRank: '#6 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/3837/2025', note: '' },
+  { seed: 5, team: 'Des Moines Capitals', state: 'IA', rating: 88.48, record: '30-2-0', gf: 168, ga: 42, stateRank: '#1 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/7703/2025', note: 'Talan\'s Team', isCaps: true },
+  { seed: 6, team: 'Denver East', state: 'CO', rating: 87.91, record: '21-15-2', gf: 116, ga: 84, stateRank: '#12 CO 18U', url: 'https://myhockeyrankings.com/team_info.php?y=2024&t=15102', note: '' },
+  { seed: 7, team: 'Central Cathedral Jets', state: 'CA', rating: 86.85, record: '8-7-0', gf: 55, ga: 51, stateRank: '#6 CA HS D2', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=22121', note: '' },
+  { seed: 8, team: 'Bellmore/Merrick Bulldogs', state: 'NY', rating: 86.37, record: '16-1-1', gf: 117, ga: 26, stateRank: '#8 NY HS Islanders', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=7197', note: '2026 NYS Champs' },
+  { seed: 9, team: 'Notre Dame Prep', state: 'AZ', rating: 86.19, record: '13-12-4', gf: 104, ga: 87, stateRank: '#4 AZ HS D1', url: 'https://myhockeyrankings.com/team-info/9099/2025', note: '' },
+  { seed: 10, team: 'Sun Valley', state: 'ID', rating: 85.80, record: '17-7-5', gf: 126, ga: 82, stateRank: '#1 ID HS', url: 'https://myhockeyrankings.com/team-info/11990/2025', note: '' },
+  { seed: 11, team: 'Dayton Stealth', state: 'OH', rating: 83.09, record: '15-25-3', gf: 110, ga: 149, stateRank: '#15 OH HS USA Hockey', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=31224', note: '' },
+  { seed: 12, team: 'BGHW Stampede', state: 'IL', rating: null, record: '~18-5-1', gf: 99, ga: 46, stateRank: 'IL HS Combined Champs', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9576', note: '' },
+  { seed: 13, team: 'Coyotes Gold', state: 'CO', rating: null, record: '--', gf: null, ga: null, stateRank: 'CO', url: null, note: '' },
+  { seed: 14, team: 'Mavericks Hockey', state: 'FL', rating: null, record: '--', gf: null, ga: null, stateRank: 'FL', url: null, note: 'Est. 2024' },
+  { seed: 15, team: 'Middletown Valley Knights', state: 'MD', rating: null, record: '--', gf: null, ga: null, stateRank: 'MD HS MSHL', url: null, note: '' },
+  { seed: 16, team: 'Osseo Maple Grove Saints', state: 'MN', rating: null, record: '--', gf: null, ga: null, stateRank: 'MN', url: null, note: '' },
+];
+
+const nationalsTeams3A = [
+  { seed: 1, team: 'Shattuck-St. Mary\'s', state: 'MN', rating: 99.62, record: '11-1-0', gf: 57, ga: 21, stateRank: '#1 MN 18U / #1 USA Prep', url: 'https://myhockeyrankings.com/team-info/5487/2025', note: '4x Defending Champs' },
+  { seed: 2, team: 'Culver Academies', state: 'IN', rating: 97.88, record: '34-19-0', gf: 209, ga: 137, stateRank: '#2 USA Prep', url: 'https://myhockeyrankings.com/team-info/5139/2025', note: '' },
+  { seed: 3, team: 'South Kent', state: 'CT', rating: 97.79, record: '42-19-2', gf: 313, ga: 187, stateRank: '#1 CT 18U / #3 USA Prep', url: 'https://myhockeyrankings.com/team-info/4416/2025', note: '' },
+  { seed: 4, team: 'Nest Hockey', state: 'FL', rating: 94.49, record: '29-9-4', gf: 196, ga: 97, stateRank: '#1 FL 16U', url: 'https://myhockeyrankings.com/team-info/37420/2025', note: '' },
+  { seed: 5, team: 'Desert Christian', state: 'CA', rating: 93.65, record: '23-13-0', gf: 160, ga: 114, stateRank: '#1 CA HS', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=15113', note: '' },
+  { seed: 6, team: 'St. Viator Lions', state: 'IL', rating: 91.07, record: '37-24-2', gf: 201, ga: 161, stateRank: '#3 IL HS Varsity', url: 'https://myhockeyrankings.com/team-info?y=2025&t=8983', note: '' },
+  { seed: 7, team: 'Norwich Hockey Club', state: 'CT', rating: 90.96, record: '31-23-5', gf: 231, ga: 156, stateRank: '#9 CT 18U', url: 'https://myhockeyrankings.com/team-info/30506/2025', note: '' },
+  { seed: 8, team: 'Seacoast Spartans', state: 'NH', rating: 88.48, record: '15-9-4', gf: 89, ga: 72, stateRank: '#8 NH 18U', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=25242', note: '' },
+];
+
 // Class of 2027 (Juniors) - confirmed via sportngin roster pages
 const juniorsOnly = [
   { name: 'Aiden Paulsen', team: 'AMES', pos: 'F', gp: 31, goals: 39, assists: 31, pts: 70 },
@@ -387,6 +423,7 @@ export default function App() {
     { id: 'dmen', label: 'Defensemen', icon: <Shield size={16} /> },
     { id: 'juniors', label: 'Class of 2027', icon: <Users size={16} /> },
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
+    { id: 'nationals', label: 'Nationals', icon: <Trophy size={16} /> },
   ];
 
   const filteredHighlights = filterTag === 'All'
@@ -1464,6 +1501,120 @@ export default function App() {
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {activeTab === 'nationals' && (
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="flex items-center gap-3 mb-2">
+              <Trophy className="text-purple-600" size={24} />
+              <h2 className="text-xl font-bold text-gray-800">2026 USA Hockey High School Nationals</h2>
+            </div>
+            <p className="text-gray-500 text-sm mb-6">Plymouth, MN &bull; March 18-22, 2026 &bull; Ranked by MHR Rating</p>
+
+            {/* Division 2A */}
+            <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
+              <Shield size={18} className="text-blue-600" /> Division 2A
+              <span className="text-xs font-normal text-gray-400 ml-2">16 Teams</span>
+            </h3>
+            <div className="overflow-x-auto mb-8">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-8">#</th>
+                    <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GF</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GA</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nationalsTeams2A.map((t, i) => (
+                    <tr
+                      key={t.team}
+                      className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/50' : ''}`}
+                    >
+                      <td className="py-2 px-2 text-gray-400">{t.seed}</td>
+                      <td className="py-2 px-2">
+                        <div className="flex items-center gap-1">
+                          {t.url ? (
+                            <a href={t.url} target="_blank" rel="noopener noreferrer" className={`hover:underline ${t.isCaps ? 'text-purple-700' : 'text-gray-800'}`}>
+                              {t.team}
+                            </a>
+                          ) : (
+                            <span className="text-gray-800">{t.team}</span>
+                          )}
+                          <span className="text-gray-400 text-xs">({t.state})</span>
+                          {t.isCaps && <Star size={14} className="text-purple-500 ml-1" />}
+                          {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
+                        </div>
+                      </td>
+                      <td className={`py-2 px-2 text-center font-mono ${t.isCaps ? 'text-purple-700 font-bold' : 'text-gray-700'}`}>
+                        {t.rating ? t.rating.toFixed(2) : '--'}
+                      </td>
+                      <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
+                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.gf ?? '--'}</td>
+                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.ga ?? '--'}</td>
+                      <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Division 3A */}
+            <h3 className="text-lg font-bold text-gray-700 mb-3 flex items-center gap-2">
+              <Shield size={18} className="text-green-600" /> Division 3A
+              <span className="text-xs font-normal text-gray-400 ml-2">8 Teams</span>
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-8">#</th>
+                    <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GF</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden sm:table-cell">GA</th>
+                    <th className="text-center py-2 px-2 text-gray-500 font-semibold hidden md:table-cell">State Rank</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nationalsTeams3A.map((t, i) => (
+                    <tr key={t.team} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
+                      <td className="py-2 px-2 text-gray-400">{t.seed}</td>
+                      <td className="py-2 px-2">
+                        <div className="flex items-center gap-1">
+                          {t.url ? (
+                            <a href={t.url} target="_blank" rel="noopener noreferrer" className="text-gray-800 hover:underline">
+                              {t.team}
+                            </a>
+                          ) : (
+                            <span className="text-gray-800">{t.team}</span>
+                          )}
+                          <span className="text-gray-400 text-xs">({t.state})</span>
+                          {t.note && <span className="text-xs text-blue-500 ml-1 hidden sm:inline">{t.note}</span>}
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 text-center text-gray-700 font-mono">{t.rating ? t.rating.toFixed(2) : '--'}</td>
+                      <td className="py-2 px-2 text-center text-gray-600 font-mono">{t.record}</td>
+                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.gf ?? '--'}</td>
+                      <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.ga ?? '--'}</td>
+                      <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-xs text-gray-400 mt-4 text-center">
+              Data from <a href="https://myhockeyrankings.com/rank?y=2025&a=4&range=1&p=0" target="_blank" rel="noopener noreferrer" className="text-purple-500 hover:underline">myhockeyrankings.com</a> &bull; Seeding based on MHR Rating &bull; Some data approximate
+            </p>
+          </div>
         </div>
       )}
 
