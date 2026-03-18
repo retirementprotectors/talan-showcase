@@ -102,23 +102,28 @@ const allDefensemen = [
 // Teams competing at 2026 USA Hockey High School National Championships
 // Plymouth, MN - March 18-22, 2026
 // Data sourced from myhockeyrankings.com (2025-26 season)
+// Pool play format - 4 pools of 4 teams (from nationals.usahockey.com)
 const nationalsTeams2A = [
-  { seed: 1, team: 'Rushmore Thunder', state: 'SD', rating: 93.32, record: '31-0-0', gf: 303, ga: 31, stateRank: '#1 SD HS', url: 'https://myhockeyrankings.com/team-info/7675/2025', note: 'Defending 2A Champs' },
-  { seed: 2, team: 'Springfield Thunderbirds', state: 'MA', rating: 91.91, record: '10-7-5', gf: 80, ga: 64, stateRank: '#9 MA 18U', url: 'https://myhockeyrankings.com/team-info/12161/2024', note: '' },
-  { seed: 3, team: 'North Broward Prep', state: 'FL', rating: 88.59, record: '32-6-1', gf: null, ga: null, stateRank: '#1 FL HS / #457 Nat\'l', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9232', note: 'State Champs' },
-  { seed: 4, team: 'Omaha Jr. Lancers', state: 'NE', rating: 88.49, record: '21-19-0', gf: null, ga: null, stateRank: '#470 Nat\'l / #6 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/3837/2025', note: '' },
-  { seed: 5, team: 'Des Moines Capitals', state: 'IA', rating: 88.48, record: '30-2-0', gf: 168, ga: 42, stateRank: '#1 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/7703/2025', note: 'Talan\'s Team', isCaps: true },
-  { seed: 6, team: 'Denver East', state: 'CO', rating: 87.91, record: '21-15-2', gf: 116, ga: 84, stateRank: '#12 CO 18U', url: 'https://myhockeyrankings.com/team_info.php?y=2024&t=15102', note: '' },
-  { seed: 7, team: 'Central Cathedral Jets', state: 'CA', rating: 86.85, record: '8-7-0', gf: 55, ga: 51, stateRank: '#6 CA HS D2', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=22121', note: '' },
-  { seed: 8, team: 'Bellmore/Merrick Bulldogs', state: 'NY', rating: 86.37, record: '16-1-1', gf: 117, ga: 26, stateRank: '#8 NY HS Islanders', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=7197', note: '2026 NYS Champs' },
-  { seed: 9, team: 'Notre Dame Prep', state: 'AZ', rating: 86.19, record: '13-12-4', gf: 104, ga: 87, stateRank: '#4 AZ HS D1', url: 'https://myhockeyrankings.com/team-info/9099/2025', note: '' },
-  { seed: 10, team: 'Sun Valley', state: 'ID', rating: 85.80, record: '17-7-5', gf: 126, ga: 82, stateRank: '#1 ID HS', url: 'https://myhockeyrankings.com/team-info/11990/2025', note: '' },
-  { seed: 11, team: 'Dayton Stealth (Gold)', state: 'OH', rating: 88.64, record: '28-25-6', gf: null, ga: null, stateRank: '#448 Nat\'l / OH State Champs', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=31224', note: 'State Champs' },
-  { seed: 12, team: 'BGHW Stampede', state: 'IL', rating: null, record: '~18-5-1', gf: 99, ga: 46, stateRank: 'IL HS Combined Champs', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9576', note: '' },
-  { seed: 13, team: 'Coyotes Gold', state: 'CO', rating: null, record: '--', gf: null, ga: null, stateRank: 'CO', url: null, note: '' },
-  { seed: 14, team: 'Mavericks Hockey', state: 'FL', rating: null, record: '--', gf: null, ga: null, stateRank: 'FL', url: null, note: 'Est. 2024' },
-  { seed: 15, team: 'Middletown Valley Knights', state: 'MD', rating: null, record: '--', gf: null, ga: null, stateRank: 'MD HS MSHL', url: null, note: '' },
-  { seed: 16, team: 'Osseo Maple Grove Saints', state: 'MN', rating: 91.72, record: '38-4-3', gf: null, ga: null, stateRank: '#2 MN JGHSL Gold A', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=23765', note: '' },
+  // POOL: LIBERTY
+  { pool: 'Liberty', team: 'Osseo Maple Grove Saints', state: 'MN', rating: 91.72, record: '38-4-3', gf: null, ga: null, stateRank: '#2 MN JGHSL Gold A', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=23765', note: '' },
+  { pool: 'Liberty', team: 'Denver East', state: 'CO', rating: 87.91, record: '21-15-2', gf: 116, ga: 84, stateRank: '#12 CO 18U', url: 'https://myhockeyrankings.com/team_info.php?y=2024&t=15102', note: '' },
+  { pool: 'Liberty', team: 'Dayton Stealth (Gold)', state: 'OH', rating: 88.64, record: '28-25-6', gf: null, ga: null, stateRank: '#448 Nat\'l / OH State Champs', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=31224', note: 'State Champs' },
+  { pool: 'Liberty', team: 'Mavericks Hockey', state: 'FL', rating: null, record: '--', gf: null, ga: null, stateRank: 'FL', url: null, note: 'Est. 2024' },
+  // POOL: NHL
+  { pool: 'NHL', team: 'Omaha Jr. Lancers', state: 'NE', rating: 88.49, record: '21-19-0', gf: null, ga: null, stateRank: '#470 Nat\'l / #6 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/3837/2025', note: '' },
+  { pool: 'NHL', team: 'Central Cathedral Jets', state: 'CA', rating: 86.85, record: '8-7-0', gf: 55, ga: 51, stateRank: '#6 CA HS D2', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=22121', note: '' },
+  { pool: 'NHL', team: 'BGHW Stampede', state: 'IL', rating: null, record: '~18-5-1', gf: 99, ga: 46, stateRank: 'IL HS Combined Champs', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9576', note: '' },
+  { pool: 'NHL', team: 'Bellmore/Merrick Bulldogs', state: 'NY', rating: 86.37, record: '16-1-1', gf: 117, ga: 26, stateRank: '#8 NY HS Islanders', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=7197', note: '2026 NYS Champs' },
+  // POOL: OLYMPIC
+  { pool: 'Olympic', team: 'Coyotes Gold', state: 'CO', rating: null, record: '--', gf: null, ga: null, stateRank: 'CO', url: null, note: '' },
+  { pool: 'Olympic', team: 'Middletown Valley Knights', state: 'MD', rating: null, record: '--', gf: null, ga: null, stateRank: 'MD HS MSHL', url: null, note: '' },
+  { pool: 'Olympic', team: 'Springfield Thunderbirds', state: 'MA', rating: 91.91, record: '10-7-5', gf: 80, ga: 64, stateRank: '#9 MA 18U', url: 'https://myhockeyrankings.com/team-info/12161/2024', note: '' },
+  { pool: 'Olympic', team: 'Rushmore Thunder', state: 'SD', rating: 93.32, record: '31-0-0', gf: 303, ga: 31, stateRank: '#1 SD HS', url: 'https://myhockeyrankings.com/team-info/7675/2025', note: 'Defending 2A Champs' },
+  // POOL: USA
+  { pool: 'USA', team: 'Notre Dame Prep', state: 'AZ', rating: 86.19, record: '13-12-4', gf: 104, ga: 87, stateRank: '#4 AZ HS D1', url: 'https://myhockeyrankings.com/team-info/9099/2025', note: '' },
+  { pool: 'USA', team: 'Des Moines Capitals', state: 'IA', rating: 88.48, record: '30-2-0', gf: 168, ga: 42, stateRank: '#1 IA HS (MHSHL)', url: 'https://myhockeyrankings.com/team-info/7703/2025', note: 'Talan\'s Team', isCaps: true },
+  { pool: 'USA', team: 'North Broward Prep', state: 'FL', rating: 88.59, record: '32-6-1', gf: null, ga: null, stateRank: '#1 FL HS / #457 Nat\'l', url: 'https://myhockeyrankings.com/team_info.php?y=2025&t=9232', note: 'State Champs' },
+  { pool: 'USA', team: 'Sun Valley', state: 'ID', rating: 85.80, record: '17-7-5', gf: 126, ga: 82, stateRank: '#1 ID HS', url: 'https://myhockeyrankings.com/team-info/11990/2025', note: '' },
 ];
 
 const nationalsTeams3A = [
@@ -1522,7 +1527,7 @@ export default function App() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-8">#</th>
+                    <th className="text-left py-2 px-2 text-gray-500 font-semibold w-16">Pool</th>
                     <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
                     <th className="text-center py-2 px-2 text-gray-500 font-semibold">Rating</th>
                     <th className="text-center py-2 px-2 text-gray-500 font-semibold">Record</th>
@@ -1532,12 +1537,15 @@ export default function App() {
                   </tr>
                 </thead>
                 <tbody>
-                  {nationalsTeams2A.map((t, i) => (
+                  {nationalsTeams2A.map((t, i) => {
+                    const prevPool = i > 0 ? nationalsTeams2A[i - 1].pool : null;
+                    const showPool = t.pool !== prevPool;
+                    return (
                     <tr
                       key={t.team}
-                      className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/50' : ''}`}
+                      className={`${showPool && i > 0 ? 'border-t-2 border-gray-300' : 'border-b border-gray-100'} ${t.isCaps ? 'bg-purple-50 font-semibold' : i % 2 === 0 ? 'bg-gray-50/50' : ''}`}
                     >
-                      <td className="py-2 px-2 text-gray-400">{t.seed}</td>
+                      <td className="py-2 px-2 text-gray-400 text-xs font-semibold">{showPool ? t.pool : ''}</td>
                       <td className="py-2 px-2">
                         <div className="flex items-center gap-1">
                           {t.url ? (
@@ -1560,7 +1568,8 @@ export default function App() {
                       <td className="py-2 px-2 text-center text-gray-600 hidden sm:table-cell">{t.ga ?? '--'}</td>
                       <td className="py-2 px-2 text-center text-gray-500 text-xs hidden md:table-cell">{t.stateRank}</td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
