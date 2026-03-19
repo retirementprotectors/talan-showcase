@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ReferenceLine, LabelList } from 'recharts';
-import { TrendingUp, Target, Award, Trophy, Users, Star, Shield, Play, Video, X, FileText, Eye } from 'lucide-react';
+import { TrendingUp, Target, Award, Trophy, Users, Star, Shield, Play, Video, X, FileText, Eye, Mail, Phone, ExternalLink, GraduationCap } from 'lucide-react';
 
 // ============================================
 // TALAN'S GAME DATA - 2025-26 SEASON
@@ -141,7 +141,7 @@ const nationalsTeams3A = [
 // NATIONALS SCHEDULE - CAPS POOL PLAY
 // ============================================
 const capsSchedule = [
-  { date: 'Wed, Mar 18', time: '12:45 PM', opponent: 'Notre Dame Prep', state: 'AZ', venue: 'Plymouth, MN', result: null },
+  { date: 'Wed, Mar 18', time: '12:45 PM', opponent: 'Notre Dame Prep', state: 'AZ', venue: 'Plymouth, MN', result: 'L 3-4 (OT)', talanStats: { g: 0, a: 0, pts: 0, pim: 0 }, recap: 'Rallied from 3-1 down in the 3rd. Behrens tied it 3-3 with 6:07 left. NDP won on Eskew\'s OT goal at 1:40. SOG: 28-29.' },
   { date: 'Thu, Mar 19', time: '11:00 AM', opponent: 'North Broward Prep', state: 'FL', venue: 'Plymouth, MN', result: null },
   { date: 'Fri, Mar 20', time: '7:15 PM', opponent: 'Sun Valley', state: 'ID', venue: 'Plymouth, MN', result: null },
 ];
@@ -485,6 +485,7 @@ export default function App() {
   const [nationalsSubTab, setNationalsSubTab] = useState('schedule');
   const [playingVideo, setPlayingVideo] = useState(null);
   const [filterTag, setFilterTag] = useState('All');
+  const [showContact, setShowContact] = useState(false);
 
   const highlights = defaultHighlights;
 
@@ -500,6 +501,7 @@ export default function App() {
     { id: 'juniors', label: 'Class of 2027', icon: <Users size={16} /> },
     { id: 'highlights', label: 'Highlights', icon: <Video size={16} /> },
     { id: 'nationals', label: 'Nationals', icon: <Trophy size={16} /> },
+    { id: 'academics', label: 'Academics', icon: <GraduationCap size={16} /> },
   ];
 
   const filteredHighlights = filterTag === 'All'
@@ -560,20 +562,27 @@ export default function App() {
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-700 via-indigo-600 to-purple-800 rounded-2xl p-6 mb-6 text-white shadow-xl">
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">11</div>
-              <div>
-                <h1 className="text-3xl font-bold">Talan Millang</h1>
-                <p className="text-purple-200">Defenseman &bull; Des Moines Capitals &bull; Class of 2027</p>
+          <div className="flex items-center gap-4">
+            <img
+              src="/talan-profile.jpg"
+              alt="Talan Millang #11"
+              className="w-24 h-24 rounded-full object-cover object-top border-3 border-white/30 shadow-lg hidden sm:block"
+            />
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold sm:hidden">11</div>
+                <div>
+                  <h1 className="text-3xl font-bold">Talan Millang</h1>
+                  <p className="text-purple-200">Defenseman &bull; Des Moines Capitals &bull; Class of 2027</p>
+                </div>
               </div>
-            </div>
-            <div className="flex gap-3 mt-4 text-sm flex-wrap">
-              <span className="bg-white/20 px-3 py-1 rounded-full">Valley HS</span>
-              <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.height}</span>
-              <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.weight} lbs</span>
-              <span className="bg-green-500/30 px-3 py-1 rounded-full font-semibold">30-1-1 Record</span>
-              <span className="bg-yellow-500/40 px-3 py-1 rounded-full font-semibold">First-Team All-Star</span>
+              <div className="flex gap-3 mt-4 text-sm flex-wrap">
+                <span className="bg-white/20 px-3 py-1 rounded-full">Valley HS</span>
+                <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.height}</span>
+                <span className="bg-white/20 px-3 py-1 rounded-full">{talanStats.weight} lbs</span>
+                <span className="bg-green-500/30 px-3 py-1 rounded-full font-semibold">30-1-1 Record</span>
+                <span className="bg-yellow-500/40 px-3 py-1 rounded-full font-semibold">First-Team All-Star</span>
+              </div>
             </div>
           </div>
           <div className="text-right">
@@ -587,7 +596,7 @@ export default function App() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex gap-2 mb-6 flex-wrap">
+      <div className="flex gap-2 mb-6 flex-wrap items-center">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -602,6 +611,48 @@ export default function App() {
             {tab.label}
           </button>
         ))}
+        {/* Contact / Learn More Button */}
+        <div className="relative ml-auto">
+          <button
+            onClick={() => setShowContact(!showContact)}
+            className="flex items-center gap-2 px-5 py-2 rounded-lg font-semibold bg-purple-700 text-white hover:bg-purple-800 transition-all shadow-lg"
+          >
+            <Mail size={16} />
+            Learn More
+          </button>
+          {showContact && (
+            <div className="absolute right-0 top-12 bg-white rounded-xl shadow-2xl border border-gray-200 p-5 z-50 w-72">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-bold text-gray-800">Get in Touch</h4>
+                <button onClick={() => setShowContact(false)} className="text-gray-400 hover:text-gray-600"><X size={16} /></button>
+              </div>
+              <div className="space-y-3">
+                <a href="tel:5157070207" className="flex items-center gap-3 p-3 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors">
+                  <Phone size={18} className="text-purple-600" />
+                  <div>
+                    <div className="text-sm font-semibold text-gray-800">Call / Text</div>
+                    <div className="text-sm text-purple-600">(515) 707-0207</div>
+                  </div>
+                </a>
+                <a href="mailto:joshmillang@gmail.com" className="flex items-center gap-3 p-3 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors">
+                  <Mail size={18} className="text-purple-600" />
+                  <div>
+                    <div className="text-sm font-semibold text-gray-800">Email</div>
+                    <div className="text-sm text-purple-600">joshmillang@gmail.com</div>
+                  </div>
+                </a>
+                <a href="https://www.eliteprospects.com/player/1098179/talan-millang" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
+                  <img src="https://static.eliteprospects.com/favicon.ico" alt="EliteProspects" className="w-5 h-5" />
+                  <div>
+                    <div className="text-sm font-semibold text-gray-800">EliteProspects Profile</div>
+                    <div className="text-xs text-blue-600 flex items-center gap-1">View full profile <ExternalLink size={10} /></div>
+                  </div>
+                </a>
+              </div>
+              <p className="text-xs text-gray-400 mt-3 text-center">Josh Millang (Father/Contact)</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ============================================ */}
@@ -1622,36 +1673,131 @@ export default function App() {
                   <div className="space-y-3">
                     {capsSchedule.map((g, i) => (
                       <div key={i} className={`bg-white rounded-lg p-4 border ${g.result ? 'border-gray-200' : 'border-purple-200 shadow-sm'}`}>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <div className="text-xs text-gray-500 mb-1">{g.date}</div>
-                            <div className="font-semibold text-gray-800">
-                              vs {g.opponent} <span className="text-gray-400 text-sm">({g.state})</span>
-                            </div>
-                            {(() => {
-                              const opp = nationalsTeams2A.find(t => t.team === g.opponent);
-                              return opp ? (
-                                <div className="text-xs text-gray-500 mt-1">
-                                  MHR: {opp.rating?.toFixed(2) ?? '--'} &bull; Season: {opp.record} &bull; {opp.stateRank}
-                                </div>
-                              ) : null;
-                            })()}
-                          </div>
-                          <div className="text-right">
-                            {g.result ? (
-                              <span className={`text-lg font-bold ${g.result.startsWith('W') ? 'text-green-600' : g.result.startsWith('L') ? 'text-red-600' : 'text-gray-600'}`}>
-                                {g.result}
-                              </span>
-                            ) : (
-                              <div>
-                                <div className="text-lg font-bold text-purple-700">{g.time}</div>
-                                <div className="text-xs text-gray-400">CT</div>
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-xs text-gray-500 mb-1">{g.date}</div>
+                              <div className="font-semibold text-gray-800">
+                                vs {g.opponent} <span className="text-gray-400 text-sm">({g.state})</span>
                               </div>
-                            )}
+                              {(() => {
+                                const opp = nationalsTeams2A.find(t => t.team === g.opponent);
+                                return opp ? (
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    MHR: {opp.rating?.toFixed(2) ?? '--'} &bull; Season: {opp.record} &bull; {opp.stateRank}
+                                  </div>
+                                ) : null;
+                              })()}
+                            </div>
+                            <div className="text-right">
+                              {g.result ? (
+                                <span className={`text-lg font-bold ${g.result.startsWith('W') ? 'text-green-600' : g.result.startsWith('L') ? 'text-red-600' : 'text-gray-600'}`}>
+                                  {g.result}
+                                </span>
+                              ) : (
+                                <div>
+                                  <div className="text-lg font-bold text-purple-700">{g.time}</div>
+                                  <div className="text-xs text-gray-400">CT</div>
+                                </div>
+                              )}
+                            </div>
                           </div>
+                          {g.recap && (
+                            <div className="mt-2 text-xs text-gray-500 bg-gray-50 rounded-lg p-2 italic">
+                              {g.recap}
+                            </div>
+                          )}
+                          {g.talanStats && (
+                            <div className="mt-1 text-xs text-purple-600 font-medium">
+                              Talan: {g.talanStats.g}G {g.talanStats.a}A {g.talanStats.pts}PTS {g.talanStats.pim > 0 ? `${g.talanStats.pim}PIM` : ''}
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* Pool USA Live Standings */}
+                <div className="bg-white rounded-lg border border-purple-200 p-4">
+                  <h4 className="font-semibold text-purple-700 mb-1 flex items-center gap-2">
+                    <Trophy size={16} className="text-purple-600" /> Pool USA Standings
+                  </h4>
+                  <p className="text-xs text-gray-400 mb-3">Updated after Day 1 — Top 2 advance to quarterfinals</p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b-2 border-gray-200">
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold">#</th>
+                          <th className="text-left py-2 px-2 text-gray-500 font-semibold">Team</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">GP</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">W</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">OTW</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">OTL</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">L</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold font-bold">PTS</th>
+                          <th className="text-center py-2 px-2 text-gray-500 font-semibold">DIFF</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { rank: 1, team: 'North Broward Prep (FL)', gp: 1, w: 1, otw: 0, otl: 0, l: 0, pts: 3, diff: '+3', isCaps: false },
+                          { rank: 2, team: 'Notre Dame Prep (AZ)', gp: 1, w: 0, otw: 1, otl: 0, l: 0, pts: 2, diff: '+1', isCaps: false },
+                          { rank: 3, team: 'Des Moines Capitals (IA)', gp: 1, w: 0, otw: 0, otl: 1, l: 0, pts: 1, diff: '-1', isCaps: true },
+                          { rank: 4, team: 'Sun Valley (ID)', gp: 1, w: 0, otw: 0, otl: 0, l: 1, pts: 0, diff: '-3', isCaps: false },
+                        ].map((t, i) => (
+                          <tr key={i} className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-50 font-semibold' : ''}`}>
+                            <td className="py-2 px-2 text-gray-400">{t.rank}</td>
+                            <td className="py-2 px-2">{t.team} {t.isCaps && '\u2B50'}</td>
+                            <td className="text-center py-2 px-2">{t.gp}</td>
+                            <td className="text-center py-2 px-2">{t.w}</td>
+                            <td className="text-center py-2 px-2">{t.otw}</td>
+                            <td className="text-center py-2 px-2">{t.otl}</td>
+                            <td className="text-center py-2 px-2">{t.l}</td>
+                            <td className="text-center py-2 px-2 font-bold">{t.pts}</td>
+                            <td className={`text-center py-2 px-2 font-mono ${t.diff.startsWith('+') ? 'text-green-600' : t.diff.startsWith('-') ? 'text-red-500' : ''}`}>{t.diff}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="mt-3 p-2 bg-amber-50 rounded-lg text-amber-700 text-xs text-center font-medium">
+                    Caps control their own destiny — 2 pool games remaining (vs North Broward Prep, vs Sun Valley)
+                  </div>
+                </div>
+
+                {/* Day 1 Results Across All Pools */}
+                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                  <h4 className="font-semibold text-gray-700 mb-3">Day 1 Results — All Pools</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                    <div className="bg-purple-50/50 rounded-lg p-3">
+                      <div className="font-semibold text-purple-700 mb-2">Pool USA</div>
+                      <div className="space-y-1 text-gray-600">
+                        <div>North Broward Prep (FL) <strong>3</strong>, Sun Valley (ID) <strong>0</strong></div>
+                        <div>Notre Dame Prep (AZ) <strong>4</strong>, Des Moines Capitals (IA) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-semibold text-gray-700 mb-2">Pool Liberty</div>
+                      <div className="space-y-1 text-gray-600">
+                        <div>Dayton Stealth (OH) <strong>5</strong>, Mavericks Hockey (FL) <strong>0</strong></div>
+                        <div>Denver East (CO) <strong>6</strong>, Osseo Maple Grove (MN) <strong>3</strong></div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-semibold text-gray-700 mb-2">Pool NHL</div>
+                      <div className="space-y-1 text-gray-600">
+                        <div>Central Cathedral (CA) <strong>4</strong>, Omaha Jr Lancers (NE) <strong>3</strong></div>
+                        <div>BGHW Stampede (IL) <strong>4</strong>, Bellmore/Merrick (NY) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="font-semibold text-gray-700 mb-2">Pool Olympic</div>
+                      <div className="space-y-1 text-gray-600">
+                        <div>Coyotes Gold (CO) <strong>8</strong>, Middletown Valley (MD) <strong>3</strong></div>
+                        <div>Rushmore Thunder (SD) <strong>5</strong>, Springfield (MA) <strong>3</strong></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -1884,10 +2030,98 @@ export default function App() {
         </div>
       )}
 
+      {/* ============================================ */}
+      {/* ACADEMICS TAB                               */}
+      {/* ============================================ */}
+      {activeTab === 'academics' && (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-5 text-white">
+            <div className="flex items-center gap-3">
+              <GraduationCap size={28} />
+              <div>
+                <h3 className="text-xl font-bold">Student-Athlete Profile</h3>
+                <p className="text-purple-200">Valley High School &bull; West Des Moines, Iowa &bull; Class of 2027</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <GraduationCap size={18} className="text-purple-600" /> Academic Information
+              </h4>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">GPA</span>
+                  <span className="text-gray-400 italic text-sm">Available upon request</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">ACT / SAT</span>
+                  <span className="text-gray-400 italic text-sm">Available upon request</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">Intended Major</span>
+                  <span className="text-gray-400 italic text-sm">Available upon request</span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <span className="text-gray-600 font-medium">NCAA Eligibility Center</span>
+                  <span className="text-gray-400 italic text-sm">Available upon request</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <Star size={18} className="text-purple-600" /> Player Quick Facts
+              </h4>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">School</span>
+                  <span className="text-gray-800 font-semibold">Valley High School</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">Location</span>
+                  <span className="text-gray-800 font-semibold">West Des Moines, IA</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                  <span className="text-gray-600 font-medium">Graduation</span>
+                  <span className="text-gray-800 font-semibold">2027</span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <span className="text-gray-600 font-medium">DOB</span>
+                  <span className="text-gray-800 font-semibold">08/18/2008</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-5 text-center">
+            <p className="text-purple-700 font-medium mb-3">For academic records and additional information, please contact:</p>
+            <div className="flex justify-center gap-4 flex-wrap">
+              <a href="tel:5157070207" className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
+                <Phone size={16} /> (515) 707-0207
+              </a>
+              <a href="mailto:joshmillang@gmail.com" className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium">
+                <Mail size={16} /> joshmillang@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Footer */}
       <div className="mt-8 text-center text-gray-400 text-sm">
         <p>Talan Millang #11 &bull; Des Moines Capitals &bull; 2025-26 Season Analytics</p>
         <p className="mt-1">MWHSHL Varsity First-Team All-Star (Defense) &bull; Class of 2027</p>
+        <div className="flex justify-center items-center gap-4 mt-3">
+          <a href="https://www.eliteprospects.com/player/1098179/talan-millang" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-purple-500 hover:text-purple-700 transition-colors">
+            <img src="https://static.eliteprospects.com/favicon.ico" alt="EP" className="w-4 h-4" /> EliteProspects
+          </a>
+          <span>&bull;</span>
+          <a href="tel:5157070207" className="text-purple-500 hover:text-purple-700 transition-colors">(515) 707-0207</a>
+          <span>&bull;</span>
+          <a href="mailto:joshmillang@gmail.com" className="text-purple-500 hover:text-purple-700 transition-colors">joshmillang@gmail.com</a>
+        </div>
       </div>
     </div>
   );
