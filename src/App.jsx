@@ -142,7 +142,7 @@ const nationalsTeams3A = [
 // ============================================
 const capsSchedule = [
   { date: 'Wed, Mar 18', time: '12:45 PM', opponent: 'Notre Dame Prep', state: 'AZ', venue: 'Plymouth, MN', result: 'L 3-4 (OT)', talanStats: { g: 0, a: 0, pts: 0, pim: 0 }, recap: 'Rallied from 3-1 down in the 3rd. Behrens tied it 3-3 with 6:07 left. NDP won on Eskew\'s OT goal at 1:40. SOG: 28-29.' },
-  { date: 'Thu, Mar 19', time: '11:00 AM', opponent: 'North Broward Prep', state: 'FL', venue: 'Plymouth, MN', result: null },
+  { date: 'Thu, Mar 19', time: '11:00 AM', opponent: 'North Broward Prep', state: 'FL', venue: 'Plymouth, MN', result: 'L 3-4', talanStats: { g: 0, a: 0, pts: 0, pim: 0 }, recap: 'Led 2-1 after 1st (Sacre, Behrens PP) and 3-2 after 2nd (West unassisted). Isbister scored twice in the 3rd — tying it at 16:25, then GWG at 0:58. SOG: 33-29 DSM.' },
   { date: 'Fri, Mar 20', time: '7:15 PM', opponent: 'Sun Valley', state: 'ID', venue: 'Plymouth, MN', result: null },
 ];
 
@@ -1723,7 +1723,7 @@ export default function App() {
                   <h4 className="font-semibold text-purple-700 mb-1 flex items-center gap-2">
                     <Trophy size={16} className="text-purple-600" /> Pool USA Standings
                   </h4>
-                  <p className="text-xs text-gray-400 mb-3">Updated after Day 1 — Top 2 advance to quarterfinals</p>
+                  <p className="text-xs text-gray-400 mb-3">Updated after Day 2 — Top 2 advance to quarterfinals</p>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
@@ -1741,10 +1741,10 @@ export default function App() {
                       </thead>
                       <tbody>
                         {[
-                          { rank: 1, team: 'North Broward Prep (FL)', gp: 1, w: 1, otw: 0, otl: 0, l: 0, pts: 3, diff: '+3', isCaps: false },
-                          { rank: 2, team: 'Notre Dame Prep (AZ)', gp: 1, w: 0, otw: 1, otl: 0, l: 0, pts: 2, diff: '+1', isCaps: false },
-                          { rank: 3, team: 'Des Moines Capitals (IA)', gp: 1, w: 0, otw: 0, otl: 1, l: 0, pts: 1, diff: '-1', isCaps: true },
-                          { rank: 4, team: 'Sun Valley (ID)', gp: 1, w: 0, otw: 0, otl: 0, l: 1, pts: 0, diff: '-3', isCaps: false },
+                          { rank: 1, team: 'North Broward Prep (FL)', gp: 2, w: 2, otw: 0, otl: 0, l: 0, pts: 6, diff: '+4', isCaps: false },
+                          { rank: 2, team: 'Notre Dame Prep (AZ)', gp: 2, w: 1, otw: 1, otl: 0, l: 0, pts: 5, diff: '+9', isCaps: false },
+                          { rank: 3, team: 'Des Moines Capitals (IA)', gp: 2, w: 0, otw: 0, otl: 1, l: 1, pts: 1, diff: '-2', isCaps: true },
+                          { rank: 4, team: 'Sun Valley (ID)', gp: 2, w: 0, otw: 0, otl: 0, l: 2, pts: 0, diff: '-11', isCaps: false },
                         ].map((t, i) => (
                           <tr key={i} className={`border-b border-gray-100 ${t.isCaps ? 'bg-purple-50 font-semibold' : ''}`}>
                             <td className="py-2 px-2 text-gray-400">{t.rank}</td>
@@ -1762,40 +1762,80 @@ export default function App() {
                     </table>
                   </div>
                   <div className="mt-3 p-2 bg-amber-50 rounded-lg text-amber-700 text-xs text-center font-medium">
-                    Caps control their own destiny — 2 pool games remaining (vs North Broward Prep, vs Sun Valley)
+                    1 pool game remaining — Fri 7:15 PM vs Sun Valley (ID). NBP and NDP play each other Day 3.
                   </div>
                 </div>
 
-                {/* Day 1 Results Across All Pools */}
+                {/* Tournament Results — Days 1 & 2 */}
                 <div className="bg-white rounded-lg border border-gray-200 p-4">
-                  <h4 className="font-semibold text-gray-700 mb-3">Day 1 Results — All Pools</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                    <div className="bg-purple-50/50 rounded-lg p-3">
-                      <div className="font-semibold text-purple-700 mb-2">Pool USA</div>
-                      <div className="space-y-1 text-gray-600">
-                        <div>North Broward Prep (FL) <strong>3</strong>, Sun Valley (ID) <strong>0</strong></div>
-                        <div>Notre Dame Prep (AZ) <strong>4</strong>, Des Moines Capitals (IA) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                  <h4 className="font-semibold text-gray-700 mb-3">Tournament Results — Days 1 & 2</h4>
+
+                  {/* Day 2 */}
+                  <div className="mb-4">
+                    <div className="text-xs font-semibold text-purple-600 uppercase tracking-wide mb-2">Day 2 — March 19</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                      <div className="bg-purple-50/50 rounded-lg p-3">
+                        <div className="font-semibold text-purple-700 mb-2">Pool USA</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Notre Dame Prep (AZ) <strong>9</strong>, Sun Valley (ID) <strong>1</strong></div>
+                          <div>North Broward Prep (FL) <strong>4</strong>, Des Moines Capitals (IA) <strong>3</strong></div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool Liberty</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Osseo Maple Grove (MN) <strong>6</strong>, Mavericks Hockey (FL) <strong>2</strong></div>
+                          <div>Denver East (CO) <strong>3</strong>, Dayton Stealth (OH) <strong>2</strong></div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool NHL</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>BGHW Stampede (IL) <strong>8</strong>, Central Cathedral (CA) <strong>2</strong></div>
+                          <div>Omaha Jr Lancers (NE) <strong>3</strong>, Bellmore/Merrick (NY) <strong>1</strong></div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool Olympic</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Springfield (MA) <strong>8</strong>, Middletown Valley (MD) <strong>0</strong></div>
+                          <div>Coyotes Gold (CO) <strong>6</strong>, Rushmore Thunder (SD) <strong>5</strong> <span className="text-gray-400">(OT)</span></div>
+                        </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="font-semibold text-gray-700 mb-2">Pool Liberty</div>
-                      <div className="space-y-1 text-gray-600">
-                        <div>Dayton Stealth (OH) <strong>5</strong>, Mavericks Hockey (FL) <strong>0</strong></div>
-                        <div>Denver East (CO) <strong>6</strong>, Osseo Maple Grove (MN) <strong>3</strong></div>
+                  </div>
+
+                  {/* Day 1 */}
+                  <div>
+                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Day 1 — March 18</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                      <div className="bg-purple-50/50 rounded-lg p-3">
+                        <div className="font-semibold text-purple-700 mb-2">Pool USA</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>North Broward Prep (FL) <strong>3</strong>, Sun Valley (ID) <strong>0</strong></div>
+                          <div>Notre Dame Prep (AZ) <strong>4</strong>, Des Moines Capitals (IA) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="font-semibold text-gray-700 mb-2">Pool NHL</div>
-                      <div className="space-y-1 text-gray-600">
-                        <div>Central Cathedral (CA) <strong>4</strong>, Omaha Jr Lancers (NE) <strong>3</strong></div>
-                        <div>BGHW Stampede (IL) <strong>4</strong>, Bellmore/Merrick (NY) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool Liberty</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Dayton Stealth (OH) <strong>5</strong>, Mavericks Hockey (FL) <strong>0</strong></div>
+                          <div>Denver East (CO) <strong>6</strong>, Osseo Maple Grove (MN) <strong>3</strong></div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <div className="font-semibold text-gray-700 mb-2">Pool Olympic</div>
-                      <div className="space-y-1 text-gray-600">
-                        <div>Coyotes Gold (CO) <strong>8</strong>, Middletown Valley (MD) <strong>3</strong></div>
-                        <div>Rushmore Thunder (SD) <strong>5</strong>, Springfield (MA) <strong>3</strong></div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool NHL</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Central Cathedral (CA) <strong>4</strong>, Omaha Jr Lancers (NE) <strong>3</strong></div>
+                          <div>BGHW Stampede (IL) <strong>4</strong>, Bellmore/Merrick (NY) <strong>3</strong> <span className="text-gray-400">(OT)</span></div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="font-semibold text-gray-700 mb-2">Pool Olympic</div>
+                        <div className="space-y-1 text-gray-600">
+                          <div>Coyotes Gold (CO) <strong>8</strong>, Middletown Valley (MD) <strong>3</strong></div>
+                          <div>Rushmore Thunder (SD) <strong>5</strong>, Springfield (MA) <strong>3</strong></div>
+                        </div>
                       </div>
                     </div>
                   </div>
